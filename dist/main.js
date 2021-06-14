@@ -1,0 +1,1 @@
+(()=>{const e=document.getElementById("create-room"),t=document.getElementById("enter-room");e.onclick=()=>{window.alert("Create")},t.onclick=()=>{window.alert("Enter")}})();
