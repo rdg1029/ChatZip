@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatZip</title>
     <style>
+        @font-face {
+            font-family: JejuHallasan;
+            src: url(font/JejuHallasan.ttf);
+        }
         body {
             margin: 0;
+            background-color: #444444;
+            text-align: center;
         }
         .main {
             width: 100vw;
             height: 100vh;
-            background-color: #444444;
-            text-align: center;
+        }
+        .main > h1 {
+            font-family: JejuHallasan;
+            color: #f0ebe4;
+            font-size: 5em;
         }
         #title {
             color: #f0ebe4;
@@ -22,8 +31,8 @@
             position: relative;
         }
         #signage img {
-            width: 60vmin;
-            height: 60vmin;
+            width: 40em;
+            height: 40em;
             vertical-align: middle;
         }
         #signage-contents {
@@ -34,16 +43,18 @@
             transform: translate(-50%, -50%);
         }
         #status {
+            font-family: JejuHallasan;
             color: #f0ebe4;
-            font-size: 4vmax;
+            font-size: 5em;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="main">
+        <h1>찻집</h1>
         <div id="signage">
-            <img src="signage.svg">
+            <img src="img/signage.svg">
             <div id="signage-contents">
                 <p id="status">준비 중</p>
                 <button id="create-room">방 생성</button>
