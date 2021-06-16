@@ -1,10 +1,9 @@
 const createRoom = document.getElementById('create-room');
 const enterRoom = document.getElementById('enter-room');
 
-createRoom.onclick = () => {
-    window.alert('Create');
+function alertNotReady() {
+    window.alert('준비중입니다');
 }
 
-enterRoom.onclick = () => {
-    window.alert('Enter');
-}
+createRoom.onclick = alertNotReady;
+enterRoom.onclick = alertNotReady;
