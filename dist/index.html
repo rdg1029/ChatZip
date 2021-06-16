@@ -22,6 +22,7 @@
         .main > h1 {
             color: #f0ebe4;
             font-size: 5em;
+            cursor: unset;
         }
         #title {
             color: #f0ebe4;
@@ -50,12 +51,18 @@
         }
         #create-room, #enter-room {
             background-color: #61524b;
+            margin-inline: 20px;
             color: #f0ebe4;
             font-size: 2em;
             font-family: JejuHallasan;
             padding: 10px;
             border: none;
             border-radius: 10px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+        #create-room:hover, #enter-room:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+            cursor: pointer;
         }
     </style>
 </head>
