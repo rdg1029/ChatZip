@@ -1,3 +1,5 @@
+import {Peer} from './peer.js';
+
 const createRoom = document.getElementById('create-room');
 const enterRoom = document.getElementById('enter-room');
 
@@ -7,3 +9,5 @@ function alertNotReady() {
 
 createRoom.onclick = alertNotReady;
 enterRoom.onclick = alertNotReady;
+
+const peer = new Peer()
