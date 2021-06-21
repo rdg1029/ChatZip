@@ -33,10 +33,11 @@ class Peer {
         .then(offer => this.offerConn.setLocalDescription(offer));
         return this.offerConn.localDescription;
     }
-    createAnswer(offer) {
+    async createAnswer(offer) {
         this.answerConn.setRemoteDescription(offer).then(() => console.log('done'));
         this.answerConn.createAnswer()
         .then(answer => this.answerConn.setLocalDescription(answer));
+        return this.answerConn.localDescription;
     }
     receiveAnswer(answer) {
         this.offerConn.setRemoteDescription(answer).then(() => console.log('done'));
