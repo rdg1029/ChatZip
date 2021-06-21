@@ -28,9 +28,10 @@ class Peer {
             e.channel.onclose = () => console.log('closed');
         }
     }
-    createOffer() {
+    async createOffer() {
         this.offerConn.createOffer()
         .then(offer => this.offerConn.setLocalDescription(offer));
+        return this.offerConn.localDescription;
     }
     createAnswer(offer) {
         this.answerConn.setRemoteDescription(offer).then(() => console.log('done'));
