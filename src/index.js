@@ -1,5 +1,6 @@
 import {Peer} from './peer.js';
 
+const io = require('socket.io-client');
 const createRoom = document.getElementById('create-room');
 const enterRoom = document.getElementById('enter-room');
 //const socket = io('ADDRESS');
