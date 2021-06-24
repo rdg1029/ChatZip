@@ -1,6 +1,6 @@
 class Room {
-    constructor(roomId) {
-        this.id = roomId;
+    constructor() {
+        this.id = Math.random().toString(36).substr(2,6);
     }
 }
 
