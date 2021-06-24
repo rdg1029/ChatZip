@@ -1,4 +1,5 @@
 import {Peer} from './peer.js';
+import {Room} from './room.js';
 
 const io = require('socket.io-client');
 const createRoom = document.getElementById('create-room');
@@ -14,7 +15,10 @@ socket.on('open', () => {
     console.log('connected!');
 });
 
-createRoom.onclick = alertNotReady;
+createRoom.onclick = () => {
+    const room = new Room();
+    socket.emit('create room', room.id);
+}
 enterRoom.onclick = alertNotReady;
 
 const peer = new Peer();
