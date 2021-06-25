@@ -15,11 +15,11 @@
             text-align: center;
             font-family: JejuHallasan;
         }
-        .main {
+        #main {
             width: 100vw;
             height: 100vh;
         }
-        .main > h1 {
+        #main > h1 {
             color: #f0ebe4;
             font-size: 5em;
             cursor: unset;
@@ -36,7 +36,7 @@
             height: 40em;
             vertical-align: middle;
         }
-        #signage-contents {
+        #contents-main {
             text-align: center;
             position: absolute;
             top: 60%;
@@ -67,11 +67,11 @@
     </style>
 </head>
 <body>
-    <div class="main">
+    <div id="main">
         <h1>찻집</h1>
         <div id="signage">
             <img src="img/signage.svg">
-            <div id="signage-contents">
+            <div id="contents-main">
                 <p id="status">준비 중</p>
                 <button id="create-room">방 생성</button>
                 <button id="enter-room">방 입장</button>
