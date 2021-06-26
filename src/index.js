@@ -32,6 +32,23 @@ createRoom.onclick = () => {
     socket.emit('create room', room);
 }
 enterRoom.onclick = () => {
+    mainSignage.remove();
+
+    const enterSignage = document.createElement('div');
+    enterSignage.id = 'contents-enter';
+
+    const typeRoomId = document.createElement('input');
+    typeRoomId.id = 'type-room-id';
+    typeRoomId.type = 'text';
+
+    const enterButton = document.createElement('button');
+    enterButton.id = 'enter';
+    enterButton.textContent = '입장';
+
+    signage.appendChild(enterSignage);
+    enterSignage.appendChild(typeRoomId);
+    enterSignage.appendChild(enterButton);
+    
     socket.emit('req room', roomId, offer);
 }
 
