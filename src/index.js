@@ -44,12 +44,17 @@ enterRoom.onclick = () => {
     const enterButton = document.createElement('button');
     enterButton.id = 'enter';
     enterButton.textContent = '입장';
+    enterButton.onclick = () => {
+        if(typeRoomId.value == "") {
+            window.alert("방 아이디를 입력해주세요");
+            return;
+        }
+        socket.emit('req room', typeRoomId.value);
+    }
 
     signage.appendChild(enterSignage);
     enterSignage.appendChild(typeRoomId);
     enterSignage.appendChild(enterButton);
-    
-    socket.emit('req room', roomId, offer);
 }
 
 const peer = new Peer();
