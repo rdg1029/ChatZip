@@ -27,6 +27,10 @@ socket.on('join room', room => {
     document.body.appendChild(roomName);
 });
 
+socket.on('room not found', () => {
+    window.alert('방을 찾을 수 없습니다');
+})
+
 createRoom.onclick = () => {
     const room = new Room();
     socket.emit('create room', room);
