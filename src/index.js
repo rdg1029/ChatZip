@@ -32,7 +32,7 @@ socket.on('room not found', () => {
 })
 
 createRoom.onclick = () => {
-    const room = new Room();
+    const room = new Room(socket.id);
     socket.emit('create room', room);
 }
 enterRoom.onclick = () => {
