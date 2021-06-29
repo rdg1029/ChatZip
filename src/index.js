@@ -29,6 +29,10 @@ socket.on('join room', room => {
     document.body.appendChild(roomName);
 });
 
+socket.on('req room', id => {
+    console.log(id, 'request your info');
+});
+
 socket.on('room not found', () => {
     window.alert('방을 찾을 수 없습니다');
 })
