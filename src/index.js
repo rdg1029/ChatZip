@@ -6,6 +6,7 @@ const signage = document.getElementById('signage');
 const mainSignage = document.getElementById('contents-main');
 const createRoom = document.getElementById('create-room');
 const enterRoom = document.getElementById('enter-room');
+let currentRoom;
 
 const io = require('socket.io-client');
 const socket = io('http://localhost:3000');
@@ -20,6 +21,7 @@ socket.on('open', () => {
 });
 
 socket.on('join room', room => {
+    currentRoom = room;
     document.body.style.backgroundColor = "#ffffff";
     main.remove();
     const roomName = document.createElement('h1');
