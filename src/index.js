@@ -7,6 +7,7 @@ const mainSignage = document.getElementById('contents-main');
 const createRoom = document.getElementById('create-room');
 const enterRoom = document.getElementById('enter-room');
 let currentRoom;
+let peers = {};
 
 const io = require('socket.io-client');
 const socket = io('http://localhost:3000');
