@@ -20,7 +20,7 @@ class Peer {
             }
         }
     }
-    async createOffer() {
+    createOffer() {
         //Set offer connection
         this.offerConn = new RTCPeerConnection(this.iceConfig);
         this.offerConn.onicecandidate = () => {
@@ -34,9 +34,8 @@ class Peer {
 
         this.offerConn.createOffer()
         .then(offer => this.offerConn.setLocalDescription(offer));
-        return this.offerConn.localDescription;
     }
-    async createAnswer(offer) {
+    createAnswer(offer) {
         //Set answer connection
         this.answerConn = new RTCPeerConnection(this.iceConfig);
         this.answerConn.onicecandidate = () => {
@@ -52,7 +51,6 @@ class Peer {
         this.answerConn.setRemoteDescription(offer).then(() => console.log('done'));
         this.answerConn.createAnswer()
         .then(answer => this.answerConn.setLocalDescription(answer));
-        return this.answerConn.localDescription;
     }
     receiveAnswer(answer) {
         this.offerConn.setRemoteDescription(answer).then(() => console.log('done'));
