@@ -8,6 +8,18 @@ class Peer {
             ]
         };
     }
+    onIceGatheringStateChange(pc) {
+        pc.onicegatheringstatechange = e => {
+            switch(e.target.iceGatheringState) {
+                case "gathering":
+                    console.log('collection of candidates has begun');
+                    break;
+                case "complete":
+                    console.log('collection of candidates is finished');
+                    break;
+            }
+        }
+    }
     async createOffer() {
         //Set offer connection
         this.offerConn = new RTCPeerConnection(this.iceConfig);
@@ -15,6 +27,7 @@ class Peer {
             console.log('New ICE candidate! (offer)');
             console.log(JSON.stringify(this.offerConn.localDescription));
         }
+        this.onIceGatheringStateChange(this.offerConn);
         this.dataChannel = this.offerConn.createDataChannel("channel");
         this.dataChannel.onopen = () => console.log('open');
         this.dataChannel.onclose = () => console.log('closed');
@@ -30,6 +43,7 @@ class Peer {
             console.log('New ICE candidate! (answer)');
             console.log(JSON.stringify(this.answerConn.localDescription));
         }
+        this.onIceGatheringStateChange(this.answerConn);
         this.answerConn.ondatachannel = e => {
             e.channel.onopen = () => console.log('open');
             e.channel.onclose = () => console.log('closed');
