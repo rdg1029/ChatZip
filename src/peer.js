@@ -7,6 +7,8 @@ class Peer {
                 }
             ]
         };
+    }
+    async createOffer() {
         //Set offer connection
         this.offerConn = new RTCPeerConnection(this.iceConfig);
         this.offerConn.onicecandidate = () => {
@@ -17,6 +19,11 @@ class Peer {
         this.dataChannel.onopen = () => console.log('open');
         this.dataChannel.onclose = () => console.log('closed');
 
+        this.offerConn.createOffer()
+        .then(offer => this.offerConn.setLocalDescription(offer));
+        return this.offerConn.localDescription;
+    }
+    async createAnswer(offer) {
         //Set answer connection
         this.answerConn = new RTCPeerConnection(this.iceConfig);
         this.answerConn.onicecandidate = () => {
@@ -27,13 +34,7 @@ class Peer {
             e.channel.onopen = () => console.log('open');
             e.channel.onclose = () => console.log('closed');
         }
-    }
-    async createOffer() {
-        this.offerConn.createOffer()
-        .then(offer => this.offerConn.setLocalDescription(offer));
-        return this.offerConn.localDescription;
-    }
-    async createAnswer(offer) {
+
         this.answerConn.setRemoteDescription(offer).then(() => console.log('done'));
         this.answerConn.createAnswer()
         .then(answer => this.answerConn.setLocalDescription(answer));
