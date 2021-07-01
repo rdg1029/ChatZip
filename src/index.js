@@ -1,5 +1,6 @@
 import {Peer} from './peer.js';
 import {Room} from './room.js';
+import {socket} from './socket.js';
 
 const main = document.getElementById('main');
 const signage = document.getElementById('signage');
@@ -9,8 +10,6 @@ const enterRoom = document.getElementById('enter-room');
 let currentRoom;
 let peers = {};
 
-const io = require('socket.io-client');
-const socket = io('http://localhost:3000');
 /*
 function alertNotReady() {
     window.alert('준비중입니다');
