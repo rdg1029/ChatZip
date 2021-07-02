@@ -63,7 +63,7 @@ enterRoom.onclick = () => {
             window.alert("방 아이디를 입력해주세요");
             return;
         }
-        socket.emit('req room', typeRoomId.value);
+        socket.emit('find room', typeRoomId.value);
     }
 
     signage.appendChild(enterSignage);
