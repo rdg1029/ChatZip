@@ -6,6 +6,9 @@ class Room {
     addUser(id) {
         this.users.push(id);
     }
+    removeUser(id) {
+        this.users.splice(this.users.indexOf(id), 1);
+    }
 }
 
 export {Room};
