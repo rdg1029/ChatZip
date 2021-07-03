@@ -29,18 +29,23 @@ socket.on('join room', room => {
     document.body.appendChild(roomName);
 });
 
-socket.on('req room', id => {
-    console.log(id, 'request your info');
+socket.on('req info', targetId => {
+    //console.log(targetId, 'request your info');
+    peers[targetId] = new Peer();
+    peers[targetId].createOffer(targetId);
 });
 
 socket.on('req answer', (offer, targetId) => {
+    peers[targetId] = new Peer();
+    peers[targetId].createAnswer(offer, targetId)
 });
 
 socket.on('recv answer', (answer, targetId) => {
+    peers[targetId].receiveAnswer(answer)
 })
 
 socket.on('room found', roomId => {
-    
+    socket.to(roomId).emit('req info', socket.id);
 });
 
 socket.on('room not found', () => {
