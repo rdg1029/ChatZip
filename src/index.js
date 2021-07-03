@@ -33,6 +33,12 @@ socket.on('req room', id => {
     console.log(id, 'request your info');
 });
 
+socket.on('req answer', (offer, targetId) => {
+});
+
+socket.on('recv answer', (answer, targetId) => {
+})
+
 socket.on('room found', roomId => {
     
 });
@@ -70,5 +76,3 @@ enterRoom.onclick = () => {
     enterSignage.appendChild(typeRoomId);
     enterSignage.appendChild(enterButton);
 }
-
-const peer = new Peer();
