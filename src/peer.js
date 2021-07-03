@@ -1,3 +1,5 @@
+import {socket} from './socket.js';
+
 class Peer {
     constructor() {
         this.iceConfig = {
@@ -8,26 +10,29 @@ class Peer {
             ]
         };
     }
-    onIceGatheringStateChange(pc) {
+    setOnIceGatheringStateChange(type, pc, targetId) {
         pc.onicegatheringstatechange = e => {
-            switch(e.target.iceGatheringState) {
-                case "gathering":
-                    console.log('collection of candidates has begun');
-                    break;
-                case "complete":
-                    console.log('collection of candidates is finished');
-                    break;
+            if(e.target.iceGatheringState == 'complete') {
+                console.log('collection of candidates is finished');
+                switch(type) {
+                    case 'offer':
+                        socket.to(targetId).emit('req answer', this.offerConn.localDescription);
+                        break;
+                    case 'answer':
+                        socket.to(targetId).emit('recv answer', this.answerConn.localDescription);
+                        break;
+                }
             }
         }
     }
-    createOffer() {
+    createOffer(targetId) {
         //Set offer connection
         this.offerConn = new RTCPeerConnection(this.iceConfig);
         this.offerConn.onicecandidate = () => {
             console.log('New ICE candidate! (offer)');
             console.log(JSON.stringify(this.offerConn.localDescription));
         }
-        this.onIceGatheringStateChange(this.offerConn);
+        this.setOnIceGatheringStateChange('offer', this.offerConn, targetId);
         this.dataChannel = this.offerConn.createDataChannel("channel");
         this.dataChannel.onopen = () => console.log('open');
         this.dataChannel.onclose = () => console.log('closed');
@@ -35,14 +40,14 @@ class Peer {
         this.offerConn.createOffer()
         .then(offer => this.offerConn.setLocalDescription(offer));
     }
-    createAnswer(offer) {
+    createAnswer(offer, targetId) {
         //Set answer connection
         this.answerConn = new RTCPeerConnection(this.iceConfig);
         this.answerConn.onicecandidate = () => {
             console.log('New ICE candidate! (answer)');
             console.log(JSON.stringify(this.answerConn.localDescription));
         }
-        this.onIceGatheringStateChange(this.answerConn);
+        this.setOnIceGatheringStateChange('answer', this.answerConn, targetId);
         this.answerConn.ondatachannel = e => {
             e.channel.onopen = () => console.log('open');
             e.channel.onclose = () => console.log('closed');
