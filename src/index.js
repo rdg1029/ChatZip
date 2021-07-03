@@ -45,7 +45,7 @@ socket.on('recv answer', (answer, targetId) => {
 })
 
 socket.on('room found', roomId => {
-    socket.to(roomId).emit('req info', socket.id);
+    socket.emit('req info', roomId, socket.id);
 });
 
 socket.on('room not found', () => {

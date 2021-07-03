@@ -16,10 +16,10 @@ class Peer {
                 console.log('collection of candidates is finished');
                 switch(type) {
                     case 'offer':
-                        socket.to(targetId).emit('req answer', this.offerConn.localDescription, socket.id);
+                        socket.emit('req answer', this.offerConn.localDescription, socket.id, targetId);
                         break;
                     case 'answer':
-                        socket.to(targetId).emit('recv answer', this.answerConn.localDescription, socket.id);
+                        socket.emit('recv answer', this.answerConn.localDescription, socket.id, targetId);
                         break;
                 }
             }
