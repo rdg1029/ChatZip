@@ -36,8 +36,13 @@ class Peer {
         }
         this.setOnIceGatheringStateChange('offer', this.offerConn, targetId);
         this.dataChannel = this.offerConn.createDataChannel("channel");
-        this.dataChannel.onopen = () => console.log('open');
-        this.dataChannel.onclose = () => console.log('closed');
+        this.dataChannel.onopen = () => {
+            console.log('open');
+        }
+        this.dataChannel.onclose = () => {
+            delete peers[targetId];
+            console.log('closed');
+        }
 
         this.offerConn.createOffer()
         .then(offer => this.offerConn.setLocalDescription(offer));
@@ -51,8 +56,13 @@ class Peer {
         }
         this.setOnIceGatheringStateChange('answer', this.answerConn, targetId);
         this.answerConn.ondatachannel = e => {
-            e.channel.onopen = () => console.log('open');
-            e.channel.onclose = () => console.log('closed');
+            e.channel.onopen = () => {
+                console.log('open');
+            }
+            e.channel.onclose = () => {
+                delete peers[targetId];
+                console.log('closed');
+            }
         }
 
         this.answerConn.setRemoteDescription(offer).then(() => console.log('done'));
