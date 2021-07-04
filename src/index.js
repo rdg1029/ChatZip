@@ -1,4 +1,4 @@
-import {Peer} from './peer.js';
+import {Peer, peers} from './peer.js';
 import {Room} from './room.js';
 import {socket} from './socket.js';
 
@@ -8,7 +8,6 @@ const mainSignage = document.getElementById('contents-main');
 const createRoom = document.getElementById('create-room');
 const enterRoom = document.getElementById('enter-room');
 let currentRoom;
-let peers = {};
 
 /*
 function alertNotReady() {

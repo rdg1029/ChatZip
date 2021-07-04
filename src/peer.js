@@ -1,5 +1,7 @@
 import {socket} from './socket.js';
 
+let peers = {};
+
 class Peer {
     constructor() {
         this.iceConfig = {
@@ -62,4 +64,4 @@ class Peer {
     }
 }
 
-export {Peer};
+export {Peer, peers};
