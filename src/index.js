@@ -1,5 +1,5 @@
 import {Peer, peers} from './peer.js';
-import {Room} from './room.js';
+import {room} from './room.js';
 import {socket} from './socket.js';
 
 const main = document.getElementById('main');
@@ -19,8 +19,10 @@ socket.on('open', () => {
     console.log('connected!');
 });
 
-socket.on('join room', room => {
-    currentRoom = room;
+socket.on('join room', roomId => {
+    room.id = roomId;
+    room.addUser(socket.id);
+    console.log(room.users);
     document.body.style.backgroundColor = "#ffffff";
     main.remove();
     const roomName = document.createElement('h1');
@@ -52,8 +54,8 @@ socket.on('room not found', () => {
 })
 
 createRoom.onclick = () => {
-    const room = new Room(socket.id);
-    socket.emit('create room', room);
+    room.init();
+    socket.emit('create room', room.id);
 }
 enterRoom.onclick = () => {
     mainSignage.remove();
