@@ -1,5 +1,5 @@
 let room = {
-    id,
+    id: "",
     users: [],
     init: function() {
         this.id = Math.random().toString(36).substr(2,6);
