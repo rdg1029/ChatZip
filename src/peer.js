@@ -1,3 +1,4 @@
+import { room } from './room.js';
 import {socket} from './socket.js';
 
 let peers = {};
@@ -40,8 +41,11 @@ class Peer {
             console.log('open');
         }
         this.dataChannel.onclose = () => {
+            peers[targetId] = null;
             delete peers[targetId];
+            room.removeUser(targetId);
             console.log('closed');
+            console.log(room.users);
         }
 
         this.offerConn.createOffer()
@@ -60,8 +64,11 @@ class Peer {
                 console.log('open');
             }
             e.channel.onclose = () => {
+                peers[targetId] = null;
                 delete peers[targetId];
+                room.removeUser(targetId);
                 console.log('closed');
+                console.log(room.users);
             }
         }
 
