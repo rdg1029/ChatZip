@@ -7,7 +7,6 @@ const signage = document.getElementById('signage');
 const mainSignage = document.getElementById('contents-main');
 const createRoom = document.getElementById('create-room');
 const enterRoom = document.getElementById('enter-room');
-let currentRoom;
 
 /*
 function alertNotReady() {
@@ -38,11 +37,13 @@ socket.on('req info', targetId => {
 
 socket.on('req answer', (offer, targetId) => {
     peers[targetId] = new Peer();
-    peers[targetId].createAnswer(offer, targetId)
+    peers[targetId].createAnswer(offer, targetId);
 });
 
 socket.on('recv answer', (answer, targetId) => {
-    peers[targetId].receiveAnswer(answer)
+    peers[targetId].receiveAnswer(answer);
+    room.addUser(targetId);
+    console.log(room.users);
 })
 
 socket.on('room found', roomId => {
