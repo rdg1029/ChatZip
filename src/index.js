@@ -38,6 +38,7 @@ socket.on('req info', targetId => {
 socket.on('req answer', (offer, targetId) => {
     peers[targetId] = new Peer();
     peers[targetId].createAnswer(offer, targetId);
+    room.addUser(targetId);
 });
 
 socket.on('recv answer', (answer, targetId) => {
