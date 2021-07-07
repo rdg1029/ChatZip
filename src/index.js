@@ -31,13 +31,13 @@ socket.on('join room', roomId => {
 
 socket.on('req info', targetId => {
     //console.log(targetId, 'request your info');
-    peers[targetId] = new Peer();
-    peers[targetId].createOffer(targetId);
+    peers[targetId] = new Peer('offer', targetId);
+    peers[targetId].createOffer();
 });
 
 socket.on('req answer', (offer, targetId) => {
-    peers[targetId] = new Peer();
-    peers[targetId].createAnswer(offer, targetId);
+    peers[targetId] = new Peer('answer', targetId);
+    peers[targetId].createAnswer(offer);
     room.addUser(targetId);
 });
 
