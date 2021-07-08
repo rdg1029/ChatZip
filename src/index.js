@@ -1,4 +1,4 @@
-import { setPage, removeElem } from './page.js';
+import { setPage } from './page.js';
 import {Peer, peers} from './peer.js';
 import {room} from './room.js';
 import {socket} from './socket.js';
