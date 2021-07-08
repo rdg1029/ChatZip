@@ -5,7 +5,7 @@ let peers = {};
 
 class Peer {
     constructor(type, targetId) {
-        this.iceConfig = {
+        const iceConfig = {
             iceServers : [
                 {
                     urls: 'stun:stun1.l.google.com:19302'
@@ -13,7 +13,7 @@ class Peer {
             ]
         };
         this.type = type;
-        this.pc = new RTCPeerConnection(this.iceConfig);
+        this.pc = new RTCPeerConnection(iceConfig);
         this.pc.onicecandidate = () => {
             console.log('New ICE candidate!');
             console.log(this.pc.localDescription);
@@ -33,47 +33,39 @@ class Peer {
         }
         switch(type) {
             case 'offer':
-                this.dataChannel = this.pc.createDataChannel('dCh');
-                this.dataChannel.onopen = () => {
+                this.pc.dataChannel = this.pc.createDataChannel('dCh');
+                this.pc.dataChannel.onopen = () => {
                     console.log('open with :', targetId);
                 }
-                this.dataChannel.onclose = () => {
+                this.pc.dataChannel.onclose = () => {
                     peers[targetId] = null;
                     delete peers[targetId];
                     room.removeUser(targetId);
                     console.log('closed with :', targetId);
                     console.log(room.users);
                 }
+                this.pc.dataChannel.onmessage = e => {
+                    console.log(e.data);
+                }
                 break;
             case 'answer':
                 this.pc.ondatachannel = e => {
-                    e.channel.onopen = () => {
+                    this.pc.dataChannel = e.channel;
+                    this.pc.dataChannel.onopen = () => {
                         console.log('open with :', targetId);
                     }
-                    e.channel.onclose = () => {
+                    this.pc.dataChannel.onclose = () => {
                         peers[targetId] = null;
                         delete peers[targetId];
                         room.removeUser(targetId);
                         console.log('closed with :', targetId);
                         console.log(room.users);
                     }
+                    this.pc.dataChannel.onmessage = e => {
+                        console.log(e.data);
+                    }
                 }
                 break;
-        }
-    }
-    setOnIceGatheringStateChange(type, pc, targetId) {
-        pc.onicegatheringstatechange = e => {
-            if(e.target.iceGatheringState == 'complete') {
-                console.log('collection of candidates is finished');
-                switch(type) {
-                    case 'offer':
-                        socket.emit('req answer', this.offerConn.localDescription, socket.id, targetId);
-                        break;
-                    case 'answer':
-                        socket.emit('recv answer', this.answerConn.localDescription, socket.id, targetId);
-                        break;
-                }
-            }
         }
     }
     createOffer() {
@@ -99,6 +91,9 @@ class Peer {
             return;
         }
         this.pc.setRemoteDescription(answer).then(() => console.log('done'));
+    }
+    sendData(data) {
+        this.pc.dataChannel.send(data);
     }
 }
 
