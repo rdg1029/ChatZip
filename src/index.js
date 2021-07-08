@@ -1,6 +1,9 @@
+import { setPage, removeElem } from './page.js';
 import {Peer, peers} from './peer.js';
 import {room} from './room.js';
 import {socket} from './socket.js';
+
+setPage('main');
 
 const main = document.getElementById('main');
 const signage = document.getElementById('signage');
