@@ -2,10 +2,7 @@ const style = document.getElementById('style');
 let currentPage;
 
 function setPage(page) {
-    if(currentPage === undefined || currentPage === null) {
-        currentPage = page;
-    }
-    else {
+    if(currentPage !== undefined) {
         document.getElementById(currentPage).remove();
     }
     currentPage = page;
