@@ -8,6 +8,7 @@ setPage('main');
 const main = document.getElementById('main');
 const signage = document.getElementById('signage');
 const mainSignage = document.getElementById('contents-main');
+let enterSignage, typeRoomId, enterButton;
 const createRoom = document.getElementById('create-room');
 const enterRoom = document.getElementById('enter-room');
 
@@ -76,6 +77,11 @@ socket.on('conn ready', () => {
 
 socket.on('room found', roomId => {
     room.id = roomId;
+    typeRoomId.remove();
+    enterButton.remove();
+    const connMsg = document.createElement('p');
+    connMsg.innerHTML = '연결 중...';
+    enterSignage.appendChild(connMsg);
     socket.emit('req info', roomId, socket.id);
 });
 
@@ -94,14 +100,14 @@ createRoom.onclick = () => {
 enterRoom.onclick = () => {
     mainSignage.remove();
 
-    const enterSignage = document.createElement('div');
+    enterSignage = document.createElement('div');
     enterSignage.id = 'contents-enter';
 
-    const typeRoomId = document.createElement('input');
+    typeRoomId = document.createElement('input');
     typeRoomId.id = 'type-room-id';
     typeRoomId.type = 'text';
 
-    const enterButton = document.createElement('button');
+    enterButton = document.createElement('button');
     enterButton.id = 'enter';
     enterButton.textContent = '입장';
     enterButton.onclick = () => {

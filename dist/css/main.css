@@ -17,6 +17,9 @@ body {
     font-size: 5em;
     cursor: unset;
 }
+p {
+    color: #f0ebe4;
+}
 #title {
     color: #f0ebe4;
     padding-top: 0;
