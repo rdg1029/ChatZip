@@ -1,6 +1,8 @@
+import {setPage} from './page.js';
 import {Peer, peers} from './peer.js';
 import {room} from './room.js';
 import {socket} from './socket.js';
+import {showChat} from './chat.js';
 
 let main, signage, mainSignage, enterSignage, typeRoomId, enterButton, createRoom, enterRoom;
 let readyCount = 0;
@@ -91,11 +93,15 @@ function setSocketListener() {
         room.id = roomId;
         room.addUser(socket.id);
         console.log(room.users);
+        setPage('chat');
+        showChat('join room : ' + roomId);
+        /*
         document.body.style.backgroundColor = "#ffffff";
         main.remove();
         const roomName = document.createElement('h1');
         roomName.innerHTML = 'Room : ' + room.id;
         document.body.appendChild(roomName);
+        */
     });
 }
 

@@ -1,4 +1,5 @@
 import { initMain } from "./main";
+import { initChat } from "./chat";
 
 const style = document.getElementById('style');
 let currentPage;
@@ -17,6 +18,7 @@ function setPage(page) {
         case 'chat':
             document.body.innerHTML = '<div id="chat"><ul id="messages"></ul><form id="form"><input id="input" /></form></div>';
             style.href = './css/chat.css';
+            initChat();
             break;
     }
 }

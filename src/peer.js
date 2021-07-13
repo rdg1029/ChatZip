@@ -1,5 +1,6 @@
 import { room } from './room.js';
 import {socket} from './socket.js';
+import {showChat} from './chat.js';
 
 let peers = {};
 
@@ -45,7 +46,8 @@ class Peer {
                     console.log(room.users);
                 }
                 this.pc.dataChannel.onmessage = e => {
-                    console.log(e.data);
+                    //console.log(e.data);
+                    showChat(e.data);
                 }
                 break;
             case 'answer':
@@ -62,7 +64,8 @@ class Peer {
                         console.log(room.users);
                     }
                     this.pc.dataChannel.onmessage = e => {
-                        console.log(e.data);
+                        //console.log(e.data);
+                        showChat(e.data);
                     }
                 }
                 break;

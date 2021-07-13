@@ -2,6 +2,7 @@ import { setPage } from './page.js';
 import {Peer, peers} from './peer.js';
 import {room} from './room.js';
 import {socket} from './socket.js';
+import {showChat} from './chat.js';
 
 setPage('main');
 
@@ -13,6 +14,7 @@ function alertNotReady() {
 
 socket.on('user join', userId => {
     room.addUser(userId);
+    showChat(userId + " joined room");
     console.log(room.users);
 });
 

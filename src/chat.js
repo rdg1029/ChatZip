@@ -1,3 +1,4 @@
+import {socket} from './socket.js';
 import {peers} from './peer.js';
 
 let chat, messages, form, input;
@@ -11,9 +12,12 @@ function initChat() {
     form.addEventListener('submit', e => {
         e.preventDefault();
         if(input.value == "") return;
+        const msg = socket.id + " : " + input.value;
         for (const peer in peers) {
-            peers[peer].sendData(input.value);
+            peers[peer].sendData(msg);
         }
+        showChat(msg);
+        input.value = "";
     });
 }
 
