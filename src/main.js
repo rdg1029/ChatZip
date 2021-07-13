@@ -14,10 +14,7 @@ function initMain() {
 
     createRoom.onclick = () => {
         room.init();
-        socket.on('req info', targetId => {
-            console.log(room.users);
-            socket.emit('room info', targetId, room.users);
-        });
+        room.setHost();
         socket.emit('create room', room.id);
     }
     enterRoom.onclick = () => {

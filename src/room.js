@@ -1,3 +1,5 @@
+import {socket} from './socket.js';
+
 let room = {
     id: "",
     users: [],
@@ -9,6 +11,18 @@ let room = {
     },
     removeUser: function(id) {
         this.users.splice(this.users.indexOf(id), 1);
+        this.checkHost();
+    },
+    checkHost: function() {
+        if(this.users[0] != socket.id) return;
+        console.log('You are host!');
+        this.setHost();
+    },
+    setHost: function() {
+        socket.on('req info', targetId => {
+            console.log(this.users);
+            socket.emit('room info', targetId, this.users);
+        });
     }
 }
 
