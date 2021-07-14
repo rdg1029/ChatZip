@@ -25,6 +25,7 @@ function showChat(msg) {
     const message = document.createElement('li');
     message.innerHTML = msg;
     messages.appendChild(message);
+    messages.scrollTop = messages.scrollHeight;
 }
 
 export {initChat, showChat};
