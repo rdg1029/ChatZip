@@ -3,7 +3,8 @@
     position: absolute;
     left: 10px;
     top: 60%;
-    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 #messages {
@@ -18,4 +19,13 @@
 
 #input {
     width: 100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#input:focus {
+    outline: #ffffff;
 }
