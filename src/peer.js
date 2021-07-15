@@ -42,6 +42,7 @@ class Peer {
                     peers[targetId] = null;
                     delete peers[targetId];
                     room.removeUser(targetId);
+                    showChat(targetId + " quit");
                     console.log('closed with :', targetId);
                     console.log(room.users);
                 }
@@ -60,6 +61,7 @@ class Peer {
                         peers[targetId] = null;
                         delete peers[targetId];
                         room.removeUser(targetId);
+                        showChat(targetId + " quit");
                         console.log('closed with :', targetId);
                         console.log(room.users);
                     }
