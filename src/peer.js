@@ -39,6 +39,7 @@ class Peer {
                     console.log('open with :', targetId);
                 }
                 this.pc.dataChannel.onclose = () => {
+                    this.pc.close();
                     peers[targetId] = null;
                     delete peers[targetId];
                     room.removeUser(targetId);
@@ -58,6 +59,7 @@ class Peer {
                         console.log('open with :', targetId);
                     }
                     this.pc.dataChannel.onclose = () => {
+                        this.pc.close();
                         peers[targetId] = null;
                         delete peers[targetId];
                         room.removeUser(targetId);
