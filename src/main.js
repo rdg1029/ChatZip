@@ -90,6 +90,7 @@ function setSocketListener() {
     });
 
     socket.on('join room', roomId => {
+        removeSocketListener();
         room.id = roomId;
         room.addUser(socket.id);
         console.log(room.users);
@@ -103,6 +104,15 @@ function setSocketListener() {
         document.body.appendChild(roomName);
         */
     });
+}
+
+function removeSocketListener() {
+    socket.removeAllListeners('open');
+    socket.removeAllListeners('room found');
+    socket.removeAllListeners('room not found');
+    socket.removeAllListeners('room info');
+    socket.removeAllListeners('req answer');
+    socket.removeAllListeners('conn ready');
 }
 
 export {initMain};
