@@ -12,6 +12,11 @@ function alertNotReady() {
 }
 */
 
+window.onbeforeunload = e => {
+    e.preventDefault()
+    return '';
+}
+
 socket.on('user join', userId => {
     room.addUser(userId);
     showChat(userId + " joined room");
