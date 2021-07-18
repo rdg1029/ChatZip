@@ -12,12 +12,12 @@ function alertNotReady() {
     window.alert('준비중입니다');
 }
 */
-
+/*
 window.onbeforeunload = e => {
     e.preventDefault()
     return '';
 }
-
+*/
 socket.on('user join', userId => {
     room.addUser(userId);
     showChat(userId + " joined room");
@@ -34,5 +34,15 @@ socket.on('recv answer', (answer, targetId) => {
     peers[targetId].receiveAnswer(answer);
     //room.addUser(targetId);
     socket.emit('conn ready', targetId);
+    console.log(room.users);
+});
+
+socket.on('user quit', userId => {
+    peers[userId].pc.close();
+    peers[userId] = null;
+    delete peers[userId];
+    room.removeUser(userId);
+    showChat(userId + " quit");
+    console.log('closed with :', userId);
     console.log(room.users);
 });

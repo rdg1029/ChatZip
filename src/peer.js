@@ -39,6 +39,7 @@ class Peer {
                     console.log('open with :', targetId);
                 }
                 this.pc.dataChannel.onclose = () => {
+                    /*
                     this.pc.close();
                     peers[targetId] = null;
                     delete peers[targetId];
@@ -46,11 +47,9 @@ class Peer {
                     showChat(targetId + " quit");
                     console.log('closed with :', targetId);
                     console.log(room.users);
+                    */
                 }
-                this.pc.dataChannel.onmessage = e => {
-                    //console.log(e.data);
-                    showChat(e.data);
-                }
+                this.pc.dataChannel.onmessage = e => showChat(e.data);
                 break;
             case 'answer':
                 this.pc.ondatachannel = e => {
@@ -59,6 +58,7 @@ class Peer {
                         console.log('open with :', targetId);
                     }
                     this.pc.dataChannel.onclose = () => {
+                        /*
                         this.pc.close();
                         peers[targetId] = null;
                         delete peers[targetId];
@@ -66,11 +66,9 @@ class Peer {
                         showChat(targetId + " quit");
                         console.log('closed with :', targetId);
                         console.log(room.users);
+                        */
                     }
-                    this.pc.dataChannel.onmessage = e => {
-                        //console.log(e.data);
-                        showChat(e.data);
-                    }
+                    this.pc.dataChannel.onmessage = e => showChat(e.data);
                 }
                 break;
         }
