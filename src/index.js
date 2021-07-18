@@ -1,3 +1,4 @@
+import adapter from 'webrtc-adapter';
 import { setPage } from './page.js';
 import {Peer, peers} from './peer.js';
 import {room} from './room.js';
