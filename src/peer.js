@@ -100,6 +100,12 @@ class Peer {
     sendData(data) {
         this.pc.dataChannel.send(data);
     }
+    close() {
+        this.pc.dataChannel.close();
+        this.pc.close();
+        this.pc.dataChannel = null;
+        this.pc = null;
+    }
 }
 
 export {Peer, peers};

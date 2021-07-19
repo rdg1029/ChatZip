@@ -38,7 +38,7 @@ socket.on('recv answer', (answer, targetId) => {
 });
 
 socket.on('user quit', userId => {
-    peers[userId].pc.close();
+    peers[userId].close();
     peers[userId] = null;
     delete peers[userId];
     room.removeUser(userId);
