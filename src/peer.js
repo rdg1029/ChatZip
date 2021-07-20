@@ -1,4 +1,4 @@
-import { room } from './room.js';
+import {group} from './group.js';
 import {socket} from './socket.js';
 import {showChat} from './chat.js';
 
@@ -43,10 +43,10 @@ class Peer {
                     this.pc.close();
                     peers[targetId] = null;
                     delete peers[targetId];
-                    room.removeUser(targetId);
+                    group.removeUser(targetId);
                     showChat(targetId + " quit");
                     console.log('closed with :', targetId);
-                    console.log(room.users);
+                    console.log(group.users);
                     */
                 }
                 this.pc.dataChannel.onmessage = e => showChat(e.data);
@@ -62,10 +62,10 @@ class Peer {
                         this.pc.close();
                         peers[targetId] = null;
                         delete peers[targetId];
-                        room.removeUser(targetId);
+                        group.removeUser(targetId);
                         showChat(targetId + " quit");
                         console.log('closed with :', targetId);
-                        console.log(room.users);
+                        console.log(group.users);
                         */
                     }
                     this.pc.dataChannel.onmessage = e => showChat(e.data);

@@ -1,6 +1,6 @@
 import {socket} from './socket.js';
 
-let room = {
+let group = {
     id: "",
     users: [],
     init: function() {
@@ -23,7 +23,7 @@ let room = {
     setHost: function() {
         socket.on('req info', targetId => {
             console.log(this.users);
-            socket.emit('room info', targetId, this.users);
+            socket.emit('group info', targetId, this.users);
         });
     },
     checkIsAlone: function() {
@@ -38,4 +38,4 @@ let room = {
     }
 }
 
-export {room};
+export {group};

@@ -1,7 +1,7 @@
 import adapter from 'webrtc-adapter';
 import { setPage } from './page.js';
 import {Peer, peers} from './peer.js';
-import {room} from './room.js';
+import {group} from './group.js';
 import {socket} from './socket.js';
 import {showChat} from './chat.js';
 
@@ -19,9 +19,9 @@ window.onbeforeunload = e => {
 }
 */
 socket.on('user join', userId => {
-    room.addUser(userId);
-    showChat(userId + " joined room");
-    console.log(room.users);
+    group.addUser(userId);
+    showChat(userId + " joined group");
+    console.log(group.users);
 });
 
 socket.on('req offer', targetId => {
@@ -32,17 +32,17 @@ socket.on('req offer', targetId => {
 
 socket.on('recv answer', (answer, targetId) => {
     peers[targetId].receiveAnswer(answer);
-    //room.addUser(targetId);
+    //group.addUser(targetId);
     socket.emit('conn ready', targetId);
-    console.log(room.users);
+    console.log(group.users);
 });
 
 socket.on('user quit', userId => {
     peers[userId].close();
     peers[userId] = null;
     delete peers[userId];
-    room.removeUser(userId);
+    group.removeUser(userId);
     showChat(userId + " quit");
     console.log('closed with :', userId);
-    console.log(room.users);
+    console.log(group.users);
 });
