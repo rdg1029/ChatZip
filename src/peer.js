@@ -78,8 +78,8 @@ class Peer {
         }
         this.pc.setRemoteDescription(answer).then(() => console.log('done'));
     }
-    sendData(data) {
-        this.dc.chat.send(data);
+    sendChat(chat) {
+        this.dc.chat.send(chat);
     }
     close() {
         this.dc.chat.close();

@@ -14,7 +14,7 @@ function initChat() {
         if(input.value == "") return;
         const msg = socket.id + " : " + input.value;
         for (const peer in peers) {
-            peers[peer].sendData(msg);
+            peers[peer].sendChat(msg);
         }
         showChat(msg);
         input.value = "";
