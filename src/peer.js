@@ -32,46 +32,27 @@ class Peer {
                 }
             }
         }
+        this.dc = {};
         switch(type) {
             case 'offer':
-                this.pc.dataChannel = this.pc.createDataChannel('dCh');
-                this.pc.dataChannel.onopen = () => {
-                    console.log('open with :', targetId);
-                }
-                this.pc.dataChannel.onclose = () => {
-                    /*
-                    this.pc.close();
-                    peers[targetId] = null;
-                    delete peers[targetId];
-                    group.removeUser(targetId);
-                    showChat(targetId + " quit");
-                    console.log('closed with :', targetId);
-                    console.log(group.users);
-                    */
-                }
-                this.pc.dataChannel.onmessage = e => showChat(e.data);
+                this.dc.chat = this.pc.createDataChannel('chat');
+                this.#initChatChannel();
                 break;
             case 'answer':
                 this.pc.ondatachannel = e => {
-                    this.pc.dataChannel = e.channel;
-                    this.pc.dataChannel.onopen = () => {
-                        console.log('open with :', targetId);
+                    switch(e.channel.label) {
+                        case 'chat':
+                            this.dc.chat = e.channel;
+                            break;
                     }
-                    this.pc.dataChannel.onclose = () => {
-                        /*
-                        this.pc.close();
-                        peers[targetId] = null;
-                        delete peers[targetId];
-                        group.removeUser(targetId);
-                        showChat(targetId + " quit");
-                        console.log('closed with :', targetId);
-                        console.log(group.users);
-                        */
-                    }
-                    this.pc.dataChannel.onmessage = e => showChat(e.data);
+                    this.#initChatChannel();
                 }
                 break;
         }
+    }
+    #initChatChannel() {
+        this.dc.chat.onopen = () => console.log('open with :', targetId);
+        this.dc.chat.onmessage = e => showChat(e.data);
     }
     createOffer() {
         if(this.type != 'offer') {
@@ -98,12 +79,12 @@ class Peer {
         this.pc.setRemoteDescription(answer).then(() => console.log('done'));
     }
     sendData(data) {
-        this.pc.dataChannel.send(data);
+        this.dc.chat.send(data);
     }
     close() {
-        this.pc.dataChannel.close();
+        this.dc.chat.close();
         this.pc.close();
-        this.pc.dataChannel = null;
+        this.dc.chat = null;
         this.pc = null;
     }
 }
