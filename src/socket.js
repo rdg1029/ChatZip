@@ -1,3 +1,5 @@
 const io = require('socket.io-client');
-const socket = io('http://localhost:3000');
+//Local Test : http://localhost:3000
+//Server Test : https://chatzip-signalling-server.herokuapp.com
+const socket = io('https://chatzip-signalling-server.herokuapp.com');
 export {socket};
