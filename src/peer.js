@@ -36,7 +36,7 @@ class Peer {
         switch(type) {
             case 'offer':
                 this.dc.chat = this.pc.createDataChannel('chat');
-                this.#initChatChannel();
+                this.#initChatChannel(targetId);
                 break;
             case 'answer':
                 this.pc.ondatachannel = e => {
@@ -45,12 +45,12 @@ class Peer {
                             this.dc.chat = e.channel;
                             break;
                     }
-                    this.#initChatChannel();
+                    this.#initChatChannel(targetId);
                 }
                 break;
         }
     }
-    #initChatChannel() {
+    #initChatChannel(targetId) {
         this.dc.chat.onopen = () => console.log('open with :', targetId);
         this.dc.chat.onmessage = e => showChat(e.data);
     }
