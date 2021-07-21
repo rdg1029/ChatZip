@@ -4,15 +4,22 @@ import {group} from './group.js';
 import {socket} from './socket.js';
 import {showChat} from './chat.js';
 
-let main, signage, mainSignage, enterSignage, typeGroupId, enterButton, createGroup, enterGroup;
+let main, signage, mainSignage, enterSignage, typeGroupId, enterButton, createGroup, enterGroup, backButton;
 let readyCount = 0;
 
 function initMain() {
     main = document.getElementById('main');
     signage = document.getElementById('signage');
+
     mainSignage = document.getElementById('contents-main');
     createGroup = document.getElementById('create-group');
     enterGroup = document.getElementById('enter-group');
+
+    enterSignage = document.getElementById('contents-enter');
+    typeGroupId = document.getElementById('type-group-id');
+    enterButton = document.getElementById('enter');
+    backButton = document.getElementById('back');
+    enterSignage.style.display = 'none';
 
     createGroup.onclick = () => {
         group.init();
@@ -20,18 +27,8 @@ function initMain() {
         socket.emit('create group', group.id);
     }
     enterGroup.onclick = () => {
-        mainSignage.remove();
-    
-        enterSignage = document.createElement('div');
-        enterSignage.id = 'contents-enter';
-    
-        typeGroupId = document.createElement('input');
-        typeGroupId.id = 'type-group-id';
-        typeGroupId.type = 'text';
-    
-        enterButton = document.createElement('button');
-        enterButton.id = 'enter';
-        enterButton.textContent = '입장';
+        mainSignage.style.display = 'none';
+        enterSignage.style.display = 'block';
         enterButton.onclick = () => {
             if(typeGroupId.value == "") {
                 window.alert("방 아이디를 입력해주세요");
@@ -39,10 +36,10 @@ function initMain() {
             }
             socket.emit('find group', typeGroupId.value);
         }
-    
-        signage.appendChild(enterSignage);
-        enterSignage.appendChild(typeGroupId);
-        enterSignage.appendChild(enterButton);
+        backButton.onclick = () => {
+            enterSignage.style.display = 'none';
+            mainSignage.style.display = 'block';
+        }
     }
     setSocketListener();
 }
@@ -57,6 +54,7 @@ function setSocketListener() {
         group.id = groupId;
         typeGroupId.remove();
         enterButton.remove();
+        backButton.remove();
         const connMsg = document.createElement('p');
         connMsg.innerHTML = '연결 중...';
         enterSignage.appendChild(connMsg);
