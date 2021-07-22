@@ -25,8 +25,22 @@ function initRoom() {
         camera.updateProjectionMatrix();
     });
 
+    setSkyBox();
     createPlane();
     render();
+}
+
+function setSkyBox() {
+    const textureLoader = new THREE.CubeTextureLoader();
+    const texture = textureLoader.load([
+        '../dist/img/skybox/px.bmp',
+        '../dist/img/skybox/nx.bmp',
+        '../dist/img/skybox/py.bmp',
+        '../dist/img/skybox/ny.bmp',
+        '../dist/img/skybox/pz.bmp',
+        '../dist/img/skybox/nz.bmp'
+    ]);
+    scene.background = texture;
 }
 
 function createPlane() {
