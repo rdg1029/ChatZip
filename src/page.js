@@ -17,7 +17,7 @@ function setPage(page) {
             break;
         case 'chat':
             document.body.innerHTML = '<div id="chat"><ul id="messages"></ul><form id="form"><input id="input" /></form></div>';
-            style.href = './css/chat.css';
+            style.href = './css/room.css';
             initChat();
             break;
     }
