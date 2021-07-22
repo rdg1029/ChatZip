@@ -92,7 +92,7 @@ function setSocketListener() {
         group.id = groupId;
         group.addUser(socket.id);
         console.log(group.users);
-        setPage('chat');
+        setPage('room');
         showChat('join group : ' + groupId);
         /*
         document.body.style.backgroundColor = "#ffffff";

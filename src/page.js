@@ -15,8 +15,8 @@ function setPage(page) {
             style.href = './css/main.css';
             initMain();
             break;
-        case 'chat':
-            document.body.innerHTML = '<div id="chat"><ul id="messages"></ul><form id="form"><input id="input" /></form></div>';
+        case 'room':
+            document.body.innerHTML = '<canvas id="c"></canvas><div id="chat"><ul id="messages"></ul><form id="form"><input id="input" /></form></div>';
             style.href = './css/room.css';
             initChat();
             break;
