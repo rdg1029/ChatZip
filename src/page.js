@@ -1,5 +1,6 @@
 import { initMain } from "./main";
 import { initChat } from "./chat";
+import { initRoom } from "./room";
 
 const style = document.getElementById('style');
 let currentPage;
@@ -19,6 +20,7 @@ function setPage(page) {
             document.body.innerHTML = '<canvas id="c"></canvas><div id="chat"><ul id="messages"></ul><form id="form"><input id="input" /></form></div>';
             style.href = './css/room.css';
             initChat();
+            initRoom();
             break;
     }
 }
