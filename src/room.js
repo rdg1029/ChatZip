@@ -1,7 +1,8 @@
 import * as THREE from 'three';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import {PointerLockControls} from 'three/examples/jsm/controls/PointerLockControls';
 
-let canvas, renderer, scene, camera, controls;
+let canvas, renderer, scene, camera, pointerLockControls;
+let keyControls = {};
 
 function initRoom() {
     canvas = document.getElementById('c');
@@ -10,11 +11,18 @@ function initRoom() {
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
-    camera.position.set(0, 5, 10);
+    camera.position.set(0, .5, -5);
+    camera.lookAt(new THREE.Vector3(0, .5, 0));
 
-    controls = new OrbitControls(camera, canvas);
-    controls.target.set(0, 1, 0);
-    controls.update();
+    pointerLockControls = new PointerLockControls(camera, canvas);
+
+    document.addEventListener('keydown', e => {
+        keyControls[e.key] = true;
+    });
+
+    document.addEventListener('keyup', e => {
+        keyControls[e.key] = false;
+    });
 
     window.addEventListener('resize', () => {
         let w = window.innerWidth;
@@ -25,9 +33,28 @@ function initRoom() {
         camera.updateProjectionMatrix();
     });
 
+    canvas.addEventListener('click', () => {
+        pointerLockControls.lock();
+    });
+
     setSkyBox();
     createPlane();
     render();
+}
+
+function setControl() {
+    if(keyControls['w']) {
+        pointerLockControls.moveForward(.1);
+    }
+    if(keyControls['s']) {
+        pointerLockControls.moveForward(-.1);
+    }
+    if(keyControls['a']) {
+        pointerLockControls.moveRight(-.1);
+    }
+    if(keyControls['d']) {
+        pointerLockControls.moveRight(.1);
+    }
 }
 
 function setSkyBox() {
@@ -53,6 +80,7 @@ function createPlane() {
 
 function render() {
     renderer.render(scene, camera);
+    setControl();
     requestAnimationFrame(render);
 }
 
