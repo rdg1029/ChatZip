@@ -19,6 +19,9 @@ function initMain() {
     typeGroupId = document.getElementById('type-group-id');
     enterButton = document.getElementById('enter');
     backButton = document.getElementById('back');
+
+    createGroup.disabled = true;
+    enterGroup.disabled = true;
     enterSignage.style.display = 'none';
 
     createGroup.onclick = () => {
@@ -46,7 +49,9 @@ function initMain() {
 
 function setSocketListener() {
     socket.on('open', () => {
-        //document.getElementById('status').innerHTML = "OPEN";
+        document.getElementById('status').innerHTML = "OPEN<br>(준비중)";
+        createGroup.disabled = false;
+        enterGroup.disabled = false;
         console.log('connected!');
     });
 
