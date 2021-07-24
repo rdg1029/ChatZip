@@ -2,10 +2,10 @@ import {WEBGL} from 'three/examples/jsm/WebGL'
 
 function compatibilityCheck() {
     let result = '';
-    if(!WEBGL.isWebGLAvailable) {
+    if(!(WEBGL.isWebGLAvailable || WEBGL.isWebGL2Available)) {
         result += 'WebGL is not supported<br>';
     }
-    if(navigator.getUserMedia && window.RTCPeerConnection) {
+    if(!(window.RTCPeerConnection)) {
         result += 'WebRTC is not supported';
     }
 
