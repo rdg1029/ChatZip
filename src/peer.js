@@ -1,4 +1,4 @@
-import {group} from './group.js';
+import {UserModel} from './model.js';
 import {socket} from './socket.js';
 import {showChat} from './chat.js';
 
@@ -49,6 +49,7 @@ class Peer {
                 }
                 break;
         }
+        this.model = new UserModel();
     }
     #initChatChannel(targetId) {
         this.dc.chat.onopen = () => console.log('open with :', targetId);

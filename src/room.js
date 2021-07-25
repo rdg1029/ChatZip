@@ -43,6 +43,7 @@ function initRoom() {
     });
 
     setSocketListener();
+    renderUsers();
     setSkyBox();
     createPlane();
     render();
@@ -52,6 +53,8 @@ function setSocketListener() {
     socket.on('user join', userId => {
         group.addUser(userId);
         showChat(userId + " joined group");
+        peers[userId].model.add();
+        peers[userId].model.userMesh.position.set(0, .5, 0);
         console.log(group.users);
     });
     
@@ -69,7 +72,9 @@ function setSocketListener() {
     });
     
     socket.on('user quit', userId => {
+        peers[userId].model.remove();
         peers[userId].close();
+        peers[userId].model = null;
         peers[userId] = null;
         delete peers[userId];
         group.removeUser(userId);
@@ -77,6 +82,13 @@ function setSocketListener() {
         console.log('closed with :', userId);
         console.log(group.users);
     });
+}
+
+function renderUsers() {
+    for(const peer in peers) {
+        peers[peer].model.add();
+        peers[peer].model.userMesh.position.set(0, .5, 0);
+    }
 }
 
 function setControl() {
@@ -121,4 +133,4 @@ function render() {
     requestAnimationFrame(render);
 }
 
-export {initRoom};
+export {initRoom, scene};
