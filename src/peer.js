@@ -4,6 +4,9 @@ import {showChat} from './chat.js';
 
 let peers = {};
 
+const posBuffer = new ArrayBuffer(12);
+const posArray = new Float32Array(posBuffer);
+
 class Peer {
     constructor(type, targetId) {
         const iceConfig = {
@@ -36,16 +39,24 @@ class Peer {
         switch(type) {
             case 'offer':
                 this.dc.chat = this.pc.createDataChannel('chat');
+                this.dc.pos = this.pc.createDataChannel('pos');
+                this.dc.pos.binaryType = "arraybuffer";
+
                 this.#initChatChannel(targetId);
+                this.#initPosChannel();
                 break;
             case 'answer':
                 this.pc.ondatachannel = e => {
                     switch(e.channel.label) {
                         case 'chat':
                             this.dc.chat = e.channel;
+                            this.#initChatChannel(targetId);
+                            break;
+                        case 'pos':
+                            this.dc.pos = e.channel;
+                            this.#initPosChannel();
                             break;
                     }
-                    this.#initChatChannel(targetId);
                 }
                 break;
         }
@@ -54,6 +65,13 @@ class Peer {
     #initChatChannel(targetId) {
         this.dc.chat.onopen = () => console.log('open with :', targetId);
         this.dc.chat.onmessage = e => showChat(e.data);
+    }
+    #initPosChannel() {
+        this.dc.pos.onmessage = e => {
+            const pos = new Float32Array(e.data);
+            // console.log('recv :', posArray);
+            this.model.userMesh.position.set(pos[0], pos[1], pos[2]);
+        };
     }
     createOffer() {
         if(this.type != 'offer') {
@@ -81,6 +99,13 @@ class Peer {
     }
     sendChat(chat) {
         this.dc.chat.send(chat);
+    }
+    sendPos(pos) {
+        posArray[0] = pos.x;
+        posArray[1] = pos.y;
+        posArray[2] = pos.z;
+        this.dc.pos.send(posBuffer);
+        // console.log('send :', posArray);
     }
     close() {
         this.dc.chat.close();

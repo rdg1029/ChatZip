@@ -91,18 +91,26 @@ function renderUsers() {
     }
 }
 
+function sendPosToPeers() {
+    Object.keys(peers).forEach(p => peers[p].sendPos(camera.position));
+}
+
 function setControl() {
     if(keyControls['w']) {
         pointerLockControls.moveForward(.1);
+        sendPosToPeers();
     }
     if(keyControls['s']) {
         pointerLockControls.moveForward(-.1);
+        sendPosToPeers();
     }
     if(keyControls['a']) {
         pointerLockControls.moveRight(-.1);
+        sendPosToPeers();
     }
     if(keyControls['d']) {
         pointerLockControls.moveRight(.1);
+        sendPosToPeers();
     }
 }
 
