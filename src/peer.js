@@ -99,9 +99,11 @@ class Peer {
         this.pc.setRemoteDescription(answer).then(() => console.log('done'));
     }
     sendChat(chat) {
+        if(this.dc.chat.readyState != 'open') return;
         this.dc.chat.send(chat);
     }
     sendMovement(pos, rot) {
+        if(this.dc.move.readyState != 'open') return;
         movementArray[0] = pos.x;
         movementArray[1] = pos.y;
         movementArray[2] = pos.z;
