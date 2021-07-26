@@ -4,11 +4,12 @@ import {showChat} from './chat.js';
 
 let peers = {};
 
-const posBuffer = new ArrayBuffer(12);
-const posArray = new Float32Array(posBuffer);
+const movementBuffer = new ArrayBuffer(24);
+const movementArray = new Float32Array(movementBuffer);
 
 class Peer {
     constructor(type, targetId) {
+        this.model = new UserModel();
         const iceConfig = {
             iceServers : [
                 {
@@ -39,38 +40,38 @@ class Peer {
         switch(type) {
             case 'offer':
                 this.dc.chat = this.pc.createDataChannel('chat');
-                this.dc.pos = this.pc.createDataChannel('pos');
-                this.dc.pos.binaryType = "arraybuffer";
+                this.dc.move = this.pc.createDataChannel('move');
+                this.dc.move.binaryType = "arraybuffer";
 
-                this.#initChatChannel(targetId);
-                this.#initPosChannel();
+                this.initChatChannel(targetId);
+                this.initMovementChannel();
                 break;
             case 'answer':
                 this.pc.ondatachannel = e => {
                     switch(e.channel.label) {
                         case 'chat':
                             this.dc.chat = e.channel;
-                            this.#initChatChannel(targetId);
+                            this.initChatChannel(targetId);
                             break;
-                        case 'pos':
-                            this.dc.pos = e.channel;
-                            this.#initPosChannel();
+                        case 'move':
+                            this.dc.move = e.channel;
+                            this.initMovementChannel();
                             break;
                     }
                 }
                 break;
         }
-        this.model = new UserModel();
     }
-    #initChatChannel(targetId) {
+    initChatChannel(targetId) {
         this.dc.chat.onopen = () => console.log('open with :', targetId);
         this.dc.chat.onmessage = e => showChat(e.data);
     }
-    #initPosChannel() {
-        this.dc.pos.onmessage = e => {
-            const pos = new Float32Array(e.data);
-            // console.log('recv :', posArray);
-            this.model.userMesh.position.set(pos[0], pos[1], pos[2]);
+    initMovementChannel() {
+        this.dc.move.onmessage = e => {
+            const movement = new Float32Array(e.data);
+            // console.log('recv :', movementArray);
+            this.model.userMesh.position.set(movement[0], movement[1], movement[2]);
+            this.model.userMesh.rotation.set(movement[3], movement[4], movement[5]);
         };
     }
     createOffer() {
@@ -100,17 +101,22 @@ class Peer {
     sendChat(chat) {
         this.dc.chat.send(chat);
     }
-    sendPos(pos) {
-        posArray[0] = pos.x;
-        posArray[1] = pos.y;
-        posArray[2] = pos.z;
-        this.dc.pos.send(posBuffer);
-        // console.log('send :', posArray);
+    sendMovement(pos, rot) {
+        movementArray[0] = pos.x;
+        movementArray[1] = pos.y;
+        movementArray[2] = pos.z;
+        movementArray[3] = rot.x;
+        movementArray[4] = rot.y;
+        movementArray[5] = rot.z;
+        this.dc.move.send(movementBuffer);
+        // console.log('send :', movementArray);
     }
     close() {
         this.dc.chat.close();
+        this.dc.move.close();
         this.pc.close();
         this.dc.chat = null;
+        this.dc.move = null;
         this.pc = null;
     }
 }

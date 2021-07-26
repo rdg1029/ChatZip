@@ -29,6 +29,10 @@ function initRoom() {
         keyControls[e.key] = false;
     });
 
+    document.addEventListener('mousemove', () => {
+        sendMovementToPeers();
+    });
+
     window.addEventListener('resize', () => {
         let w = window.innerWidth;
         let h = window.innerHeight;
@@ -91,26 +95,26 @@ function renderUsers() {
     }
 }
 
-function sendPosToPeers() {
-    Object.keys(peers).forEach(p => peers[p].sendPos(camera.position));
+function sendMovementToPeers() {
+    Object.keys(peers).forEach(p => peers[p].sendMovement(camera.position, camera.rotation));
 }
 
 function setControl() {
     if(keyControls['w']) {
         pointerLockControls.moveForward(.1);
-        sendPosToPeers();
+        sendMovementToPeers();
     }
     if(keyControls['s']) {
         pointerLockControls.moveForward(-.1);
-        sendPosToPeers();
+        sendMovementToPeers();
     }
     if(keyControls['a']) {
         pointerLockControls.moveRight(-.1);
-        sendPosToPeers();
+        sendMovementToPeers();
     }
     if(keyControls['d']) {
         pointerLockControls.moveRight(.1);
-        sendPosToPeers();
+        sendMovementToPeers();
     }
 }
 
