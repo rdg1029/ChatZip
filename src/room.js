@@ -47,10 +47,10 @@ function initRoom() {
     });
 
     setSocketListener();
-    renderUsers();
     setSkyBox();
     createPlane();
     render();
+    renderUsers();
 }
 
 function setSocketListener() {
@@ -89,10 +89,7 @@ function setSocketListener() {
 }
 
 function renderUsers() {
-    for(const peer in peers) {
-        peers[peer].model.add();
-        peers[peer].model.userMesh.position.set(0, .5, 0);
-    }
+    Object.keys(peers).forEach(p => peers[p].model.add());
 }
 
 function sendMovementToPeers() {

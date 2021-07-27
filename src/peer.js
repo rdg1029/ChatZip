@@ -6,6 +6,7 @@ let peers = {};
 
 const movementBuffer = new ArrayBuffer(24);
 const movementArray = new Float32Array(movementBuffer);
+let peerMovement;
 
 class Peer {
     constructor(type, targetId) {
@@ -41,8 +42,6 @@ class Peer {
             case 'offer':
                 this.dc.chat = this.pc.createDataChannel('chat');
                 this.dc.move = this.pc.createDataChannel('move');
-                this.dc.move.binaryType = "arraybuffer";
-
                 this.initChatChannel(targetId);
                 this.initMovementChannel();
                 break;
@@ -67,11 +66,11 @@ class Peer {
         this.dc.chat.onmessage = e => showChat(e.data);
     }
     initMovementChannel() {
+        this.dc.move.binaryType = "arraybuffer";
         this.dc.move.onmessage = e => {
-            const movement = new Float32Array(e.data);
-            // console.log('recv :', movementArray);
-            this.model.userMesh.position.set(movement[0], movement[1], movement[2]);
-            this.model.userMesh.rotation.set(movement[3], movement[4], movement[5]);
+            peerMovement = new Float32Array(e.data);
+            this.model.userMesh.position.set(peerMovement[0], peerMovement[1], peerMovement[2]);
+            this.model.userMesh.rotation.set(peerMovement[3], peerMovement[4], peerMovement[5]);
         };
     }
     createOffer() {
@@ -111,7 +110,6 @@ class Peer {
         movementArray[4] = rot.y;
         movementArray[5] = rot.z;
         this.dc.move.send(movementBuffer);
-        // console.log('send :', movementArray);
     }
     close() {
         this.dc.chat.close();
