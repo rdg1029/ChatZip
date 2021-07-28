@@ -4,10 +4,6 @@ import {showChat} from './chat.js';
 
 let peers = {};
 
-const movementBuffer = new ArrayBuffer(24);
-const movementArray = new Float32Array(movementBuffer);
-let peerMovement;
-
 class Peer {
     constructor(type, targetId) {
         this.model = new UserModel();
@@ -40,8 +36,8 @@ class Peer {
         this.dc = {};
         switch(type) {
             case 'offer':
-                this.dc.chat = this.pc.createDataChannel('chat');
-                this.dc.move = this.pc.createDataChannel('move');
+                this.chatChannel = this.pc.createDataChannel('chat');
+                this.movementChannel = this.pc.createDataChannel('move');
                 this.initChatChannel(targetId);
                 this.initMovementChannel();
                 break;
@@ -49,11 +45,11 @@ class Peer {
                 this.pc.ondatachannel = e => {
                     switch(e.channel.label) {
                         case 'chat':
-                            this.dc.chat = e.channel;
+                            this.chatChannel = e.channel;
                             this.initChatChannel(targetId);
                             break;
                         case 'move':
-                            this.dc.move = e.channel;
+                            this.movementChannel = e.channel;
                             this.initMovementChannel();
                             break;
                     }
@@ -62,13 +58,13 @@ class Peer {
         }
     }
     initChatChannel(targetId) {
-        this.dc.chat.onopen = () => console.log('open with :', targetId);
-        this.dc.chat.onmessage = e => showChat(e.data);
+        this.chatChannel.onopen = () => console.log('open with :', targetId);
+        this.chatChannel.onmessage = e => showChat(e.data);
     }
     initMovementChannel() {
-        this.dc.move.binaryType = "arraybuffer";
-        this.dc.move.onmessage = e => {
-            peerMovement = new Float32Array(e.data);
+        this.movementChannel.binaryType = "arraybuffer";
+        this.movementChannel.onmessage = e => {
+            const peerMovement = new Float32Array(e.data);
             this.model.userMesh.position.set(peerMovement[0], peerMovement[1], peerMovement[2]);
             this.model.userMesh.rotation.set(peerMovement[3], peerMovement[4], peerMovement[5]);
         };
@@ -98,25 +94,29 @@ class Peer {
         this.pc.setRemoteDescription(answer).then(() => console.log('done'));
     }
     sendChat(chat) {
-        if(this.dc.chat.readyState != 'open') return;
-        this.dc.chat.send(chat);
+        if(this.chatChannel.readyState != 'open') return;
+        this.chatChannel.send(chat);
     }
+    /*
     sendMovement(pos, rot) {
-        if(this.dc.move.readyState != 'open') return;
+        if(this.movementChannel.readyState != 'open') return;
+        const movementBuffer = new ArrayBuffer(24);
+        const movementArray = new Float32Array(movementBuffer);
         movementArray[0] = pos.x;
         movementArray[1] = pos.y;
         movementArray[2] = pos.z;
         movementArray[3] = rot.x;
         movementArray[4] = rot.y;
         movementArray[5] = rot.z;
-        this.dc.move.send(movementBuffer);
+        this.movementChannel.send(movementBuffer);
     }
+    */
     close() {
-        this.dc.chat.close();
-        this.dc.move.close();
+        this.chatChannel.close();
+        this.movementChannel.close();
         this.pc.close();
-        this.dc.chat = null;
-        this.dc.move = null;
+        this.chatChannel = null;
+        this.movementChannel = null;
         this.pc = null;
     }
 }

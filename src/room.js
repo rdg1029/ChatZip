@@ -6,11 +6,11 @@ import {showChat} from './chat.js';
 import * as THREE from 'three';
 import {PointerLockControls} from 'three/examples/jsm/controls/PointerLockControls';
 
-let canvas, renderer, scene, camera, pointerLockControls;
+let renderer, scene, camera, pointerLockControls;
 let keyControls = {};
 
 function initRoom() {
-    canvas = document.getElementById('c');
+    const canvas = document.getElementById('c');
     renderer = new THREE.WebGLRenderer({canvas});
     renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -93,7 +93,18 @@ function renderUsers() {
 }
 
 function sendMovementToPeers() {
-    Object.keys(peers).forEach(p => peers[p].sendMovement(camera.position, camera.rotation));
+    Object.keys(peers).forEach(p => {
+        if(peers[p].movementChannel.readyState != 'open') return;
+        const movementBuffer = new ArrayBuffer(24);
+        const movementArray = new Float32Array(movementBuffer);
+        movementArray[0] = camera.position.x;
+        movementArray[1] = camera.position.y;
+        movementArray[2] = camera.position.z;
+        movementArray[3] = camera.rotation.x;
+        movementArray[4] = camera.rotation.y;
+        movementArray[5] = camera.rotation.z;
+        peers[p].movementChannel.send(movementBuffer);
+    });
 }
 
 function setControl() {
