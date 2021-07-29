@@ -2,10 +2,10 @@ import { initMain } from "./main";
 import { initChat } from "./chat";
 import { initRoom } from "./room";
 
-const style = document.getElementById('style');
 let currentPage;
 
 function setPage(page) {
+    const style = document.getElementById('style');
     if(currentPage !== undefined) {
         document.getElementById(currentPage).remove();
     }

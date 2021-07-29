@@ -4,21 +4,17 @@ import {group} from './group.js';
 import {socket} from './socket.js';
 import {showChat} from './chat.js';
 
-let main, signage, mainSignage, enterSignage, typeGroupId, enterButton, createGroup, enterGroup, backButton;
 let readyCount = 0;
 
 function initMain() {
-    main = document.getElementById('main');
-    signage = document.getElementById('signage');
+    const mainSignage = document.getElementById('contents-main');
+    const createGroup = document.getElementById('create-group');
+    const enterGroup = document.getElementById('enter-group');
 
-    mainSignage = document.getElementById('contents-main');
-    createGroup = document.getElementById('create-group');
-    enterGroup = document.getElementById('enter-group');
-
-    enterSignage = document.getElementById('contents-enter');
-    typeGroupId = document.getElementById('type-group-id');
-    enterButton = document.getElementById('enter');
-    backButton = document.getElementById('back');
+    const enterSignage = document.getElementById('contents-enter');
+    const typeGroupId = document.getElementById('type-group-id');
+    const enterButton = document.getElementById('enter');
+    const backButton = document.getElementById('back');
 
     createGroup.disabled = true;
     enterGroup.disabled = true;
@@ -44,10 +40,7 @@ function initMain() {
             mainSignage.style.display = 'block';
         }
     }
-    setSocketListener();
-}
-
-function setSocketListener() {
+    //Init socket listener
     socket.on('open', () => {
         document.getElementById('status').innerHTML = "OPEN<br>(준비중)";
         createGroup.disabled = false;

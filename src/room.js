@@ -46,14 +46,7 @@ function initRoom() {
         pointerLockControls.lock();
     });
 
-    setSocketListener();
-    setSkyBox();
-    createPlane();
-    render();
-    renderUsers();
-}
-
-function setSocketListener() {
+    /*Set socket listener*/
     socket.on('user join', userId => {
         group.addUser(userId);
         showChat(userId + " joined group");
@@ -86,9 +79,29 @@ function setSocketListener() {
         console.log('closed with :', userId);
         console.log(group.users);
     });
-}
+    
+    /*Set sky box*/
+    const textureLoader = new THREE.CubeTextureLoader();
+    const texture = textureLoader.load([
+        '../dist/img/skybox/px.bmp',
+        '../dist/img/skybox/nx.bmp',
+        '../dist/img/skybox/py.bmp',
+        '../dist/img/skybox/ny.bmp',
+        '../dist/img/skybox/pz.bmp',
+        '../dist/img/skybox/nz.bmp'
+    ]);
+    scene.background = texture;
+    
+    /*Create plane*/
+    const planeGeometry = new THREE.PlaneGeometry(10, 10);
+    const planeMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+    const mesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    mesh.rotation.x = Math.PI * -.5;
+    scene.add(mesh);
+    
+    render();
 
-function renderUsers() {
+    /*Render users*/
     Object.keys(peers).forEach(p => peers[p].model.add());
 }
 
@@ -124,27 +137,6 @@ function setControl() {
         pointerLockControls.moveRight(.1);
         sendMovementToPeers();
     }
-}
-
-function setSkyBox() {
-    const textureLoader = new THREE.CubeTextureLoader();
-    const texture = textureLoader.load([
-        '../dist/img/skybox/px.bmp',
-        '../dist/img/skybox/nx.bmp',
-        '../dist/img/skybox/py.bmp',
-        '../dist/img/skybox/ny.bmp',
-        '../dist/img/skybox/pz.bmp',
-        '../dist/img/skybox/nz.bmp'
-    ]);
-    scene.background = texture;
-}
-
-function createPlane() {
-    const planeGeometry = new THREE.PlaneGeometry(10, 10);
-    const planeMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
-    const mesh = new THREE.Mesh(planeGeometry, planeMaterial);
-    mesh.rotation.x = Math.PI * -.5;
-    scene.add(mesh);
 }
 
 function render() {

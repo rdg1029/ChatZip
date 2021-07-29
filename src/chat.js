@@ -1,13 +1,12 @@
 import {socket} from './socket.js';
 import {peers} from './peer.js';
 
-let chat, messages, form, input;
+let messages
 
 function initChat() {
-    chat = document.getElementById('chat');
     messages = document.getElementById('messages');
-    form = document.getElementById('form');
-    input = document.getElementById('input');
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
 
     form.addEventListener('submit', e => {
         e.preventDefault();
