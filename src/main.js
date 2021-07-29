@@ -45,7 +45,7 @@ function initMain() {
         document.getElementById('status').innerHTML = "OPEN<br>(준비중)";
         createGroup.disabled = false;
         enterGroup.disabled = false;
-        console.log('connected!');
+        // console.log('connected!');
     });
 
     socket.on('group found', groupId => {
@@ -65,7 +65,7 @@ function initMain() {
 
     socket.on('group info', users => {
         group.users = users;
-        console.log(group.users);
+        // console.log(group.users);
         socket.emit('req offer', group.id, socket.id);
     });
 
@@ -77,10 +77,10 @@ function initMain() {
 
     socket.on('conn ready', () => {
         ++readyCount;
-        console.log('ready count :', readyCount);
-        console.log('group users :', group.users.length);
+        // console.log('ready count :', readyCount);
+        // console.log('group users :', group.users.length);
         if(group.users.length == readyCount) {
-            console.log('req join!');
+            // console.log('req join!');
             socket.emit('req join', group.id);
         }
     });
@@ -89,7 +89,7 @@ function initMain() {
         removeSocketListener();
         group.id = groupId;
         group.addUser(socket.id);
-        console.log(group.users);
+        // console.log(group.users);
         setPage('room');
         showChat('join group : ' + groupId);
         /*

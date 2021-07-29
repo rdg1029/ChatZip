@@ -17,12 +17,12 @@ class Peer {
         this.type = type;
         this.pc = new RTCPeerConnection(iceConfig);
         this.pc.onicecandidate = () => {
-            console.log('New ICE candidate!');
-            console.log(this.pc.localDescription);
+            // console.log('New ICE candidate!');
+            // console.log(this.pc.localDescription);
         }
         this.pc.onicegatheringstatechange = e => {
             if(e.target.iceGatheringState == 'complete') {
-                console.log('collection of candidates is finished');
+                // console.log('collection of candidates is finished');
                 switch(type) {
                     case 'offer':
                         socket.emit('req answer', this.pc.localDescription, socket.id, targetId);
@@ -58,7 +58,7 @@ class Peer {
         }
     }
     initChatChannel(targetId) {
-        this.chatChannel.onopen = () => console.log('open with :', targetId);
+        // this.chatChannel.onopen = () => console.log('open with :', targetId);
         this.chatChannel.onmessage = e => showChat(e.data);
     }
     initMovementChannel() {
@@ -82,7 +82,7 @@ class Peer {
             console.error('You are not answer!')
             return;
         }
-        this.pc.setRemoteDescription(offer).then(() => console.log('done'));
+        this.pc.setRemoteDescription(offer) //.then(() => console.log('done'));
         this.pc.createAnswer()
         .then(answer => this.pc.setLocalDescription(answer));
     }
@@ -91,7 +91,7 @@ class Peer {
             console.error('You are not offer!');
             return;
         }
-        this.pc.setRemoteDescription(answer).then(() => console.log('done'));
+        this.pc.setRemoteDescription(answer) //.then(() => console.log('done'));
     }
     sendChat(chat) {
         if(this.chatChannel.readyState != 'open') return;

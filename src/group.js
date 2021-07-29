@@ -17,23 +17,23 @@ let group = {
     },
     checkHost: function() {
         if(this.users[0] != socket.id) return;
-        console.log('You are host!');
+        // console.log('You are host!');
         this.setHost();
     },
     setHost: function() {
         socket.on('req info', targetId => {
-            console.log(this.users);
+            // console.log(this.users);
             socket.emit('group info', targetId, this.users);
         });
     },
     checkIsAlone: function() {
         if(this.users.length == 1) {
             socket.emit('is alone', true);
-            console.log('user alone');
+            // console.log('user alone');
         }
         else {
             socket.emit('is alone', false);
-            console.log('user not alone');
+            // console.log('user not alone');
         }
     }
 }

@@ -52,7 +52,7 @@ function initRoom() {
         showChat(userId + " joined group");
         peers[userId].model.add();
         peers[userId].model.userMesh.position.set(0, .5, 0);
-        console.log(group.users);
+        // console.log(group.users);
     });
     
     socket.on('req offer', targetId => {
@@ -65,7 +65,7 @@ function initRoom() {
         peers[targetId].receiveAnswer(answer);
         //group.addUser(targetId);
         socket.emit('conn ready', targetId);
-        console.log(group.users);
+        // console.log(group.users);
     });
     
     socket.on('user quit', userId => {
@@ -76,8 +76,8 @@ function initRoom() {
         delete peers[userId];
         group.removeUser(userId);
         showChat(userId + " quit");
-        console.log('closed with :', userId);
-        console.log(group.users);
+        // console.log('closed with :', userId);
+        // console.log(group.users);
     });
     
     /*Set sky box*/
