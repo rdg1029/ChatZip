@@ -40,7 +40,8 @@ function initMain() {
             mainSignage.style.display = 'block';
         }
     }
-    //Init socket listener
+    
+    /*Init socket listener*/
     socket.on('open', () => {
         document.getElementById('status').innerHTML = "OPEN<br>(준비중)";
         createGroup.disabled = false;

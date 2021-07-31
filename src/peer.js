@@ -16,52 +16,52 @@ class Peer {
         };
         this.type = type;
         this.pc = new RTCPeerConnection(iceConfig);
-        this.pc.onicecandidate = () => {
-            // console.log('New ICE candidate!');
-            // console.log(this.pc.localDescription);
-        }
         this.pc.onicegatheringstatechange = e => {
             if(e.target.iceGatheringState == 'complete') {
+                this._executeByType(type,
+                    () => socket.emit('req answer', this.pc.localDescription, socket.id, targetId),
+                    () => socket.emit('recv answer', this.pc.localDescription, socket.id, targetId)
+                );
                 // console.log('collection of candidates is finished');
-                switch(type) {
-                    case 'offer':
-                        socket.emit('req answer', this.pc.localDescription, socket.id, targetId);
-                        break;
-                    case 'answer':
-                        socket.emit('recv answer', this.pc.localDescription, socket.id, targetId);
-                        break;
-                }
             }
         }
         this.dc = {};
-        switch(type) {
-            case 'offer':
+        this._executeByType(type,
+            () => {
                 this.chatChannel = this.pc.createDataChannel('chat');
                 this.movementChannel = this.pc.createDataChannel('move');
-                this.initChatChannel(targetId);
-                this.initMovementChannel();
-                break;
-            case 'answer':
+                this._initChatChannel();
+                this._initMovementChannel();
+            },
+            () => {
                 this.pc.ondatachannel = e => {
                     switch(e.channel.label) {
                         case 'chat':
                             this.chatChannel = e.channel;
-                            this.initChatChannel(targetId);
+                            this._initChatChannel();
                             break;
                         case 'move':
                             this.movementChannel = e.channel;
-                            this.initMovementChannel();
+                            this._initMovementChannel();
                             break;
                     }
                 }
+            }
+        );
+    }
+    _executeByType(type, callBackToOffer, callBackToAnswer) {
+        switch(type) {
+            case 'offer':
+                callBackToOffer();
                 break;
+            case 'answer':
+                callBackToAnswer();
         }
     }
-    initChatChannel(targetId) {
-        // this.chatChannel.onopen = () => console.log('open with :', targetId);
+    _initChatChannel() {
         this.chatChannel.onmessage = e => showChat(e.data);
     }
-    initMovementChannel() {
+    _initMovementChannel() {
         this.movementChannel.binaryType = "arraybuffer";
         this.movementChannel.onmessage = e => {
             const peerMovement = new Float32Array(e.data);
