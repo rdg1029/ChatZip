@@ -1,10 +1,7 @@
 import {socket} from './socket.js';
 import {peers} from './peer.js';
 
-let messages
-
 function initChat() {
-    messages = document.getElementById('messages');
     const form = document.getElementById('form');
     const input = document.getElementById('input');
 
@@ -21,6 +18,7 @@ function initChat() {
 }
 
 function showChat(msg) {
+    const messages = document.getElementById('messages');
     const message = document.createElement('li');
     message.innerHTML = msg;
     messages.appendChild(message);
