@@ -106,15 +106,15 @@ function initRoom() {
 }
 
 function sendMovementToPeers() {
+    const movementBuffer = new ArrayBuffer(24);
+    const movementArray = new Float32Array(movementBuffer);
+    movementArray[0] = camera.position.x;
+    movementArray[1] = camera.position.y;
+    movementArray[2] = camera.position.z;
+    movementArray[3] = camera.rotation.x;
+    movementArray[4] = camera.rotation.y;
+    movementArray[5] = camera.rotation.z;
     Object.keys(peers).forEach(p => {
-        const movementBuffer = new ArrayBuffer(24);
-        const movementArray = new Float32Array(movementBuffer);
-        movementArray[0] = camera.position.x;
-        movementArray[1] = camera.position.y;
-        movementArray[2] = camera.position.z;
-        movementArray[3] = camera.rotation.x;
-        movementArray[4] = camera.rotation.y;
-        movementArray[5] = camera.rotation.z;
         peers[p].sendMovementBuffer(movementBuffer);
     });
 }
