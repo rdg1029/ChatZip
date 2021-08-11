@@ -3,7 +3,7 @@ import {group} from './group.js';
 import {socket} from './socket.js';
 import {showChat} from './chat.js';
 
-import * as THREE from 'three';
+import * as THREE from 'three/build/three.min.js';
 import {PointerLockControls} from 'three/examples/jsm/controls/PointerLockControls';
 
 let renderer, scene, camera, pointerLockControls;
