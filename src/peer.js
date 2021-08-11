@@ -97,20 +97,10 @@ class Peer {
         if(this.chatChannel.readyState != 'open') return;
         this.chatChannel.send(chat);
     }
-    /*
-    sendMovement(pos, rot) {
+    sendMovementBuffer(buffer) {
         if(this.movementChannel.readyState != 'open') return;
-        const movementBuffer = new ArrayBuffer(24);
-        const movementArray = new Float32Array(movementBuffer);
-        movementArray[0] = pos.x;
-        movementArray[1] = pos.y;
-        movementArray[2] = pos.z;
-        movementArray[3] = rot.x;
-        movementArray[4] = rot.y;
-        movementArray[5] = rot.z;
-        this.movementChannel.send(movementBuffer);
+        this.movementChannel.send(buffer);
     }
-    */
     close() {
         this.chatChannel.close();
         this.movementChannel.close();

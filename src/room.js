@@ -107,7 +107,6 @@ function initRoom() {
 
 function sendMovementToPeers() {
     Object.keys(peers).forEach(p => {
-        if(peers[p].movementChannel.readyState != 'open') return;
         const movementBuffer = new ArrayBuffer(24);
         const movementArray = new Float32Array(movementBuffer);
         movementArray[0] = camera.position.x;
@@ -116,7 +115,7 @@ function sendMovementToPeers() {
         movementArray[3] = camera.rotation.x;
         movementArray[4] = camera.rotation.y;
         movementArray[5] = camera.rotation.z;
-        peers[p].movementChannel.send(movementBuffer);
+        peers[p].sendMovementBuffer(movementBuffer);
     });
 }
 
