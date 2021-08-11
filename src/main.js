@@ -4,8 +4,6 @@ import {group} from './group.js';
 import {socket} from './socket.js';
 import {showChat} from './chat.js';
 
-let readyCount = 0;
-
 function initMain() {
     const mainSignage = document.getElementById('contents-main');
     const createGroup = document.getElementById('create-group');
@@ -15,6 +13,8 @@ function initMain() {
     const typeGroupId = document.getElementById('type-group-id');
     const enterButton = document.getElementById('enter');
     const backButton = document.getElementById('back');
+
+    let readyCount = 0;
 
     createGroup.disabled = true;
     enterGroup.disabled = true;
