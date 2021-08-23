@@ -1,3 +1,5 @@
+import {Page} from './Page.js';
+
 class Main extends Page {
     constructor(divID, css) {
         super(divID, css);
@@ -21,3 +23,5 @@ class Main extends Page {
         this.enterSignage.style.display = 'none';
     }
 }
+
+export {Main};

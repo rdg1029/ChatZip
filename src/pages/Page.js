@@ -24,3 +24,5 @@ class Page {
         document.getElementById(id).remove();
     }
 }
+
+export {Page};
