@@ -21,7 +21,6 @@ class Group {
     }
 
     _setHost() {
-        if (this.host === undefined || this.host === null || this.host == users[0]) return;
+        if (this.users.length != 1 && this.host == users[0]) return;
         this.host = users[0];
-    }
 }
