@@ -9,6 +9,7 @@ class Group {
     }
     removeUser(id) {
         this.users.splice(this.users.indexOf(id), 1);
+        if (this.users.length == 0) return;
         this._setHost();
     }
     isHost(id) {
