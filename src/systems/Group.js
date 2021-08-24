@@ -12,6 +12,10 @@ class Group {
         this._setHost();
     }
     isHost(id) {
+        if (this.host === undefined || this.host === null) {
+            console.error('Host is undefined or null');
+            return;
+        }
         return (this.host == id);
     }
 
