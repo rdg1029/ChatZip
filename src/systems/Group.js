@@ -29,4 +29,5 @@ class Group {
     _setHost() {
         if (this.number != 1 && this.host == users[0]) return;
         this.host = users[0];
+    }
 }
