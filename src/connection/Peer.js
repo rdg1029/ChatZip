@@ -10,6 +10,9 @@ class Peer {
         this.targetId = targetId;
         this.conn = new RTCPeerConnection(iceConfig);
     }
+    close() {
+        this.conn.close();
+    }
 }
 
 export {Peer};
