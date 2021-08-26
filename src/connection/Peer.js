@@ -10,6 +10,13 @@ class Peer {
         this.targetId = targetId;
         this.conn = new RTCPeerConnection(iceConfig);
     }
+    onIceGatheringComplete(callBack) {
+        this.conn.oniceconnectionstatechange = e => {
+            if (e.target.iceGatheringState == 'complete') {
+                callBack();
+            }
+        }
+    }
     close() {
         this.conn.close();
     }
