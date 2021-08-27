@@ -1,6 +1,13 @@
 class DataChannel {
-    constructor(peerConn, label) {
-        this.channel = peerConn.createDataChannel(label);
+    constructor(peerConn, type, label) {
+        switch(type) {
+            case 'offer':
+                this.channel = peerConn.createDataChannel(label);
+                break;
+            case 'answer':
+                peerConn.ondatachannel = e => this.channel = e.channel;
+                break;
+        }
     }
     close() {
         this.channel.close();
