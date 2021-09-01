@@ -4,6 +4,7 @@ import { compatibilityCheck } from './compatibility';
 import { Main } from './pages/Main';
 
 import { socket } from './connection/Socket';
+import { Callee } from './connection/Callee';
 
 import { Group } from './systems/Group';
 
@@ -16,7 +17,7 @@ else {
 }
 
 function main() {
-    let group;
+    let group, peers = [];
     const mainPage = new Main('main', '../dist/css/main.css');
 
     mainPage.setPage();
@@ -72,8 +73,9 @@ function main() {
     });
 
     socket.on('req answer', (offer, targetId) => {
-        //peers[targetId] = new Peer('answer', targetId);
-        //peers[targetId].createAnswer(offer); 
+        const peer = new Callee(targetId);
+        peer.createAnswer(offer);
+        peers.push(peer);
     });
 
     socket.on('conn ready', () => {
