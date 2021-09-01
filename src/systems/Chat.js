@@ -15,3 +15,5 @@ class Chat {
         this.messages.scrollTop = this.messages.scrollHeight;
     }
 }
+
+export {Chat};
