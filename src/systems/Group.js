@@ -5,8 +5,7 @@ class Group {
         this.users = [];
     }
     addUser(id) {
-        this.users.push(id);
-        ++this.number;
+        this.number = this.users.push(id);
         this._setHost();
     }
     removeUser(id) {
