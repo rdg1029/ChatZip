@@ -95,3 +95,9 @@ function main() {
         */
     });
 }
+
+function removeSocketListeners(...args) {
+    for (let i = 0, j = args.length; i < j; i++) {
+        socket.removeAllListeners(args[i]);
+    }
+}
