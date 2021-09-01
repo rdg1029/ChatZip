@@ -9,3 +9,5 @@ class Room extends Page {
         this.canvas = document.getElementById('c');
     }
 }
+
+export {Room};
