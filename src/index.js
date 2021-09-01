@@ -2,6 +2,7 @@ import adapter from 'webrtc-adapter';
 import { compatibilityCheck } from './compatibility';
 //import { setPage } from './page.js';
 import { Main } from './pages/Main';
+import { Room } from './pages/Room';
 
 import { socket } from './connection/Socket';
 import { Callee } from './connection/Callee';
@@ -102,7 +103,11 @@ function main() {
     });
 }
 
-function room(group, peers) {}
+function room(group, peers) {
+    const roomPage = new Room('room', '../dist/css/room.css');
+
+    roomPage.setPage();
+}
 
 function removeSocketListeners(...args) {
     for (let i = 0, j = args.length; i < j; i++) {
