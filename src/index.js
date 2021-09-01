@@ -18,6 +18,7 @@ else {
 
 function main() {
     let group, peers = [], connCount = 0;
+
     const mainPage = new Main('main', '../dist/css/main.css');
 
     mainPage.setPage();
@@ -96,8 +97,12 @@ function main() {
         );
         group.addUser(socket.id);
         mainPage.removePage();
+
+        room(group, peers);
     });
 }
+
+function room(group, peers) {}
 
 function removeSocketListeners(...args) {
     for (let i = 0, j = args.length; i < j; i++) {
