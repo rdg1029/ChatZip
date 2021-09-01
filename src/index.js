@@ -86,13 +86,17 @@ function main() {
     });
 
     socket.on('join group', groupId => {
-        /*
-        removeSocketListener();
-        group.id = groupId;
+        removeSocketListeners(
+            'open',
+            'group found',
+            'group not found',
+            'group info',
+            'req answer',
+            'conn ready',
+            'join group'
+        );
         group.addUser(socket.id);
-        setPage('room');
-        showChat('join group : ' + groupId);
-        */
+        mainPage.removePage();
     });
 }
 
