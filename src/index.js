@@ -17,7 +17,7 @@ else {
 }
 
 function main() {
-    let group, peers = [];
+    let group, peers = [], connCount = 0;
     const mainPage = new Main('main', '../dist/css/main.css');
 
     mainPage.setPage();
@@ -79,12 +79,10 @@ function main() {
     });
 
     socket.on('conn ready', () => {
-        /*
-        ++readyCount;
-        if(group.users.length == readyCount) {
+        ++connCount;
+        if(group.users.length == connCount) {
             socket.emit('req join', group.id);
         }
-        */
     });
 
     socket.on('join group', groupId => {
