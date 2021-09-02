@@ -30,3 +30,5 @@ class Group {
         this.host = users[0];
     }
 }
+
+export {Group};
