@@ -1,8 +1,10 @@
 class Group {
     constructor() {
-        this.id = Math.random().toString(36).substr(2,6);
         this.number = 0;
         this.users = [];
+    }
+    createNewId() {
+        this.id = Math.random().toString(36).substr(2,6);
     }
     addUser(id) {
         this.number = this.users.push(id);
