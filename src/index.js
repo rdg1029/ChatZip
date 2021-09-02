@@ -18,13 +18,14 @@ else {
 }
 
 function main() {
-    let group, peers = [], connCount = 0;
+    let peers = [], connCount = 0;
 
+    const group = new Group();
     const mainPage = new Main('main', '../dist/css/main.css');
 
     mainPage.setPage();
     mainPage.createGroupButton.onclick = () => {
-        group = new Group();
+        group.createNewId();
         group.addUser(socket.id);
         socket.emit('create group', group.id);
     };
