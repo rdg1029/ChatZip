@@ -1,3 +1,5 @@
+import {Page} from './Page.js';
+
 class Room extends Page {
     constructor(divID, css) {
         super(divID, css);
