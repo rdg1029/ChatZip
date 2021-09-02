@@ -5,4 +5,4 @@ Server Test : https://chatzip-signalling-server.herokuapp.com
 */
 const socket = io('https://chatzip-signalling-server.herokuapp.com');
 
-export {socket, removeSocketListeners};
+export {socket};
