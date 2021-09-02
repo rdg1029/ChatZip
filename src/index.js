@@ -87,7 +87,7 @@ function main() {
         }
     });
 
-    socket.on('join group', groupId => {
+    socket.on('join group', () => {
         removeSocketListeners(
             'open',
             'group found',
