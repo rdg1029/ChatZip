@@ -8,6 +8,7 @@ import { socket } from './connection/Socket';
 import { Callee } from './connection/Callee';
 
 import { Group } from './systems/Group';
+import { Chat } from './systems/Chat';
 
 const compatibilityCheckResult = compatibilityCheck();
 if (compatibilityCheckResult == 'done') {
@@ -107,6 +108,8 @@ function main() {
 function room(group, peers) {
     const roomPage = new Room('room', '../dist/css/room.css');
     roomPage.setPage();
+    const chat = new Chat();
+    chat.showChat('joined ' + group.id);
 
     /*Init socket listeners at room page*/
     socket.on('user join', userId => {});
