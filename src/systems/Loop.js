@@ -6,12 +6,14 @@ class Loop {
     }
     start() {
         this.renderer.setAnimationLoop(() => {
+            this.tick();
             this.renderer.render(this.scene, this.camera);
         });
     }
     stop() {
         this.renderer.setAnimationLoop(null);
     }
+    tick() {}
 }
 
 export {Loop};
