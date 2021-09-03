@@ -11,9 +11,6 @@ class World {
         this.camera = createCamera();
         this.loop = new Loop(this.renderer, this.scene, this.camera);
     }
-    render() {
-        this.renderer.render(this.scene, this.camera);
-    }
     start() {
         this.loop.start();
     }
