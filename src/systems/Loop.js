@@ -3,6 +3,7 @@ class Loop {
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
+        this.updateList = [];
     }
     start() {
         this.renderer.setAnimationLoop(() => {
@@ -13,7 +14,11 @@ class Loop {
     stop() {
         this.renderer.setAnimationLoop(null);
     }
-    tick() {}
+    tick() {
+        for (let i = 0, j = this.updateList.length; i < j; i++) {
+            this.updateList[i].tick();
+        }
+    }
 }
 
 export {Loop};
