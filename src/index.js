@@ -106,8 +106,16 @@ function main() {
 
 function room(group, peers) {
     const roomPage = new Room('room', '../dist/css/room.css');
-
     roomPage.setPage();
+
+    /*Init socket listeners at room page*/
+    socket.on('user join', userId => {});
+    
+    socket.on('req offer', targetId => {});
+    
+    socket.on('recv answer', (answer, targetId) => {});
+    
+    socket.on('user quit', userId => {});
 }
 
 function removeSocketListeners(...args) {
