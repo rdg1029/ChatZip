@@ -9,6 +9,7 @@ import { Callee } from './connection/Callee';
 
 import { Group } from './systems/Group';
 import { Chat } from './systems/Chat';
+import { World } from './systems/World';
 
 const compatibilityCheckResult = compatibilityCheck();
 if (compatibilityCheckResult == 'done') {
@@ -108,7 +109,11 @@ function main() {
 function room(group, peers) {
     const roomPage = new Room('room', '../dist/css/room.css');
     roomPage.setPage();
+
     const chat = new Chat();
+    const world = new World(roomPage.canvas);
+
+    world.start();
     chat.showChat('joined ' + group.id);
 
     /*Init socket listeners at room page*/

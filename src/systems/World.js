@@ -22,3 +22,5 @@ class World {
         this.loop.stop();
     }
 }
+
+export {World};
