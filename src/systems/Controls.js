@@ -10,6 +10,9 @@ class Controls extends PointerLockControls {
         document.addEventListener('keyup', e => {
             this.key.set(e.key, false);
         });
+        canvas.addEventListener('click' () => {
+            this.lock();
+        })
     }
 }
 
