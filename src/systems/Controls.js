@@ -17,7 +17,7 @@ class Controls extends PointerLockControls {
             if (!this.key.has(e.key)) return;
             this.key.set(e.key, false);
         });
-        canvas.addEventListener('click' () => {
+        canvas.addEventListener('click', () => {
             this.lock();
         })
     }
