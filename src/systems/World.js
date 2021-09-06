@@ -13,6 +13,12 @@ class World {
         this.camera = createCamera();
         this.loop = new Loop(this.renderer, this.scene, this.camera);
 
+        this.renderer.setSize(640, 360, false);
+        window.addEventListener('resize', () => {
+            this.camera.aspect = 16 / 9;
+            this.camera.updateProjectionMatrix();
+        });
+
         const skybox = createSkybox();
         this.scene.background = skybox;
 
