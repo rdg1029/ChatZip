@@ -24,7 +24,7 @@ function main() {
     let peers = [], connCount = 0;
 
     const group = new Group();
-    const mainPage = new Main('main', '../dist/css/main.css');
+    const mainPage = new Main('main', './css/main.css');
 
     mainPage.setPage();
     mainPage.createGroupButton.onclick = () => {
@@ -108,7 +108,7 @@ function main() {
 }
 
 function room(group, peers) {
-    const roomPage = new Room('room', '../dist/css/room.css');
+    const roomPage = new Room('room', './css/room.css');
     roomPage.setPage();
 
     const chat = new Chat();
