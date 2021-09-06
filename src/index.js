@@ -10,6 +10,7 @@ import { Callee } from './connection/Callee';
 import { Group } from './systems/Group';
 import { Chat } from './systems/Chat';
 import { World } from './systems/World';
+import { Controls } from './systems/Controls';
 
 const compatibilityCheckResult = compatibilityCheck();
 if (compatibilityCheckResult == 'done') {
@@ -112,7 +113,9 @@ function room(group, peers) {
 
     const chat = new Chat();
     const world = new World(roomPage.canvas);
+    const controls = new Controls(world.camera, roomPage.canvas);
 
+    world.loop.updateList.push(controls);
     world.start();
     chat.showChat('joined ' + group.id);
 
