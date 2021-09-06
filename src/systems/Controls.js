@@ -3,6 +3,7 @@ import { PointerLockControls } from "three/examples/jsm/controls/PointerLockCont
 class Controls extends PointerLockControls {
     constructor(camera, canvas) {
         super(camera, canvas);
+        camera.position.set(0, .5, 0);
         this.key = new Map([
             ['w', false],
             ['a', false],
