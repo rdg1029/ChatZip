@@ -14,6 +14,20 @@ class Controls extends PointerLockControls {
             this.lock();
         })
     }
+    tick() {
+        if (this.key.get('w')) {
+            this.moveForward(.1);
+        }
+        if (this.key.get('a')) {
+            this.moveRight(-.1);
+        }
+        if (this.key.get('s')) {
+            this.moveForward(-.1);
+        }
+        if (this.key.get('d')) {
+            this.moveRight(.1);
+        }
+    }
 }
 
 export {Controls};
