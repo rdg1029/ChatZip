@@ -88,7 +88,7 @@ function main() {
     });
 
     socket.on('conn ready', () => {
-        if(group.users.length == ++connCount) {
+        if(group.number == ++connCount) {
             socket.emit('req join', group.id);
         }
     });
