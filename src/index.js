@@ -130,7 +130,10 @@ function room(group, peers) {
         peers.set(targetId, peer);
     });
     
-    socket.on('recv answer', (answer, targetId) => {});
+    socket.on('recv answer', (answer, targetId) => {
+        peers.get(targetId).receiveAnswer(answer);
+        socket.emit('conn ready', targetId);
+    });
 
     socket.on('user join', userId => {});
     
