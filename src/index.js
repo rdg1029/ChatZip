@@ -22,9 +22,10 @@ else {
 }
 
 function main() {
-    let peers = [], connCount = 0;
+    let connCount = 0;
 
     const group = new Group();
+    const peers = new Map();
     const mainPage = new Main('main', './css/main.css');
 
     mainPage.setPage();
@@ -83,7 +84,7 @@ function main() {
         const peer = new Callee(targetId);
         peer.onIceGatheringComplete(() => socket.emit('recv answer', peer.conn.localDescription, socket.id, targetId));
         peer.createAnswer(offer);
-        peers.push(peer);
+        peers.set(targetId, peer);
     });
 
     socket.on('conn ready', () => {
@@ -126,7 +127,7 @@ function room(group, peers) {
         const peer = new Caller(targetId);
         peer.onIceGatheringComplete(() => socket.emit('req answer', peer.conn.localDescription, socket.id, targetId));
         peer.createOffer();
-        peers.push(peer);
+        peers.set(targetId, peer);
     });
     
     socket.on('recv answer', (answer, targetId) => {});
