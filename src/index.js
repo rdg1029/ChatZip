@@ -6,6 +6,7 @@ import { Room } from './pages/Room';
 
 import { socket } from './connection/Socket';
 import { Callee } from './connection/Callee';
+import { Caller } from './connection/Caller';
 
 import { Group } from './systems/Group';
 import { Chat } from './systems/Chat';
@@ -80,6 +81,7 @@ function main() {
 
     socket.on('req answer', (offer, targetId) => {
         const peer = new Callee(targetId);
+        peer.onIceGatheringComplete(() => socket.emit('recv answer', peer.conn.localDescription, socket.id, targetId));
         peer.createAnswer(offer);
         peers.push(peer);
     });
@@ -120,11 +122,16 @@ function room(group, peers) {
     chat.showChat('joined ' + group.id);
 
     /*Init socket listeners at room page*/
-    socket.on('user join', userId => {});
-    
-    socket.on('req offer', targetId => {});
+    socket.on('req offer', targetId => {
+        const peer = new Caller(targetId);
+        peer.onIceGatheringComplete(() => socket.emit('req answer', peer.conn.localDescription, socket.id, targetId));
+        peer.createOffer();
+        peers.push(peer);
+    });
     
     socket.on('recv answer', (answer, targetId) => {});
+
+    socket.on('user join', userId => {});
     
     socket.on('user quit', userId => {});
 }
