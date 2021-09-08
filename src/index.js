@@ -118,13 +118,24 @@ function room(group, peers) {
     const world = new World(roomPage.canvas);
     const controls = new Controls(world.camera, roomPage.canvas);
 
-    world.loop.updateList.push(controls);
-    world.start();
-    chat.showChat('joined ' + group.id);
-
     peers.forEach(p => {
         p.chat.onMessage(e => chat.showChat(e.data));
     });
+
+    chat.onSubmit(e => {
+        e.preventDefault();
+        if(chat.input.value == "") return;
+        const msg = socket.id + " : " + chat.input.value;
+        peers.forEach(p => {
+            p.chat.send(msg);
+        })
+        chat.showChat(msg);
+        chat.input.value = "";
+    });
+
+    world.loop.updateList.push(controls);
+    world.start();
+    chat.showChat('joined ' + group.id);
 
     /*Init socket listeners at room page*/
     socket.on('req offer', targetId => {
