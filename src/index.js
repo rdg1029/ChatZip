@@ -122,6 +122,10 @@ function room(group, peers) {
     world.start();
     chat.showChat('joined ' + group.id);
 
+    peers.forEach(p => {
+        p.chat.onMessage(e => chat.showChat(e.data));
+    });
+
     /*Init socket listeners at room page*/
     socket.on('req offer', targetId => {
         const peer = new Caller(targetId);
