@@ -13,6 +13,11 @@ class Callee extends Peer {
         this.conn.createAnswer()
             .then(answer => this.conn.setLocalDescription(answer));
     }
+    close() {
+        this.chat.close();
+        this.movement.close();
+        super.close();
+    }
 }
 
 export {Callee};
