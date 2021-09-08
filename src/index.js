@@ -130,6 +130,7 @@ function room(group, peers) {
     socket.on('req offer', targetId => {
         const peer = new Caller(targetId);
         peer.onIceGatheringComplete(() => socket.emit('req answer', peer.conn.localDescription, socket.id, targetId));
+        peer.chat.onMessage(e => chat.showChat(e.data));
         peer.createOffer();
         peers.set(targetId, peer);
     });
