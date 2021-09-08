@@ -13,6 +13,8 @@ import { Chat } from './systems/Chat';
 import { World } from './systems/World';
 import { Controls } from './systems/Controls';
 
+import { createUserModel } from './components/UserModel';
+
 const compatibilityCheckResult = compatibilityCheck();
 if (compatibilityCheckResult == 'done') {
     main();
@@ -117,9 +119,13 @@ function room(group, peers) {
     const chat = new Chat();
     const world = new World(roomPage.canvas);
     const controls = new Controls(world.camera, roomPage.canvas);
+    const userModels = new Map();
 
-    peers.forEach(p => {
-        p.chat.onMessage(e => chat.showChat(e.data));
+    peers.forEach((peer, id) => {
+        const userModel = createUserModel();
+        userModels.set(id, userModel);
+        world.scene.add(userModel);
+        peer.chat.onMessage(e => chat.showChat(e.data));
     });
 
     chat.onSubmit(e => {
