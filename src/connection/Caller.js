@@ -15,6 +15,11 @@ class Caller extends Peer {
     receiveAnswer(answer) {
         this.conn.setRemoteDescription(answer);
     }
+    close() {
+        this.chat.close();
+        this.movement.close();
+        super.close();
+    }
 }
 
 export {Caller};
