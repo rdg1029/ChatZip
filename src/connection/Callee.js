@@ -1,12 +1,19 @@
 import { Peer } from './Peer';
-import { ChatChannel } from './ChatChannel';
-import { MovementChannel } from './MovementChannel';
 
 class Callee extends Peer {
     constructor(targetId) {
         super(targetId);
-        this.chat = new ChatChannel(this.conn, 'answer', 'chat');
-        this.movement = new MovementChannel(this.conn, 'answer', 'move');
+        this.conn.ondatachannel = e => {
+            switch(e.channel.label) {
+                case 'chat':
+                    this.chat = e.channel;
+                    break;
+                case 'move':
+                    this.move = e.channel;
+                    this._initMovementChannel();
+                    break;
+            }
+        }
     }
     createAnswer(offer) {
         this.conn.setRemoteDescription(offer);
