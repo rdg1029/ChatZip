@@ -174,7 +174,21 @@ function room(group, peers) {
         world.scene.add(userModel);
     });
     
-    socket.on('user quit', userId => {});
+    socket.on('user quit', userId => {
+        userModels.get(userId).dispose();
+        peers.get(userId).close();
+        userModels.delete(userId);
+        peers.delete(userId);
+        group.removeUser(userId);
+        chat.showChat(userId + " quit");
+        
+        checkIsAlone();
+        if (group.isHost(socket.id)) {
+            socket.on('req info', targetId => {
+                socket.emit('group info', targetId, group.users);
+            });
+        }
+    });
 }
 
 function checkIsAlone(group) {
