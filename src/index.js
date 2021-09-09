@@ -165,7 +165,14 @@ function room(group, peers) {
         socket.emit('conn ready', targetId);
     });
 
-    socket.on('user join', userId => {});
+    socket.on('user join', userId => {
+        group.addUser(userId);
+        chat.showChat(userId + " joined group");
+        const userModel = createUserModel();
+        userModel.position.set(0, .5, 0);
+        userModels.set(userId, userModel);
+        world.scene.add(userModel);
+    });
     
     socket.on('user quit', userId => {});
 }
