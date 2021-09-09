@@ -121,6 +121,8 @@ function room(group, peers) {
     const controls = new Controls(world.camera, roomPage.canvas);
     const userModels = new Map();
 
+    checkIsAlone(group);
+
     peers.forEach((peer, id) => {
         const userModel = createUserModel();
         userModels.set(id, userModel);
@@ -166,6 +168,17 @@ function room(group, peers) {
     socket.on('user join', userId => {});
     
     socket.on('user quit', userId => {});
+}
+
+function checkIsAlone(group) {
+    if(group.number == 1) {
+        socket.emit('is alone', true);
+        // console.log('user alone');
+    }
+    else {
+        socket.emit('is alone', false);
+        // console.log('user not alone');
+    }
 }
 
 function removeSocketListeners(...args) {
