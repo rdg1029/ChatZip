@@ -33,7 +33,6 @@ function main() {
     mainPage.setPage();
     mainPage.createGroupButton.onclick = () => {
         group.createNewId();
-        group.addUser(socket.id);
         socket.emit('create group', group.id);
     };
     mainPage.enterGroupButton.onclick = () => {
@@ -78,11 +77,14 @@ function main() {
     });
 
     socket.on('group info', users => {
+        console.log(users);
         group.users = users;
+        group.number = users.length;
         socket.emit('req offer', group.id, socket.id);
     });
 
     socket.on('req answer', (offer, targetId) => {
+        console.log(targetId, 'requested answer');
         const peer = new Callee(targetId);
         peer.onIceGatheringComplete(() => socket.emit('recv answer', peer.conn.localDescription, socket.id, targetId));
         peer.createAnswer(offer);
@@ -90,6 +92,7 @@ function main() {
     });
 
     socket.on('conn ready', () => {
+        console.log(group.number, connCount);
         if(group.number == ++connCount) {
             socket.emit('req join', group.id);
         }
@@ -147,12 +150,15 @@ function room(group, peers) {
 
     /*Init socket listeners at room page*/
     if (group.isHost(socket.id)) {
+        console.log('You are host!');
         socket.on('req info', targetId => {
+            console.log(targetId + ' requested info');
             socket.emit('group info', targetId, group.users);
         });
     }
 
     socket.on('req offer', targetId => {
+        console.log(targetId, 'requested offer');
         const peer = new Caller(targetId);
         peer.onIceGatheringComplete(() => socket.emit('req answer', peer.conn.localDescription, socket.id, targetId));
         peer.chat.onMessage(e => chat.showChat(e.data));
