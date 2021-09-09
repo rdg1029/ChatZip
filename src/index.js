@@ -130,7 +130,7 @@ function room(group, peers) {
         const userModel = createUserModel();
         userModels.set(id, userModel);
         world.scene.add(userModel);
-        peer.chat.onMessage(e => chat.showChat(e.data));
+        peer.chat.onmessage = e => chat.showChat(e.data);
     });
 
     chat.onSubmit(e => {
@@ -161,7 +161,7 @@ function room(group, peers) {
         console.log(targetId, 'requested offer');
         const peer = new Caller(targetId);
         peer.onIceGatheringComplete(() => socket.emit('req answer', peer.conn.localDescription, socket.id, targetId));
-        peer.chat.onMessage(e => chat.showChat(e.data));
+        peer.chat.onmessage = e => chat.showChat(e.data);
         peer.createOffer();
         peers.set(targetId, peer);
     });
