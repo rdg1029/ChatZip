@@ -144,6 +144,12 @@ function room(group, peers) {
     chat.showChat('joined ' + group.id);
 
     /*Init socket listeners at room page*/
+    if (group.isHost(socket.id)) {
+        socket.on('req info', targetId => {
+            socket.emit('group info', targetId, group.users);
+        });
+    }
+
     socket.on('req offer', targetId => {
         const peer = new Caller(targetId);
         peer.onIceGatheringComplete(() => socket.emit('req answer', peer.conn.localDescription, socket.id, targetId));
