@@ -1,3 +1,5 @@
+import { Clock } from 'three/build/three.min';
+
 class Loop {
     constructor(renderer, scene, camera) {
         this.renderer = renderer;
@@ -6,9 +8,19 @@ class Loop {
         this.updateList = [];
     }
     start() {
+        const clock = new Clock();
+        const tickTime = 0.1;
+        let duration = 0;
+
         this.renderer.setAnimationLoop(() => {
             this.tick();
             this.renderer.render(this.scene, this.camera);
+            if (duration >= tickTime) {
+                console.log('tick updated');
+                duration = 0;
+                return;
+            }
+            duration += clock.getDelta();
         });
     }
     stop() {
