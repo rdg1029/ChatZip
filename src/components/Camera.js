@@ -25,6 +25,18 @@ function createCamera() {
 
         return delta;
     }
+    camera.getRotationDelta = () => {
+        const delta = new Map([
+            ['x', camera.rotation.x - camera.prevRot.get('x')],
+            ['y', camera.rotation.y - camera.prevRot.get('y')],
+            ['z', camera.rotation.z - camera.prevRot.get('z')]
+        ]);
+        camera.prevRot.set('x', camera.rotation.x);
+        camera.prevRot.set('y', camera.rotation.y);
+        camera.prevRot.set('z', camera.rotation.z);
+
+        return delta;
+    }
     return camera;
 }
 
