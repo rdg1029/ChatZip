@@ -22,18 +22,18 @@ class Controls extends PointerLockControls {
             this.lock();
         })
     }
-    tick() {
+    tick(delta) {
         if (this.key.get('w')) {
-            this.moveForward(.1);
+            this.moveForward(10 * delta);
         }
         if (this.key.get('a')) {
-            this.moveRight(-.1);
+            this.moveRight(-10 * delta);
         }
         if (this.key.get('s')) {
-            this.moveForward(-.1);
+            this.moveForward(-10 * delta);
         }
         if (this.key.get('d')) {
-            this.moveRight(.1);
+            this.moveRight(10 * delta);
         }
     }
 }
