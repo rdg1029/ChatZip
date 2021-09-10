@@ -9,7 +9,7 @@ class Callee extends Peer {
                     this.chat = e.channel;
                     break;
                 case 'move':
-                    this.move = e.channel;
+                    this.movement = e.channel;
                     break;
             }
         }
