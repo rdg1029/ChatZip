@@ -32,7 +32,7 @@ class Loop {
                 oldLoc.set('first', false);
             }
             if (duration >= tickTime) {
-                console.log(`<Speed> x: ${this.camera.position.x - oldLoc.get('posX')}/y: ${this.camera.position.y - oldLoc.get('posY')}/z: ${this.camera.position.z - oldLoc.get('posZ')}`);
+                console.log(`<Speed> x: ${this.camera.position.x - oldLoc.get('posX')} / y: ${this.camera.position.y - oldLoc.get('posY')} / z: ${this.camera.position.z - oldLoc.get('posZ')}`);
                 oldLoc.set('posX', this.camera.position.x);
                 oldLoc.set('posY', this.camera.position.y);
                 oldLoc.set('posZ', this.camera.position.z);
