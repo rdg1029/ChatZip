@@ -5,6 +5,7 @@ class Caller extends Peer {
         super(targetId);
         this.chat = this.conn.createDataChannel('chat');
         this.movement = this.conn.createDataChannel('move');
+        this.movement.binaryType = "arraybuffer";
     }
     createOffer() {
         this.conn.createOffer()
