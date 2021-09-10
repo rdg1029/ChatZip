@@ -2,13 +2,13 @@ import { Clock } from 'three/build/three.min';
 
 class Loop {
     constructor(renderer, scene, camera) {
+        this.clock = new Clock();
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
         this.updateList = [];
     }
     start() {
-        const clock = new Clock();
         const tickTime = 0.1;
         let duration = 0;
         const oldLoc = new Map([
@@ -38,15 +38,16 @@ class Loop {
                 duration = 0;
                 return;
             }
-            duration += clock.getDelta();
+            duration += this.clock.getDelta();
         });
     }
     stop() {
         this.renderer.setAnimationLoop(null);
     }
     tick() {
+        const delta = this.clock.getDelta();
         for (let i = 0, j = this.updateList.length; i < j; i++) {
-            this.updateList[i].tick();
+            this.updateList[i].tick(delta);
         }
     }
 }
