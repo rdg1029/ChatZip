@@ -8,6 +8,11 @@ function createCamera() {
         ['y', camera.position.y],
         ['z', camera.position.z]
     ]);
+    camera.prevRot = new Map([
+        ['x', camera.rotation.x],
+        ['y', camera.rotation.y],
+        ['z', camera.rotation.z]
+    ]);
     return camera;
 }
 
