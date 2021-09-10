@@ -188,7 +188,7 @@ function room(group, peers) {
         group.removeUser(userId);
         chat.showChat(userId + " quit");
         
-        checkIsAlone();
+        checkIsAlone(group);
         if (group.isHost(socket.id)) {
             socket.on('req info', targetId => {
                 socket.emit('group info', targetId, group.users);
