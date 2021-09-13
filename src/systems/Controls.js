@@ -21,7 +21,7 @@ class Controls extends PointerLockControls {
             this.lock();
         })
     }
-    tick(delta) {
+    update(delta) {
         const speed = (10 * delta).toFixed(3);
         if (this.key.get('w')) {
             this.moveForward(speed);
