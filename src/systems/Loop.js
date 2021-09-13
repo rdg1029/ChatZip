@@ -1,15 +1,11 @@
 import { Clock } from 'three/build/three.min';
 
 class Loop {
-    constructor(renderer, scene, camera) {
+    constructor(renderer, scene, camera, tick) {
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
-
         this.updateList = [];
-        this.tickList = [];
-
-        this.isStandardTick = false;
     }
     start() {
         const clock = new Clock();
@@ -20,7 +16,7 @@ class Loop {
             const delta = clock.getDelta();
             this.update(delta);
             this.renderer.render(this.scene, this.camera);
-            if (!this.isStandardTick) return;
+            if (!tick.isStandard) return;
             if (duration >= tickTime) {
                 // const cameraPosDelta = this.camera.getPositionDelta();
                 // const cameraRotDelta = this.camera.getRotationDelta();
@@ -37,11 +33,6 @@ class Loop {
     update(delta) {
         for (let i = 0, j = this.updateList.length; i < j; i++) {
             this.updateList[i].update(delta);
-        }
-    }
-    tick() {
-        for (let i = 0, j = this.tickList.length; i < j; i++) {
-            this.tickList[i].tick();
         }
     }
 }
