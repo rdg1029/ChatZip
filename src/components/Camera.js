@@ -9,9 +9,9 @@ function createCamera() {
         ['z', camera.position.z.toFixed(3)]
     ]);
     camera.prevRot = new Map([
-        ['x', camera.rotation.x],
-        ['y', camera.rotation.y],
-        ['z', camera.rotation.z]
+        ['x', camera.rotation.x.toFixed(5)],
+        ['y', camera.rotation.y.toFixed(5)],
+        ['z', camera.rotation.z.toFixed(5)]
     ]);
     camera.getPositionDelta = () => {
         const currentPosX = camera.position.x.toFixed(3);
@@ -29,14 +29,17 @@ function createCamera() {
         return delta;
     }
     camera.getRotationDelta = () => {
+        const currentRotX = camera.rotation.x.toFixed(5);
+        const currentRotY = camera.rotation.y.toFixed(5);
+        const currentRotZ = camera.rotation.z.toFixed(5);
         const delta = new Map([
-            ['x', camera.rotation.x - camera.prevRot.get('x')],
-            ['y', camera.rotation.y - camera.prevRot.get('y')],
-            ['z', camera.rotation.z - camera.prevRot.get('z')]
+            ['x', currentRotX - camera.prevRot.get('x')],
+            ['y', currentRotY - camera.prevRot.get('y')],
+            ['z', currentRotZ - camera.prevRot.get('z')]
         ]);
-        camera.prevRot.set('x', camera.rotation.x);
-        camera.prevRot.set('y', camera.rotation.y);
-        camera.prevRot.set('z', camera.rotation.z);
+        camera.prevRot.set('x', currentRotX);
+        camera.prevRot.set('y', currentRotY);
+        camera.prevRot.set('z', currentRotZ)
 
         return delta;
     }
