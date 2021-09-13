@@ -189,14 +189,21 @@ function room(group, peers) {
     });
 }
 
-function checkIsHost(group, world) {
+function checkIsHost(peers, group, world) {
     if (!group.isHost(socket.id)) return;
-    world.loop.isStandardTick = true;
-    console.log('You are host!');
+    world.tick.sendTick = () => {
+        peers.forEach(peer => {
+            peer.tick.send();
+        });
+    };
+    world.tick.isStandard = true;
+
     socket.on('req info', targetId => {
         console.log(targetId + ' requested info');
             ocket.emit('group info', targetId, group.users);
     });
+    
+    console.log('You are host!');
 }
 
 function checkIsAlone(group) {
