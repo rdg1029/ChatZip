@@ -11,6 +11,8 @@ class Callee extends Peer {
                 case 'move':
                     this.movement = e.channel;
                     break;
+                case 'tick':
+                    this.tick = e.channel;
             }
         }
     }
@@ -22,6 +24,7 @@ class Callee extends Peer {
     close() {
         this.chat.close();
         this.movement.close();
+        this.tick.close();
         super.close();
     }
 }
