@@ -18,6 +18,7 @@ class Loop {
             this.update(delta);
             this.renderer.render(this.scene, this.camera);
             if (!this.tick.isStandard) return;
+            duration += delta;
             if (duration >= tickTime) {
                 // const cameraPosDelta = this.camera.getPositionDelta();
                 // const cameraRotDelta = this.camera.getRotationDelta();
@@ -26,7 +27,6 @@ class Loop {
                 duration = 0;
                 return;
             }
-            duration += delta;
         });
     }
     stop() {
