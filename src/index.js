@@ -124,6 +124,7 @@ function room(group, peers) {
     const controls = new Controls(world.camera, roomPage.canvas);
     const userModels = new Map();    
 
+    checkIsHost(peers, group, world);
     checkIsAlone(group);
 
     peers.forEach((peer, id) => {
@@ -179,21 +180,18 @@ function room(group, peers) {
         peers.delete(userId);
         group.removeUser(userId);
         chat.showChat(userId + " quit");
-        
+
+        checkIsHost(peers, group, world);
         checkIsAlone(group);
-        if (group.isHost(socket.id)) {
-            socket.on('req info', targetId => {
-                socket.emit('group info', targetId, group.users);
-            });
-        }
     });
 }
 
 function checkIsHost(peers, group, world) {
     if (!group.isHost(socket.id)) return;
     world.tick.sendTick = () => {
+        const emptyBuf = new ArrayBuffer(1);
         peers.forEach(peer => {
-            peer.tick.send();
+            peer.tick.send(emptyBuf);
         });
     };
     world.tick.isStandard = true;
@@ -202,7 +200,7 @@ function checkIsHost(peers, group, world) {
         console.log(targetId + ' requested info');
             ocket.emit('group info', targetId, group.users);
     });
-    
+
     console.log('You are host!');
 }
 
