@@ -22,6 +22,7 @@ class Loop {
                 // const cameraPosDelta = this.camera.getPositionDelta();
                 // const cameraRotDelta = this.camera.getRotationDelta();
                 // console.log(`posX: ${cameraPosDelta.get('x')} / posY: ${cameraPosDelta.get('y')} / posZ: ${cameraPosDelta.get('z')} / rotX: ${cameraRotDelta.get('x')} / rotY: ${cameraRotDelta.get('y')} / rotZ: ${cameraRotDelta.get('z')}`);
+                this.tick.sendTick();
                 duration = 0;
                 return;
             }
