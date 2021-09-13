@@ -5,6 +5,7 @@ class Loop {
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
+        this.tick = tick;
         this.updateList = [];
     }
     start() {
@@ -16,7 +17,7 @@ class Loop {
             const delta = clock.getDelta();
             this.update(delta);
             this.renderer.render(this.scene, this.camera);
-            if (!tick.isStandard) return;
+            if (!this.tick.isStandard) return;
             if (duration >= tickTime) {
                 // const cameraPosDelta = this.camera.getPositionDelta();
                 // const cameraRotDelta = this.camera.getRotationDelta();
