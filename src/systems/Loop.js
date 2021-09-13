@@ -6,6 +6,7 @@ class Loop {
         this.scene = scene;
         this.camera = camera;
         this.updateList = [];
+        this.tickList = [];
     }
     start() {
         const clock = new Clock();
