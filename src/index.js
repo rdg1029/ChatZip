@@ -122,7 +122,7 @@ function room(group, peers) {
     const chat = new Chat();
     const world = new World(roomPage.canvas);
     const controls = new Controls(world.camera, roomPage.canvas);
-    const userModels = new Map();
+    const userModels = new Map();    
 
     checkIsAlone(group);
 
@@ -149,14 +149,6 @@ function room(group, peers) {
     chat.showChat('joined ' + group.id);
 
     /*Init socket listeners at room page*/
-    if (group.isHost(socket.id)) {
-        console.log('You are host!');
-        socket.on('req info', targetId => {
-            console.log(targetId + ' requested info');
-            socket.emit('group info', targetId, group.users);
-        });
-    }
-
     socket.on('req offer', targetId => {
         console.log(targetId, 'requested offer');
         const peer = new Caller(targetId);
@@ -194,6 +186,16 @@ function room(group, peers) {
                 socket.emit('group info', targetId, group.users);
             });
         }
+    });
+}
+
+function checkIsHost(group, world) {
+    if (!group.isHost(socket.id)) return;
+    world.loop.isStandardTick = true;
+    console.log('You are host!');
+    socket.on('req info', targetId => {
+        console.log(targetId + ' requested info');
+            ocket.emit('group info', targetId, group.users);
     });
 }
 
