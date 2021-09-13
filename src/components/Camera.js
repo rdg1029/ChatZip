@@ -18,9 +18,9 @@ function createCamera() {
         const currentPosY = parseFloat(camera.position.y.toFixed(5));
         const currentPosZ = parseFloat(camera.position.z.toFixed(3));
         const delta = new Map([
-            ['x', currentPosX - camera.prevPos.get('x')],
-            ['y', currentPosY - camera.prevPos.get('y')],
-            ['z', currentPosZ - camera.prevPos.get('z')]
+            ['x', parseFloat((currentPosX - camera.prevPos.get('x')).toFixed(3))],
+            ['y', parseFloat((currentPosY - camera.prevPos.get('y')).toFixed(5))],
+            ['z', parseFloat((currentPosZ - camera.prevPos.get('z')).toFixed(3))]
         ]);
         camera.prevPos.set('x', currentPosX);
         camera.prevPos.set('y', currentPosY);
