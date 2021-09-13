@@ -33,9 +33,9 @@ function createCamera() {
         const currentRotY = parseFloat(camera.rotation.y.toFixed(5));
         const currentRotZ = parseFloat(camera.rotation.z.toFixed(5));
         const delta = new Map([
-            ['x', currentRotX - camera.prevRot.get('x')],
-            ['y', currentRotY - camera.prevRot.get('y')],
-            ['z', currentRotZ - camera.prevRot.get('z')]
+            ['x', parseFloat((currentRotX - camera.prevRot.get('x')).toFixed(5))],
+            ['y', parseFloat((currentRotY - camera.prevRot.get('y')).toFixed(5))],
+            ['z', parseFloat((currentRotZ - camera.prevRot.get('z')).toFixed(5))]
         ]);
         camera.prevRot.set('x', currentRotX);
         camera.prevRot.set('y', currentRotY);
