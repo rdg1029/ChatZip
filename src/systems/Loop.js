@@ -5,8 +5,11 @@ class Loop {
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
+
         this.updateList = [];
         this.tickList = [];
+
+        this.isStandardTick = false;
     }
     start() {
         const clock = new Clock();
@@ -17,10 +20,11 @@ class Loop {
             const delta = clock.getDelta();
             this.update(delta);
             this.renderer.render(this.scene, this.camera);
+            if (!this.isStandardTick) return;
             if (duration >= tickTime) {
-                const cameraPosDelta = this.camera.getPositionDelta();
-                const cameraRotDelta = this.camera.getRotationDelta();
-                console.log(`posX: ${cameraPosDelta.get('x')} / posY: ${cameraPosDelta.get('y')} / posZ: ${cameraPosDelta.get('z')} / rotX: ${cameraRotDelta.get('x')} / rotY: ${cameraRotDelta.get('y')} / rotZ: ${cameraRotDelta.get('z')}`);
+                // const cameraPosDelta = this.camera.getPositionDelta();
+                // const cameraRotDelta = this.camera.getRotationDelta();
+                // console.log(`posX: ${cameraPosDelta.get('x')} / posY: ${cameraPosDelta.get('y')} / posZ: ${cameraPosDelta.get('z')} / rotX: ${cameraRotDelta.get('x')} / rotY: ${cameraRotDelta.get('y')} / rotZ: ${cameraRotDelta.get('z')}`);
                 duration = 0;
                 return;
             }
