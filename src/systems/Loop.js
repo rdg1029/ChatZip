@@ -15,7 +15,7 @@ class Loop {
 
         this.renderer.setAnimationLoop(() => {
             const delta = clock.getDelta();
-            this.tick(delta);
+            this.update(delta);
             this.renderer.render(this.scene, this.camera);
             if (duration >= tickTime) {
                 const cameraPosDelta = this.camera.getPositionDelta();
@@ -30,9 +30,14 @@ class Loop {
     stop() {
         this.renderer.setAnimationLoop(null);
     }
-    tick(delta) {
+    update(delta) {
         for (let i = 0, j = this.updateList.length; i < j; i++) {
-            this.updateList[i].tick(delta);
+            this.updateList[i].update(delta);
+        }
+    }
+    tick() {
+        for (let i = 0, j = this.tickList.length; i < j; i++) {
+            this.tickList[i].tick();
         }
     }
 }
