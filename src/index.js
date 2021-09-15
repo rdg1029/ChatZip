@@ -128,6 +128,10 @@ function room(group, peers) {
     checkIsAlone(group);
 
     peers.forEach((peer, id) => {
+        peer.chat.onmessage = e => chat.showChat(e.data);
+        peer.movement.onmessage = e => {
+            
+        }
         addUserModel(world, id, userModels);
     });
 
