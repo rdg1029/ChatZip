@@ -150,7 +150,9 @@ function room(group, peers) {
             speedArray[3] = rotDelta.get('x');
             speedArray[4] = rotDelta.get('y');
             speedArray[5] = rotDelta.get('z');
-            peer.movement.send(speedBuffer);
+            peers.forEach(p => {
+                p.movement.send(speedBuffer);
+            });
         }
         addUserModel(world, id, userModels);
     });
