@@ -128,10 +128,7 @@ function room(group, peers) {
     checkIsAlone(group);
 
     peers.forEach((peer, id) => {
-        const userModel = createUserModel();
-        userModels.set(id, userModel);
-        world.scene.add(userModel);
-        peer.chat.onmessage = e => chat.showChat(e.data);
+        addUserModel(world, id, userModels);
     });
 
     chat.onSubmit(e => {
@@ -167,10 +164,7 @@ function room(group, peers) {
     socket.on('user join', userId => {
         group.addUser(userId);
         chat.showChat(userId + " joined group");
-        const userModel = createUserModel();
-        userModel.position.set(0, .5, 0);
-        userModels.set(userId, userModel);
-        world.scene.add(userModel);
+        addUserModel(world, userId, userModels);
     });
     
     socket.on('user quit', userId => {
@@ -202,6 +196,12 @@ function checkIsHost(peers, group, world) {
     });
 
     console.log('You are host!');
+}
+
+function addUserModel(world, id, userModels) {
+    const userModel = createUserModel();
+    userModels.set(id, userModel);
+    world.scene.add(userModel);
 }
 
 function checkIsAlone(group) {
