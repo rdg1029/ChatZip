@@ -130,7 +130,27 @@ function room(group, peers) {
     peers.forEach((peer, id) => {
         peer.chat.onmessage = e => chat.showChat(e.data);
         peer.movement.onmessage = e => {
-            
+            const speed = new Float32Array(e.data);
+            const userSpeed = userModels.get(id).speed;
+            userSpeed.set('posX', speed[0]);
+            userSpeed.set('posY', speed[1]);
+            userSpeed.set('posZ', speed[2]);
+            userSpeed.set('rotX', speed[3]);
+            userSpeed.set('rotY', speed[4]);
+            userSpeed.set('rotZ', speed[5]);
+        }
+        peer.tick.onmessage = e => {
+            const speedBuffer = new ArrayBuffer(24);
+            const speedArray = new Float32Array(speedBuffer);
+            const posDelta = world.camera.getPositionDelta();
+            const rotDelta = world.camera.getRotationDelta();
+            speedArray[0] = posDelta.get('x');
+            speedArray[1] = posDelta.get('y');
+            speedArray[2] = posDelta.get('z');
+            speedArray[3] = rotDelta.get('x');
+            speedArray[4] = rotDelta.get('y');
+            speedArray[5] = rotDelta.get('z');
+            peer.movement.send(speedBuffer);
         }
         addUserModel(world, id, userModels);
     });
@@ -205,6 +225,7 @@ function checkIsHost(peers, group, world) {
 function addUserModel(world, id, userModels) {
     const userModel = createUserModel();
     userModels.set(id, userModel);
+    world.loop.updateList.push(userModel);
     world.scene.add(userModel);
 }
 
