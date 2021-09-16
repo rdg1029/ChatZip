@@ -218,7 +218,7 @@ function checkIsHost(peers, group, world) {
 
     socket.on('req info', targetId => {
         console.log(targetId + ' requested info');
-            ocket.emit('group info', targetId, group.users);
+            socket.emit('group info', targetId, group.users);
     });
 
     console.log('You are host!');

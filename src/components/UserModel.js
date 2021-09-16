@@ -16,12 +16,12 @@ function createUserModel() {
 
     userMesh.update = delta => {
         const defaultSpeed = 10 * delta;
-        userMesh.position.x += (defaultSpeed * speed.get('posX')).toFixed(3);
-        userMesh.position.y += (defaultSpeed * speed.get('posY')).toFixed(5);
-        userMesh.position.z += (defaultSpeed * speed.get('posZ')).toFixed(3);
-        userMesh.rotation.x += (defaultSpeed * speed.get('rotX')).toFixed(5);
-        userMesh.rotation.y += (defaultSpeed * speed.get('rotY')).toFixed(5);
-        userMesh.rotation.z += (defaultSpeed * speed.get('rotZ')).toFixed(5);
+        userMesh.position.x += (defaultSpeed * userMesh.speed.get('posX')).toFixed(3);
+        userMesh.position.y += (defaultSpeed * userMesh.speed.get('posY')).toFixed(5);
+        userMesh.position.z += (defaultSpeed * userMesh.speed.get('posZ')).toFixed(3);
+        userMesh.rotation.x += (defaultSpeed * userMesh.speed.get('rotX')).toFixed(5);
+        userMesh.rotation.y += (defaultSpeed * userMesh.speed.get('rotY')).toFixed(5);
+        userMesh.rotation.z += (defaultSpeed * userMesh.speed.get('rotZ')).toFixed(5);
     }
 
     userMesh.dispose = () => {
