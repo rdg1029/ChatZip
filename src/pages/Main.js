@@ -1,8 +1,12 @@
-import {Page} from './Page.js';
+import { socket } from '../connection/Socket.js';
+
+import { Page } from './Page.js';
+import { Group } from '../systems/Group';
 
 class Main extends Page {
     constructor(divID, css) {
         super(divID, css);
+        this.group = new Group();
         this.html = `
             <div id="main">
                 <h1>찻집</h1>
@@ -27,19 +31,103 @@ class Main extends Page {
     setPage() {
         super.setPage(this.html);
 
-        this.mainSignage = document.getElementById('contents-main');
-        this.openStatus = document.getElementById('open-status');
-        this.createGroupButton = document.getElementById('create-group');
-        this.enterGroupButton = document.getElementById('enter-group');
+        const offers = new Map();
 
-        this.enterSignage = document.getElementById('contents-enter');
-        this.typeGroupId = document.getElementById('type-group-id');
-        this.enterButton = document.getElementById('enter');
-        this.backButton = document.getElementById('back');
+        const mainSignage = document.getElementById('contents-main');
+        const openStatus = document.getElementById('open-status');
+        const createGroupButton = document.getElementById('create-group');
+        const enterGroupButton = document.getElementById('enter-group');
 
-        this.createGroupButton.disabled = true;
-        this.enterGroupButton.disabled = true;
-        this.enterSignage.style.display = 'none';
+        const enterSignage = document.getElementById('contents-enter');
+        const typeGroupId = document.getElementById('type-group-id');
+        const enterButton = document.getElementById('enter');
+        const backButton = document.getElementById('back');
+
+        createGroupButton.disabled = true;
+        enterGroupButton.disabled = true;
+        enterSignage.style.display = 'none';
+
+        createGroupButton.onclick = () => {
+            this.group.createNewId();
+            socket.emit('create group', this.group.id);
+        };
+        enterGroupButton.onclick = () => {
+            mainSignage.style.display = 'none';
+            enterSignage.style.display = 'block';
+        };
+        enterButton.onclick = () => {
+            if (typeGroupId.value == '') {
+                window.alert("방 아이디를 입력해주세요");
+                return;
+            }
+            socket.emit('find group', typeGroupId.value);
+        };
+        backButton.onclick = () => {
+            enterSignage.style.display = 'none';
+            mainSignage.style.display = 'block';
+        };
+
+        /*Init socket listeners at main page*/
+        socket.on('open', () => {
+            openStatus.innerHTML = "OPEN<br>(준비중)";
+            createGroupButton.disabled = false;
+            enterGroupButton.disabled = false;
+        });
+
+        socket.on('group found', groupId => {
+            this.group.id = groupId;
+            socket.emit('req info', groupId, socket.id);
+        });
+    
+        socket.on('group not found', () => {
+            window.alert('방을 찾을 수 없습니다');
+        });
+
+        socket.on('group info', users => {
+            this.group.users = users;
+            this.group.number = users.length;
+
+            typeGroupId.remove();
+            enterButton.remove();
+            backButton.remove();
+
+            const connMsg = document.createElement('p');
+            connMsg.innerHTML = '연결 중...';
+            enterSignage.appendChild(connMsg);
+
+            socket.emit('req offer', this.group.id, socket.id);
+        });
+
+        socket.on('req answer', (offer, targetId) => {
+            console.log(targetId, 'requested answer');
+            offers.set(targetId, offer);
+            if (this.group.number !== offers.size) return;
+            // Try to connect
+        });
+/*
+        socket.on('conn ready', () => {
+            console.log(this.group.number, connCount);
+            if (this.group.number == ++connCount) {
+                socket.emit('req join', this.group.id);
+            }
+        });
+
+        socket.on('join group', () => {
+            removeSocketListeners(
+                'open',
+                'group found',
+                'group not found',
+                'group info',
+                'req answer',
+                'conn ready',
+                'join group'
+            );
+            this.group.addUser(socket.id);
+            super.removePage();
+
+            room(group, peers);
+        });
+*/
     }
 }
 
