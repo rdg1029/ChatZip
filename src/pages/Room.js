@@ -1,3 +1,5 @@
+import { socket } from '../connection/Socket.js';
+
 import {Page} from './Page.js';
 
 class Room extends Page {
@@ -17,8 +19,11 @@ class Room extends Page {
     }
     setPage() {
         super.setPage(this.html);
-
         this.canvas = document.getElementById('c');
+        
+        this.chatMessages = document.getElementById('messages');
+        this.chatForm = document.getElementById('form');
+        this.chatInput = document.getElementById('input');
     }
 }
 
