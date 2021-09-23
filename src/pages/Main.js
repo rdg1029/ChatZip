@@ -101,17 +101,9 @@ class Main extends Page {
             console.log(targetId, 'requested answer');
             this.offers.set(targetId, offer);
             if (this.group.number !== this.offers.size) return;
-            const event = new CustomEvent('gotoroom');
-            document.body.dispatchEvent(event);
+            socket.emit('req join', this.group.id);
         });
 /*
-        socket.on('conn ready', () => {
-            console.log(this.group.number, connCount);
-            if (this.group.number == ++connCount) {
-                socket.emit('req join', this.group.id);
-            }
-        });
-
         socket.on('join group', () => {
             removeSocketListeners(
                 'open',
