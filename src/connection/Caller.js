@@ -1,14 +1,22 @@
+import { socket } from '../connection/Socket.js';
 import { Peer } from './Peer';
 
 class Caller extends Peer {
-    constructor(targetId) {
-        super(targetId);
+    constructor(targetId, chatComponent, userModel) {
+        super(targetId, chatComponent, userModel);
+
+        this.conn.onicegatheringstatechange = e => {
+            console.log('ice gathering...');
+            if (e.target.iceGatheringState !== 'complete') return;
+            console.log('ice gathering complete!');
+            socket.emit('req answer', this.conn.localDescription, socket.id, targetId);
+        }
+        
         this.chat = this.conn.createDataChannel('chat');
         this.movement = this.conn.createDataChannel('move');
-        this.tick = this.conn.createDataChannel('tick');
-
         this.movement.binaryType = "arraybuffer";
-        this.tick.binaryType = "arraybuffer";
+
+        super.setDataChannelOnMessage(this);
     }
     createOffer() {
         this.conn.createOffer()
