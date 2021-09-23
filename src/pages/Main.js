@@ -103,23 +103,6 @@ class Main extends Page {
             if (this.group.number !== this.offers.size) return;
             socket.emit('req join', this.group.id);
         });
-/*
-        socket.on('join group', () => {
-            removeSocketListeners(
-                'open',
-                'group found',
-                'group not found',
-                'group info',
-                'req answer',
-                'conn ready',
-                'join group'
-            );
-            this.group.addUser(socket.id);
-            super.removePage();
-
-            room(group, peers);
-        });
-*/
     }
 }
 
