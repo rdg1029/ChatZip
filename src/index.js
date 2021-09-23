@@ -5,7 +5,6 @@ import { Main } from './pages/Main';
 import { Room } from './pages/Room';
 
 import { socket } from './connection/Socket';
-import { Callee } from './connection/Callee';
 import { Caller } from './connection/Caller';
 
 import { Group } from './systems/Group';
@@ -24,94 +23,11 @@ else {
 }
 
 function main() {
-    let connCount = 0;
-
-    const group = new Group();
-    const peers = new Map();
     const mainPage = new Main('main', './css/main.css');
-
     mainPage.setPage();
-    mainPage.createGroupButton.onclick = () => {
-        group.createNewId();
-        socket.emit('create group', group.id);
-    };
-    mainPage.enterGroupButton.onclick = () => {
-        mainPage.mainSignage.style.display = 'none';
-        mainPage.enterSignage.style.display = 'block';
-    };
-    mainPage.enterButton.onclick = () => {
-        if (mainPage.typeGroupId.value == '') {
-            window.alert("방 아이디를 입력해주세요");
-            return;
-        }
-        socket.emit('find group', mainPage.typeGroupId.value);
-    };
-    mainPage.backButton.onclick = () => {
-        mainPage.enterSignage.style.display = 'none';
-        mainPage.mainSignage.style.display = 'block';
-    };
-
-    /*Init socket listeners at main page*/
-    socket.on('open', () => {
-        mainPage.openStatus.innerHTML = "OPEN<br>(준비중)";
-        mainPage.createGroupButton.disabled = false;
-        mainPage.enterGroupButton.disabled = false;
-    });
-
-    socket.on('group found', groupId => {
-        group.id = groupId;
-
-        mainPage.typeGroupId.remove();
-        mainPage.enterButton.remove();
-        mainPage.backButton.remove();
-
-        const connMsg = document.createElement('p');
-        connMsg.innerHTML = '연결 중...';
-        mainPage.enterSignage.appendChild(connMsg);
-
-        socket.emit('req info', groupId, socket.id);
-    });
-    
-    socket.on('group not found', () => {
-        window.alert('방을 찾을 수 없습니다');
-    });
-
-    socket.on('group info', users => {
-        console.log(users);
-        group.users = users;
-        group.number = users.length;
-        socket.emit('req offer', group.id, socket.id);
-    });
-
-    socket.on('req answer', (offer, targetId) => {
-        console.log(targetId, 'requested answer');
-        const peer = new Callee(targetId);
-        peer.onIceGatheringComplete(() => socket.emit('recv answer', peer.conn.localDescription, socket.id, targetId));
-        peer.createAnswer(offer);
-        peers.set(targetId, peer);
-    });
-
-    socket.on('conn ready', () => {
-        console.log(group.number, connCount);
-        if(group.number == ++connCount) {
-            socket.emit('req join', group.id);
-        }
-    });
-
-    socket.on('join group', () => {
-        removeSocketListeners(
-            'open',
-            'group found',
-            'group not found',
-            'group info',
-            'req answer',
-            'conn ready',
-            'join group'
-        );
-        group.addUser(socket.id);
+    document.body.addEventListener('gotoroom', () => {
         mainPage.removePage();
-
-        room(group, peers);
+        room(mainPage.group, mainPage.offers);
     });
 }
 
