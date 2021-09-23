@@ -7,6 +7,7 @@ class Main extends Page {
     constructor(divID, css) {
         super(divID, css);
         this.group = new Group();
+        this.offers = new Map();
         this.html = `
             <div id="main">
                 <h1>찻집</h1>
@@ -30,8 +31,6 @@ class Main extends Page {
     }
     setPage() {
         super.setPage(this.html);
-
-        const offers = new Map();
 
         const mainSignage = document.getElementById('contents-main');
         const openStatus = document.getElementById('open-status');
@@ -100,9 +99,10 @@ class Main extends Page {
 
         socket.on('req answer', (offer, targetId) => {
             console.log(targetId, 'requested answer');
-            offers.set(targetId, offer);
-            if (this.group.number !== offers.size) return;
-            // Try to connect
+            this.offers.set(targetId, offer);
+            if (this.group.number !== this.offers.size) return;
+            const event = new CustomEvent('gotoroom');
+            document.body.dispatchEvent(event);
         });
 /*
         socket.on('conn ready', () => {
