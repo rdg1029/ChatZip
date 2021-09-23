@@ -25,7 +25,16 @@ else {
 function main() {
     const mainPage = new Main('main', './css/main.css');
     mainPage.setPage();
-    document.body.addEventListener('gotoroom', () => {
+    socket.on('join group', () => {
+        removeSocketListeners(
+            'open',
+            'group found',
+            'group not found',
+            'group info',
+            'req answer',
+            'conn ready',
+            'join group'
+        );
         mainPage.removePage();
         room(mainPage.group, mainPage.offers);
     });
