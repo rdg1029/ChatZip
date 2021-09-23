@@ -1,8 +1,8 @@
 class Chat {
-    constructor() {
-        this.form = document.getElementById('form');
-        this.input = document.getElementById('input');
-        this.messages = document.getElementById('messages');
+    constructor(room) {
+        this.messages = room.chatMessages;
+        this.form = room.chatForm;
+        this.input = room.chatInput;
     }
     onSubmit(eventListener) {
         this.form.addEventListener('submit', eventListener);
