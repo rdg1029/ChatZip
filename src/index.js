@@ -31,10 +31,9 @@ function main() {
             'group found',
             'group not found',
             'group info',
-            'req answer',
-            'conn ready',
-            'join group'
+            'req answer'
         );
+        mainPage.group.addUser(socket.id);
         mainPage.removePage();
         room(mainPage.group, mainPage.offers);
     });
