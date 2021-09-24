@@ -32,7 +32,6 @@ class Callee extends Peer {
     close() {
         this.chat.close();
         this.movement.close();
-        this.tick.close();
         super.close();
     }
 }
