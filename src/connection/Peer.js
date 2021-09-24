@@ -26,6 +26,7 @@ class Peer {
         }
     }
     close() {
+        this.userModel.dispose();
         this.conn.close();
     }
 }
