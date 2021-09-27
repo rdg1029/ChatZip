@@ -6,6 +6,7 @@ import { Room } from './pages/Room';
 
 import { socket } from './connection/Socket';
 import { Caller } from './connection/Caller';
+import { Callee } from './connection/Callee';
 
 import { Group } from './systems/Group';
 import { Chat } from './systems/Chat';
