@@ -18,7 +18,6 @@ class Loop {
             const delta = clock.getDelta();
             this.update(delta);
             this.renderer.render(this.scene, this.camera);
-            if (!this.tick.isStandard) return;
             duration += delta;
             if (duration < tickTime) return;
             this.tick.update();
