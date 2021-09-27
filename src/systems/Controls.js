@@ -3,6 +3,7 @@ import { PointerLockControls } from "three/examples/jsm/controls/PointerLockCont
 class Controls extends PointerLockControls {
     constructor(camera, canvas) {
         super(camera, canvas);
+        this.isMove = false;
         this.key = new Map([
             ['w', false],
             ['a', false],
@@ -12,10 +13,14 @@ class Controls extends PointerLockControls {
         document.addEventListener('keydown', e => {
             if (!this.key.has(e.key)) return;
             this.key.set(e.key, true);
+            if (this.isMove) return;
+            this.isMove = true;
         });
         document.addEventListener('keyup', e => {
             if (!this.key.has(e.key)) return;
             this.key.set(e.key, false);
+            if (!this.isMove) return;
+            this.isMove = false;
         });
         canvas.addEventListener('click', () => {
             this.lock();
