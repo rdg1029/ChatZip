@@ -20,9 +20,9 @@ class Camera extends PerspectiveCamera {
             this.position.z
         ];
         const delta = [
-            (currentPos[0] - prevPos[0]).toFixed(3),
-            (currentPos[1] - prevPos[1]).toFixed(5),
-            (currentPos[2] - prevPos[2]).toFixed(3)
+            (currentPos[0] - this.prevPos[0]).toFixed(3),
+            (currentPos[1] - this.prevPos[1]).toFixed(5),
+            (currentPos[2] - this.prevPos[2]).toFixed(3)
         ];
         this.prevPos = [
             this.position.x,
@@ -37,8 +37,8 @@ class Camera extends PerspectiveCamera {
             this.rotation.y
         ];
         const delta = [
-            (currentRot[0] - prevRot[0]).toFixed(5),
-            (currentRot[1] - prevRot[1]).toFixed(5)
+            (currentRot[0] - this.prevRot[0]).toFixed(5),
+            (currentRot[1] - this.prevRot[1]).toFixed(5)
         ];
         this.prevRot = [
             this.rotation.x,
