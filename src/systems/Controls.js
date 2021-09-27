@@ -47,6 +47,11 @@ class Controls extends PointerLockControls {
             this.moveRight(speed);
         }
     }
+    tick() {
+        const posSpeed = this.camera.getPositionDelta();
+        const rotSpeed = this.camera.getRotationDelta();
+        console.log(`Px:${posSpeed[0]} / Py:${posSpeed[1]} / Pz:${posSpeed[2]} / Rx:${rotSpeed[0]} / Ry:${rotSpeed[1]}`);
+    }
 }
 
 export {Controls};
