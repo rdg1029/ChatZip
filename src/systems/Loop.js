@@ -1,11 +1,12 @@
 import { Clock } from 'three/build/three.min';
+import { Tick } from './Tick';
 
 class Loop {
     constructor(renderer, scene, camera, tick) {
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
-        this.tick = tick;
+        this.tick = new Tick();
         this.updateList = [];
     }
     start() {
@@ -19,14 +20,9 @@ class Loop {
             this.renderer.render(this.scene, this.camera);
             if (!this.tick.isStandard) return;
             duration += delta;
-            if (duration >= tickTime) {
-                // const cameraPosDelta = this.camera.getPositionDelta();
-                // const cameraRotDelta = this.camera.getRotationDelta();
-                // console.log(`posX: ${cameraPosDelta.get('x')} / posY: ${cameraPosDelta.get('y')} / posZ: ${cameraPosDelta.get('z')} / rotX: ${cameraRotDelta.get('x')} / rotY: ${cameraRotDelta.get('y')} / rotZ: ${cameraRotDelta.get('z')}`);
-                this.tick.sendTick();
-                duration = 0;
-                return;
-            }
+            if (duration < tickTime) return;
+            this.tick.update();
+            duration = 0;
         });
     }
     stop() {
