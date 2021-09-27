@@ -1,5 +1,4 @@
 import { createRenderer } from './Renderer';
-import { Tick } from './Tick';
 import { Loop } from './Loop';
 
 import { createScene } from '../components/Scene';
@@ -12,8 +11,7 @@ class World {
         this.renderer = createRenderer(canvas);
         this.scene = createScene();
         this.camera = createCamera();
-        this.tick = new Tick();
-        this.loop = new Loop(this.renderer, this.scene, this.camera, this.tick);
+        this.loop = new Loop(this.renderer, this.scene, this.camera);
 
         this.renderer.setSize(640, 360, false);
         window.addEventListener('resize', () => {
