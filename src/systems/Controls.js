@@ -5,24 +5,28 @@ class Controls extends PointerLockControls {
         super(camera, canvas);
         this.camera = camera;
         this.peers = peers;
-        this.isMove = false;
+        this.isMouseMove = false;
+        this.isKeyDown = false;
         this.key = new Map([
             ['w', false],
             ['a', false],
             ['s', false],
             ['d', false]
         ]);
+        this.addEventListener('change', e => {
+            this.isMouseMove = true;
+        });
         document.addEventListener('keydown', e => {
             if (!this.key.has(e.key)) return;
             this.key.set(e.key, true);
-            if (this.isMove) return;
-            this.isMove = true;
+            if (this.isKeyDown) return;
+            this.isKeyDown = true;
         });
         document.addEventListener('keyup', e => {
             if (!this.key.has(e.key)) return;
             this.key.set(e.key, false);
-            if (!this.isMove) return;
-            this.isMove = false;
+            if (!this.isKeyDown) return;
+            this.isKeyDown = false;
         });
         canvas.addEventListener('click', () => {
             this.lock();
