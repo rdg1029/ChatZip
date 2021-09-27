@@ -63,6 +63,7 @@ function room(group, offers) {
     checkIsHost(group);
     checkIsAlone(group);
 
+    world.loop.updateList.push(controls);
     world.loop.tick.list.push(controls);
     world.start();
     chat.showChat('joined ' + group.id);
