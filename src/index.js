@@ -25,7 +25,7 @@ else {
 function main() {
     const mainPage = new Main('main', './css/main.css');
     mainPage.setPage();
-    socket.on('join group', () => {
+    socket.on('join group', groupId => {
         removeSocketListeners(
             'open',
             'group found',
@@ -33,6 +33,7 @@ function main() {
             'group info',
             'req answer'
         );
+        mainPage.group.id = groupId;
         mainPage.group.addUser(socket.id);
         mainPage.removePage();
         room(mainPage.group, mainPage.offers);
