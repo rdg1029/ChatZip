@@ -1,8 +1,10 @@
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
 
 class Controls extends PointerLockControls {
-    constructor(camera, canvas) {
+    constructor(camera, canvas, peers) {
         super(camera, canvas);
+        this.camera = camera;
+        this.peers = peers;
         this.isMove = false;
         this.key = new Map([
             ['w', false],
