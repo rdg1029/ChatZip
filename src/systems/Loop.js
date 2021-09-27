@@ -2,7 +2,7 @@ import { Clock } from 'three/build/three.min';
 import { Tick } from './Tick';
 
 class Loop {
-    constructor(renderer, scene, camera, tick) {
+    constructor(renderer, scene, camera) {
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
