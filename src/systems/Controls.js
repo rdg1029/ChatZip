@@ -49,10 +49,26 @@ class Controls extends PointerLockControls {
     }
     tick() {
         if (!this.isMouseMove && !this.isKeyDown) return;
+
+        const speedBuffer = new ArrayBuffer(20);
+        const speedArray = new Float32Array(speedBuffer);
+
         const posSpeed = this.camera.getPositionDelta();
         const rotSpeed = this.camera.getRotationDelta();
-        console.log(`Px:${posSpeed[0]} / Py:${posSpeed[1]} / Pz:${posSpeed[2]} / Rx:${rotSpeed[0]} / Ry:${rotSpeed[1]}`);
 
+        speedArray[0] = posSpeed[0];
+        speedArray[1] = posSpeed[1];
+        speedArray[2] = posSpeed[2];
+        speedArray[3] = rotSpeed[0];
+        speedArray[4] = rotSpeed[1];
+        
+        console.log(speedArray);
+        /*
+        const peers = Array.from(this.peers.values());
+        for (let i = 0, j = peers.length; i < j; i++) {
+            peers[i].movement.send(speedBuffer);
+        }
+        */
         if (rotSpeed[0] == 0 && rotSpeed[1] == 0) {
             this.isMouseMove = false;
         }
