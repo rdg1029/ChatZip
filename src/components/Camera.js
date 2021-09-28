@@ -3,6 +3,7 @@ import { PerspectiveCamera } from "three/build/three.min";
 class Camera extends PerspectiveCamera {
     constructor(fov, aspect, near, far) {
         super(fov, aspect, near, far);
+        this.position.set(0, 0.5, 0);
         this.getCurrentPos = () => {
             return [
                 this.position.x.toFixed(3),
