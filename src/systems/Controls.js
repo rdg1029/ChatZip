@@ -48,9 +48,14 @@ class Controls extends PointerLockControls {
         }
     }
     tick() {
+        if (!this.isMouseMove && !this.isKeyDown) return;
         const posSpeed = this.camera.getPositionDelta();
         const rotSpeed = this.camera.getRotationDelta();
         console.log(`Px:${posSpeed[0]} / Py:${posSpeed[1]} / Pz:${posSpeed[2]} / Rx:${rotSpeed[0]} / Ry:${rotSpeed[1]}`);
+
+        if (rotSpeed[0] == 0 && rotSpeed[1] == 0) {
+            this.isMouseMove = false;
+        }
     }
 }
 
