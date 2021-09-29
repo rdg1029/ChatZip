@@ -1,5 +1,10 @@
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
 
+const movementBuffer = new ArrayBuffer(20);
+const movementArray = new Float32Array(movementBuffer);
+
+let _prevRot = [0, 0];
+
 class Controls extends PointerLockControls {
     constructor(camera, canvas, peers) {
         super(camera, canvas);
@@ -14,6 +19,10 @@ class Controls extends PointerLockControls {
             ['d', false]
         ]);
         this.addEventListener('change', e => {
+            if (e.movementX == 0 && e.movementY == 0) {
+                this.isMouseMove = false;
+                return;
+            }
             this.isMouseMove = true;
         });
         document.addEventListener('keydown', e => {
@@ -50,28 +59,29 @@ class Controls extends PointerLockControls {
     tick() {
         if (!this.isMouseMove && !this.isKeyDown) return;
 
-        const speedBuffer = new ArrayBuffer(20);
-        const speedArray = new Float32Array(speedBuffer);
+        const pos = this.camera.getPosition();
+        const rot = this.camera.getRotation();
 
-        const posSpeed = this.camera.getPositionDelta();
-        const rotSpeed = this.camera.getRotationDelta();
-
-        speedArray[0] = posSpeed[0];
-        speedArray[1] = posSpeed[1];
-        speedArray[2] = posSpeed[2];
-        speedArray[3] = rotSpeed[0];
-        speedArray[4] = rotSpeed[1];
+        movementArray[0] = pos[0];
+        movementArray[1] = pos[1];
+        movementArray[2] = pos[2];
+        movementArray[3] = rot[0];
+        movementArray[4] = rot[1];
         
-        console.log(speedArray);
+        console.log(movementArray);
         /*
         const peers = Array.from(this.peers.values());
         for (let i = 0, j = peers.length; i < j; i++) {
             peers[i].movement.send(speedBuffer);
         }
-        */
-        if (rotSpeed[0] == 0 && rotSpeed[1] == 0) {
+        
+        if (rot[0] == _prevRot[0] && rot[1] == _prevRot[1]) {
             this.isMouseMove = false;
         }
+        else {
+            _prevRot = rot;
+        }
+        */
     }
 }
 
