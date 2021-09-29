@@ -18,13 +18,7 @@ class Controls extends PointerLockControls {
             ['s', false],
             ['d', false]
         ]);
-        this.addEventListener('change', e => {
-            if (e.movementX == 0 && e.movementY == 0) {
-                this.isMouseMove = false;
-                return;
-            }
-            this.isMouseMove = true;
-        });
+        this.addEventListener('change', e => this.isMouseMove = true);
         document.addEventListener('keydown', e => {
             if (!this.key.has(e.key)) return;
             this.key.set(e.key, true);
@@ -74,14 +68,13 @@ class Controls extends PointerLockControls {
         for (let i = 0, j = peers.length; i < j; i++) {
             peers[i].movement.send(speedBuffer);
         }
-        
+        */
         if (rot[0] == _prevRot[0] && rot[1] == _prevRot[1]) {
             this.isMouseMove = false;
         }
         else {
             _prevRot = rot;
         }
-        */
     }
 }
 
