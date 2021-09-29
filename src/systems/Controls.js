@@ -62,13 +62,13 @@ class Controls extends PointerLockControls {
         movementArray[3] = rot[0];
         movementArray[4] = rot[1];
         
-        console.log(movementArray);
-        /*
+        // console.log(movementArray);
+        
         const peers = Array.from(this.peers.values());
         for (let i = 0, j = peers.length; i < j; i++) {
-            peers[i].movement.send(speedBuffer);
+            peers[i].movement.send(movementBuffer);
         }
-        */
+        
         if (rot[0] == _prevRot[0] && rot[1] == _prevRot[1]) {
             this.isMouseMove = false;
         }
