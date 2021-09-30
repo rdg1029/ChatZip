@@ -1,6 +1,6 @@
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
 
-const movementBuffer = new ArrayBuffer(20);
+const movementBuffer = new ArrayBuffer(28);
 const movementArray = new Float32Array(movementBuffer);
 
 let _prevRot = [0, 0];
@@ -54,26 +54,28 @@ class Controls extends PointerLockControls {
         if (!this.isMouseMove && !this.isKeyDown) return;
 
         const pos = this.camera.getPosition();
-        const rot = this.camera.getRotation();
+        const qt = this.camera.getQuaternion();
 
         movementArray[0] = pos[0];
         movementArray[1] = pos[1];
         movementArray[2] = pos[2];
-        movementArray[3] = rot[0];
-        movementArray[4] = rot[1];
+        movementArray[3] = qt[0];
+        movementArray[4] = qt[1];
+        movementArray[5] = qt[2];
+        movementArray[6] = qt[3];
         
         // console.log(movementArray);
-        
+
         const peers = Array.from(this.peers.values());
         for (let i = 0, j = peers.length; i < j; i++) {
             peers[i].movement.send(movementBuffer);
         }
-        
-        if (rot[0] == _prevRot[0] && rot[1] == _prevRot[1]) {
+
+        if (qt[0] == _prevRot[0] && qt[1] == _prevRot[1]) {
             this.isMouseMove = false;
         }
         else {
-            _prevRot = rot;
+            _prevRot = qt;
         }
     }
 }
