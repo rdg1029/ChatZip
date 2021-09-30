@@ -16,7 +16,8 @@ class Caller extends Peer {
         this.movement = this.conn.createDataChannel('move');
         this.movement.binaryType = "arraybuffer";
 
-        super.setDataChannelOnMessage(this);
+        this.chat.onmessage = e => chatComponent.showChat(e.data);
+        this.movement.onmessage = e => userModel.updateMovement(e.data);
     }
     createOffer() {
         this.conn.createOffer()
