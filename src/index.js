@@ -13,7 +13,7 @@ import { Chat } from './systems/Chat';
 import { World } from './systems/World';
 import { Controls } from './systems/Controls';
 
-import { createUserModel } from './components/UserModel';
+import { UserModel } from './components/UserModel';
 
 const compatibilityCheckResult = compatibilityCheck();
 if (compatibilityCheckResult == 'done') {
@@ -48,10 +48,10 @@ function room(group, offers) {
     const peers = new Map();
     const chat = new Chat(roomPage, peers);
     const world = new World(roomPage.canvas);
-    const controls = new Controls(world.camera, roomPage.canvas);
+    const controls = new Controls(world.camera, roomPage.canvas, peers);
 
     offers.forEach((offer, id) => {
-        const userModel = createUserModel();
+        const userModel = new UserModel()
         const peer = new Callee(id, chat, userModel);
         peer.createAnswer(offer);
         peers.set(id, peer);
@@ -71,7 +71,7 @@ function room(group, offers) {
     /*Init socket listeners at room page*/
     socket.on('req offer', targetId => {
         console.log(targetId, 'requested offer');
-        const userModel = createUserModel();
+        const userModel = new UserModel();
         const peer = new Caller(targetId, chat, userModel);
         peer.createOffer();
         peers.set(targetId, peer);
