@@ -16,12 +16,13 @@ class Callee extends Peer {
             switch(e.channel.label) {
                 case 'chat':
                     this.chat = e.channel;
+                    this.chat.onmessage = e => chatComponent.showChat(e.data);
                     break;
                 case 'move':
                     this.movement = e.channel;
+                    this.movement.onmessage = e => userModel.updateMovement(e.data);
                     break;
             }
-            super.setDataChannelOnMessage(this);
         }
     }
     createAnswer(offer) {
