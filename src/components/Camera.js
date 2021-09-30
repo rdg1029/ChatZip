@@ -8,7 +8,7 @@ class Camera extends PerspectiveCamera {
     getPosition() {
         return this.position.toArray();
     }
-    getRotation() {
+    getQuaternion() {
         return this.quaternion.toArray();
     }
 }
