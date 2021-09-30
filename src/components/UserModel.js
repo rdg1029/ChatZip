@@ -11,8 +11,8 @@ class UserModel {
         const mvArr = new Float32Array(buffer);
         const targetPos = new Vector3(mvArr[0], mvArr[1], mvArr[2]);
         const targetQt = new Quaternion(mvArr[3], mvArr[4], mvArr[5], mvArr[6]);
-        this.mesh.position.lerp(targetPos, 0.1);
-        this.mesh.quaternion.slerp(targetQt, 0.1);
+        this.mesh.position.lerp(targetPos, 0.75);
+        this.mesh.quaternion.slerp(targetQt, 0.75);
     }
     update(delta) {
         /*
