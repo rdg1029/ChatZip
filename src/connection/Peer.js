@@ -8,13 +8,8 @@ class Peer {
             ]
         };
         this.targetId = targetId;
-        this.chatComponent = chatComponent;
         this.userModel = userModel;
         this.conn = new RTCPeerConnection(iceConfig);
-    }
-    setDataChannelOnMessage(peer) {
-        peer.chat.onmessage = e => this.chatComponent.showChat(e.data);
-        peer.movement.onmessage = e => this.userModel.updateMovement(e.data);
     }
     close() {
         this.userModel.dispose();
