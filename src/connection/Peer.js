@@ -14,7 +14,7 @@ class Peer {
     }
     setDataChannelOnMessage(peer) {
         peer.chat.onmessage = e => this.chatComponent.showChat(e.data);
-        peer.movement.onmessage = e => this.userModel.speed = new Float32Array(e.data);
+        peer.movement.onmessage = e => this.userModel.updateMovement(e.data);
     }
     close() {
         this.userModel.dispose();
