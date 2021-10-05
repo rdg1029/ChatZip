@@ -20,6 +20,7 @@ class Callee extends Peer {
                     break;
                 case 'move':
                     this.movement = e.channel;
+                    this.movement.binaryType = "arraybuffer";
                     this.movement.onmessage = e => userModel.updateMovement(e.data);
                     break;
             }
