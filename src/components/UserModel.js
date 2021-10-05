@@ -1,6 +1,9 @@
 import { Quaternion, Vector3 } from 'three';
 import { BoxGeometry, MeshBasicMaterial, Mesh } from 'three/build/three.min';
 
+const _targetPos = new Vector3();
+const _targetQt = new Quaternion();
+
 class UserModel {
     constructor() {
         this.geometry = new BoxGeometry(.5, .5, .5);
@@ -9,10 +12,10 @@ class UserModel {
     }
     updateMovement(buffer) {
         const mvArr = new Float32Array(buffer);
-        const targetPos = new Vector3(mvArr[0], mvArr[1], mvArr[2]);
-        const targetQt = new Quaternion(mvArr[3], mvArr[4], mvArr[5], mvArr[6]);
-        this.mesh.position.lerp(targetPos, 0.75);
-        this.mesh.quaternion.slerp(targetQt, 0.75);
+        _targetPos.set(mvArr[0], mvArr[1], mvArr[2]);
+        _targetQt.set(mvArr[3], mvArr[4], mvArr[5], mvArr[6]);
+        this.mesh.position.lerp(_targetPos, 0.75);
+        this.mesh.quaternion.slerp(_targetQt, 0.75);
     }
     update(delta) {
         /*
