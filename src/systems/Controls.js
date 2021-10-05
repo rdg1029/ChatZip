@@ -56,13 +56,8 @@ class Controls extends PointerLockControls {
         const pos = this.camera.getPosition();
         const qt = this.camera.getQuaternion();
 
-        movementArray[0] = pos[0];
-        movementArray[1] = pos[1];
-        movementArray[2] = pos[2];
-        movementArray[3] = qt[0];
-        movementArray[4] = qt[1];
-        movementArray[5] = qt[2];
-        movementArray[6] = qt[3];
+        movementArray.set(pos, 0);
+        movementArray.set(qt, 3);
         
         // console.log(movementArray);
 
