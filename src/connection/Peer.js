@@ -15,6 +15,10 @@ class Peer {
         if (this.chat.readyState !== 'open') return;
         this.chat.send(data);
     }
+    sendMovement(data) {
+        if (this.movement.readyState !== 'open') return;
+        this.movement.send(data);
+    }
     close() {
         this.userModel.dispose();
         this.conn.close();

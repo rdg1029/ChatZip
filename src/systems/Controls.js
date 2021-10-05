@@ -63,7 +63,7 @@ class Controls extends PointerLockControls {
 
         const peers = Array.from(this.peers.values());
         for (let i = 0, j = peers.length; i < j; i++) {
-            peers[i].movement.send(movementBuffer);
+            peers[i].sendMovement(movementBuffer);
         }
 
         if (qt[0] == _prevRot[0] && qt[1] == _prevRot[1]) {
