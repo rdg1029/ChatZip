@@ -12,7 +12,7 @@ class Chat {
             if(inputValue === "") return;
             const msg = `${socket.id} : ${inputValue}`;
             peers.forEach(peer => {
-                peer.chat.send(msg);
+                peer.sendChat(msg);
             })
             this.showChat(msg);
             this.input.value = "";

@@ -11,6 +11,10 @@ class Peer {
         this.userModel = userModel;
         this.conn = new RTCPeerConnection(iceConfig);
     }
+    sendChat(data) {
+        if (this.chat.readyState !== 'open') return;
+        this.chat.send(data);
+    }
     close() {
         this.userModel.dispose();
         this.conn.close();
