@@ -11,20 +11,6 @@ class Callee extends Peer {
             console.log('ice gathering complete!');
             socket.emit('recv answer', this.conn.localDescription, socket.id, targetId);
         }
-
-        this.conn.ondatachannel = e => {
-            switch(e.channel.label) {
-                case 'chat':
-                    this.chat = e.channel;
-                    this.chat.onmessage = e => chatComponent.showChat(e.data);
-                    break;
-                case 'move':
-                    this.movement = e.channel;
-                    this.movement.binaryType = "arraybuffer";
-                    this.movement.onmessage = e => userModel.updateMovement(e.data);
-                    break;
-            }
-        }
     }
     createAnswer(offer) {
         this.conn.setRemoteDescription(offer);

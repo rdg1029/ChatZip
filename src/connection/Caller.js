@@ -11,13 +11,6 @@ class Caller extends Peer {
             console.log('ice gathering complete!');
             socket.emit('req answer', this.conn.localDescription, socket.id, targetId);
         }
-        
-        this.chat = this.conn.createDataChannel('chat');
-        this.movement = this.conn.createDataChannel('move');
-        this.movement.binaryType = "arraybuffer";
-
-        this.chat.onmessage = e => chatComponent.showChat(e.data);
-        this.movement.onmessage = e => userModel.updateMovement(e.data);
     }
     createOffer() {
         this.conn.createOffer()

@@ -10,6 +10,13 @@ class Peer {
         this.targetId = targetId;
         this.userModel = userModel;
         this.conn = new RTCPeerConnection(iceConfig);
+
+        this.chat = this.conn.createDataChannel('chat', {negotiated: true, id: 0});
+        this.movement = this.conn.createDataChannel('move', {negotiated: true, id: 1});
+        this.movement.binaryType = "arraybuffer";
+        
+        this.chat.onmessage = e => chatComponent.showChat(e.data);
+        this.movement.onmessage = e => userModel.updateMovement(e.data);
     }
     sendChat(data) {
         if (this.chat.readyState !== 'open') return;
