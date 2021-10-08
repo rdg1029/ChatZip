@@ -3,6 +3,7 @@ import { BoxGeometry, MeshBasicMaterial, Mesh } from 'three/build/three.min';
 
 const _prevPos = new Vector3(), _targetPos = new Vector3();
 const _prevQt = new Quaternion(), _targetQt = new Quaternion();
+let alpha = 0;
 
 class UserModel {
     constructor() {
@@ -16,16 +17,12 @@ class UserModel {
         _prevQt.copy(_targetQt);
         _targetPos.set(mvArr[0], mvArr[1], mvArr[2]);
         _targetQt.set(mvArr[3], mvArr[4], mvArr[5], mvArr[6]);
+        alpha = 0;
     }
     update(delta) {
-        /*
-        const defaultSpeed = 10 * delta;
-        this.mesh.position.x += (defaultSpeed * this.speed[0]).toFixed(3);
-        this.mesh.position.y += (defaultSpeed * this.speed[1]).toFixed(5);
-        this.mesh.position.z += (defaultSpeed * this.speed[2]).toFixed(3);
-        this.mesh.rotation.x += (defaultSpeed * this.speed[3]).toFixed(5);
-        this.mesh.rotation.y += (defaultSpeed * this.speed[4]).toFixed(5);
-        */
+        alpha += delta * 10;
+        this.mesh.position.lerpVectors(_prevPos, _targetPos, alpha);
+        this.mesh.quaternion.slerpQuaternions(_prevQt, _targetQt, alpha);
     }
     dispose() {
         this.geometry.dispose();
