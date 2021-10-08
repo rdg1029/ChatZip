@@ -20,7 +20,13 @@ class UserModel {
         alpha = 0;
     }
     update(delta) {
-        alpha += delta * 10;
+        if (alpha == 1) return;
+        if (alpha > 1) {
+            alpha = 1;
+        }
+        else {
+            alpha += delta * 10;
+        }
         this.mesh.position.lerpVectors(_prevPos, _targetPos, alpha);
         this.mesh.quaternion.slerpQuaternions(_prevQt, _targetQt, alpha);
     }
