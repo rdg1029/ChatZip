@@ -18,7 +18,10 @@ class Controls extends PointerLockControls {
             ['s', false],
             ['d', false]
         ]);
-        this.addEventListener('change', e => this.isMouseMove = true);
+        this.addEventListener('change', e => {
+            if (this.isMouseMove) return;
+            this.isMouseMove = true
+        });
         document.addEventListener('keydown', e => {
             if (!this.key.has(e.key)) return;
             this.key.set(e.key, true);
