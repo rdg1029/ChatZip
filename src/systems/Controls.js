@@ -1,7 +1,18 @@
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
 
-const movementBuffer = new ArrayBuffer(28);
-const movementArray = new Float32Array(movementBuffer);
+const _prevMoveBuffer = new ArrayBuffer(28),
+    _currentMoveBuffer = new ArrayBuffer(28),
+    _prevMoveArray = new Float32Array(_prevMoveBuffer),
+    _currentMoveArray = new Float32Array(_currentMoveBuffer);
+
+function _isMove() {
+    for (let i = 0, j = _prevMoveArray.length; i < j; i++) {
+        if (_prevMoveArray[i] !== _currentMoveArray[i]) {
+            return true;
+        }
+    }
+    return false;
+}
 
 let _prevRot = [0, 0];
 
