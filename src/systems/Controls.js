@@ -6,15 +6,13 @@ const _prevMoveBuffer = new ArrayBuffer(28),
     _currentMoveArray = new Float32Array(_currentMoveBuffer);
 
 function _isMove() {
-    for (let i = 0, j = _prevMoveArray.length; i < j; i++) {
+    for (let i = 0; i < 7; i++) {
         if (_prevMoveArray[i] !== _currentMoveArray[i]) {
             return true;
         }
     }
     return false;
 }
-
-let _prevRot = [0, 0];
 
 class Controls extends PointerLockControls {
     constructor(camera, canvas, peers) {
@@ -65,26 +63,20 @@ class Controls extends PointerLockControls {
         }
     }
     tick() {
-        if (!this.isMouseMove && !this.isKeyDown) return;
-
         const pos = this.camera.getPosition();
         const qt = this.camera.getQuaternion();
 
-        movementArray.set(pos, 0);
-        movementArray.set(qt, 3);
+        _prevMoveArray.set(_currentMoveArray);
+        _currentMoveArray.set(pos, 0);
+        _currentMoveArray.set(qt, 3);
+
+        if (!_isMove()) return;
         
         // console.log(movementArray);
 
         const peers = Array.from(this.peers.values());
         for (let i = 0, j = peers.length; i < j; i++) {
-            peers[i].sendMovement(movementBuffer);
-        }
-
-        if (qt[0] == _prevRot[0] && qt[1] == _prevRot[1]) {
-            this.isMouseMove = false;
-        }
-        else {
-            _prevRot = qt;
+            peers[i].sendMovement(_currentMoveBuffer);
         }
     }
 }
