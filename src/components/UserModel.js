@@ -1,14 +1,14 @@
 import { Quaternion, Vector3 } from 'three';
 import { BoxGeometry, MeshBasicMaterial, Mesh } from 'three/build/three.min';
 
-let alpha = 0;
-
 class UserModel {
     constructor() {
         this._prevPos = new Vector3();
         this._targetPos = new Vector3();
         this._prevQt = new Quaternion();
         this._targetQt = new Quaternion();
+
+        this._alpha = 0;
 
         this.geometry = new BoxGeometry(.5, .5, .5);
         this.material = new MeshBasicMaterial({color: 0x34b1eb});
@@ -20,18 +20,18 @@ class UserModel {
         this._prevQt.copy(this._targetQt);
         this._targetPos.set(mvArr[0], mvArr[1], mvArr[2]);
         this._targetQt.set(mvArr[3], mvArr[4], mvArr[5], mvArr[6]);
-        alpha = 0;
+        this._alpha = 0;
     }
     update(delta) {
-        if (alpha == 1) return;
-        if (alpha > 1) {
-            alpha = 1;
+        if (this._alpha == 1) return;
+        if (this._alpha > 1) {
+            this._alpha = 1;
         }
         else {
-            alpha += delta * 10;
+            this._alpha += delta * 10;
         }
-        this.mesh.position.lerpVectors(this._prevPos, this._targetPos, alpha);
-        this.mesh.quaternion.slerpQuaternions(this._prevQt, this._targetQt, alpha);
+        this.mesh.position.lerpVectors(this._prevPos, this._targetPos, this._alpha);
+        this.mesh.quaternion.slerpQuaternions(this._prevQt, this._targetQt, this._alpha);
     }
     dispose() {
         this.geometry.dispose();
