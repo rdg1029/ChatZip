@@ -88,6 +88,7 @@ function room(group, offers) {
     socket.on('user join', userId => {
         group.addUser(userId);
         chat.showChat(userId + " joined group");
+        checkIsAlone(group);
         // addUserModel(world, userId, userModels);
     });
     
