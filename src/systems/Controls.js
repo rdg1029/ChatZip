@@ -27,10 +27,12 @@ class Controls extends PointerLockControls {
         ]);
         document.addEventListener('keydown', e => {
             if (!this.key.has(e.key)) return;
+            if (this.key.get(e.key)) return;
             this.key.set(e.key, true);
         });
         document.addEventListener('keyup', e => {
             if (!this.key.has(e.key)) return;
+            if (!this.key.get(e.key)) return;
             this.key.set(e.key, false);
         });
         canvas.addEventListener('click', () => {
