@@ -93,7 +93,10 @@ function room(group, offers) {
     });
     
     socket.on('user quit', userId => {
-        peers.get(userId).close();
+        const peer = peers.get(userId);
+        peer.close();
+        world.scene.remove(peer.userModel.mesh);
+
         peers.delete(userId);
         group.removeUser(userId);
         chat.showChat(userId + " quit");
