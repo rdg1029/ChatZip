@@ -23,13 +23,18 @@ class Controls extends PointerLockControls {
             ['w', false],
             ['a', false],
             ['s', false],
-            ['d', false]
+            ['d', false],
+            ['Enter', false]
         ]);
-        document.addEventListener('keydown', e => {
-            if (!this.key.has(e.key)) return;
-            if (this.key.get(e.key)) return;
-            this.key.set(e.key, true);
-        });
+
+        const scope = this;
+        function _eventKeyMove(e) {
+            if (!scope.key.has(e.key)) return;
+            if (scope.key.get(e.key)) return;
+            scope.key.set(e.key, true);
+        }
+
+        document.addEventListener('keydown', _eventKeyMove);
         document.addEventListener('keyup', e => {
             if (!this.key.has(e.key)) return;
             if (!this.key.get(e.key)) return;
