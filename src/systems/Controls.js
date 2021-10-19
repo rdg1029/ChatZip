@@ -15,16 +15,16 @@ function _isMove() {
 }
 
 class Controls extends PointerLockControls {
-    constructor(camera, canvas, peers) {
+    constructor(camera, canvas, peers, chatInput) {
         super(camera, canvas);
         this.camera = camera;
         this.peers = peers;
+        this.chatInput = chatInput;
         this.key = new Map([
             ['w', false],
             ['a', false],
             ['s', false],
-            ['d', false],
-            ['Enter', false]
+            ['d', false]
         ]);
 
         const scope = this;
