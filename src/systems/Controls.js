@@ -40,9 +40,9 @@ class Controls extends PointerLockControls {
         }
 
         function _eventMoveKeyUp(e) {
-            if (!this.key.has(e.key)) return;
-            if (!this.key.get(e.key)) return;
-            this.key.set(e.key, false);
+            if (!scope.key.has(e.key)) return;
+            if (!scope.key.get(e.key)) return;
+            scope.key.set(e.key, false);
         }
 
         this.addEventListener('lock', e => {
