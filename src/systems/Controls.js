@@ -30,9 +30,9 @@ class Controls extends PointerLockControls {
         const scope = this;
         function _eventMoveKeyDown(e) {
             if (e.key === 'Enter') {
-                document.removeEventListener('keydown', _eventMoveKeyDown);
-                document.removeEventListener('keyup', _eventMoveKeyUp);
+                scope.unlock();
                 scope.chatInput.focus();
+                return;
             }
             if (!scope.key.has(e.key)) return;
             if (scope.key.get(e.key)) return;
@@ -45,8 +45,14 @@ class Controls extends PointerLockControls {
             this.key.set(e.key, false);
         }
 
-        document.addEventListener('keydown', _eventMoveKeyDown);
-        document.addEventListener('keyup', _eventMoveKeyUp);
+        this.addEventListener('lock', e => {
+            document.addEventListener('keydown', _eventMoveKeyDown);
+            document.addEventListener('keyup', _eventMoveKeyUp);
+        });
+        this.addEventListener('unlock', e => {
+            document.removeEventListener('keydown', _eventMoveKeyDown);
+            document.removeEventListener('keyup', _eventMoveKeyUp);
+        })
         canvas.addEventListener('click', () => {
             this.lock();
         })
