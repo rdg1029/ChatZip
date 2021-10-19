@@ -48,7 +48,7 @@ function room(group, offers) {
     const peers = new Map();
     const chat = new Chat(roomPage, peers);
     const world = new World(roomPage.canvas);
-    const controls = new Controls(world.camera, roomPage.canvas, peers);
+    const controls = new Controls(world.camera, roomPage.canvas, peers, chat.input);
 
     offers.forEach((offer, id) => {
         const userModel = new UserModel()
