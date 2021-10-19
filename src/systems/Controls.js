@@ -28,7 +28,7 @@ class Controls extends PointerLockControls {
         ]);
 
         const scope = this;
-        function _eventKeyMove(e) {
+        function _eventMoveKeyDown(e) {
             if (e.key === 'Enter') {
                 document.removeEventListener('keydown', _eventKeyMove);
                 scope.chatInput.focus();
@@ -38,7 +38,7 @@ class Controls extends PointerLockControls {
             scope.key.set(e.key, true);
         }
 
-        document.addEventListener('keydown', _eventKeyMove);
+        document.addEventListener('keydown', _eventMoveKeyDown);
         document.addEventListener('keyup', e => {
             if (!this.key.has(e.key)) return;
             if (!this.key.get(e.key)) return;
