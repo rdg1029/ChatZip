@@ -13,9 +13,11 @@ class World {
         this.camera = createCamera();
         this.loop = new Loop(this.renderer, this.scene, this.camera);
 
-        this.renderer.setSize(640, 360, false);
         window.addEventListener('resize', () => {
-            this.camera.aspect = 16 / 9;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            this.renderer.setSize(width, height, false);
+            this.camera.aspect = width / height;
             this.camera.updateProjectionMatrix();
         });
 
