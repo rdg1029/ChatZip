@@ -38,6 +38,10 @@ class Room extends Page {
         this.chatMessages = document.getElementById('messages');
         this.chatForm = document.getElementById('form');
         this.chatInput = document.getElementById('input');
+
+        this.menu = document.getElementById('menu');
+        this.menuBtnClose = document.getElementById('btn-close');
+        this.menuBtnExit = document.getElementById('btn-exit');
     }
 }
 
