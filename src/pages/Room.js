@@ -14,6 +14,20 @@ class Room extends Page {
                         <input id="input" />
                     </form>
                 </div>
+                <div id="menu">
+                    <h1>메뉴</h1>
+                    <p>&lt조작법&gt</p>
+                    <p>
+                        이동 : w, a, s, d<br>
+                        화면 움직임 : 마우스<br>
+                        채팅 : Enter<br>
+                        메뉴 : Esc
+                    </p>
+                    <span>
+                        <button id="btn-continue">메뉴 닫기</button>
+                        <button id="btn-exit">방 나가기</button>
+                    </span>
+                </div>
             </div>
         `;
     }
