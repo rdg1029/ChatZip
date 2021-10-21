@@ -9,6 +9,7 @@ body {
 }
 
 #menu {
+    display: none;
     position: absolute;
     text-align: center;
     width: 100%;
