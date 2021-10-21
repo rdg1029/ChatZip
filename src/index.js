@@ -66,6 +66,7 @@ function room(group, offers) {
     world.loop.updateList.push(controls);
     world.loop.tick.list.push(controls);
     world.start();
+    controls.lock();
     chat.showChat('joined ' + group.id);
 
     /*Init socket listeners at room page*/
