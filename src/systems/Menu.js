@@ -11,3 +11,5 @@ class Menu {
         this.interface.style.display = 'none';
     }
 }
+
+export {Menu};
