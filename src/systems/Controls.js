@@ -15,11 +15,10 @@ function _isMove() {
 }
 
 class Controls extends PointerLockControls {
-    constructor(camera, canvas, peers, chatInput) {
+    constructor(camera, canvas, peers, chatInput, menu) {
         super(camera, canvas);
         this.camera = camera;
         this.peers = peers;
-        this.chatInput = chatInput;
         this.key = new Map([
             ['w', false],
             ['a', false],
@@ -30,8 +29,9 @@ class Controls extends PointerLockControls {
         const scope = this;
         function _eventMoveKeyDown(e) {
             if (e.key === 'Enter') {
+                menu.isReady = false;
                 scope.unlock();
-                scope.chatInput.focus();
+                chatInput.focus();
                 return;
             }
             if (!scope.key.has(e.key)) return;
@@ -48,10 +48,14 @@ class Controls extends PointerLockControls {
         this.addEventListener('lock', e => {
             document.addEventListener('keydown', _eventMoveKeyDown);
             document.addEventListener('keyup', _eventMoveKeyUp);
+            if (menu.isReady) return;
+            menu.isReady = true;
         });
         this.addEventListener('unlock', e => {
             document.removeEventListener('keydown', _eventMoveKeyDown);
             document.removeEventListener('keyup', _eventMoveKeyUp);
+            if (!menu.isReady) return;
+            menu.open();
         })
         canvas.addEventListener('click', () => {
             this.lock();
