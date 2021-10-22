@@ -8,8 +8,8 @@ import { socket } from './connection/Socket';
 import { Caller } from './connection/Caller';
 import { Callee } from './connection/Callee';
 
-import { Group } from './systems/Group';
 import { Chat } from './systems/Chat';
+import { Menu } from './systems/Menu';
 import { World } from './systems/World';
 import { Controls } from './systems/Controls';
 
@@ -47,6 +47,7 @@ function room(group, offers) {
 
     const peers = new Map();
     const chat = new Chat(roomPage, peers);
+    const menu = new Menu(roomPage);
     const world = new World(roomPage.canvas);
     const controls = new Controls(world.camera, roomPage.canvas, peers, chat.input);
 
@@ -59,6 +60,14 @@ function room(group, offers) {
         world.loop.updateList.push(userModel);
         world.scene.add(userModel.mesh);
     });
+
+    menu.btnClose.onclick = () => {
+        menu.close();
+        controls.lock();
+    }
+    menu.btnExit.onclick = () => {
+        location.reload();
+    }
 
     checkIsHost(group);
     checkIsAlone(group);
