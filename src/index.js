@@ -4,9 +4,9 @@ import { compatibilityCheck } from './compatibility';
 import { Main } from './pages/Main';
 import { Room } from './pages/Room';
 
-import { socket } from './connection/Socket';
-import { Caller } from './connection/Caller';
-import { Callee } from './connection/Callee';
+import { socket } from './systems/connection/Socket';
+import { Caller } from './systems/connection/Caller';
+import { Callee } from './systems/connection/Callee';
 
 import { Chat } from './systems/Chat';
 import { Menu } from './systems/Menu';

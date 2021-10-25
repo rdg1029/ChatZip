@@ -1,7 +1,7 @@
-import { socket } from '../connection/Socket.js';
+import { socket } from './Socket';
 import { Peer } from './Peer';
 
-class Caller extends Peer {
+class Callee extends Peer {
     constructor(targetId, chatComponent, userModel) {
         super(targetId, chatComponent, userModel);
 
@@ -9,15 +9,13 @@ class Caller extends Peer {
             console.log('ice gathering...');
             if (e.target.iceGatheringState !== 'complete') return;
             console.log('ice gathering complete!');
-            socket.emit('req answer', this.conn.localDescription, socket.id, targetId);
+            socket.emit('recv answer', this.conn.localDescription, socket.id, targetId);
         }
     }
-    createOffer() {
-        this.conn.createOffer()
-            .then(offer => this.conn.setLocalDescription(offer));
-    }
-    receiveAnswer(answer) {
-        this.conn.setRemoteDescription(answer);
+    createAnswer(offer) {
+        this.conn.setRemoteDescription(offer);
+        this.conn.createAnswer()
+            .then(answer => this.conn.setLocalDescription(answer));
     }
     close() {
         this.chat.close();
@@ -26,4 +24,4 @@ class Caller extends Peer {
     }
 }
 
-export {Caller};
+export {Callee};

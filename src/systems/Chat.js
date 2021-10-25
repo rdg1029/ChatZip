@@ -1,4 +1,4 @@
-import { socket } from "../connection/Socket";
+import { socket } from "./connection/Socket";
 
 class Chat {
     constructor(room, peers) {

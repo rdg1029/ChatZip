@@ -1,4 +1,4 @@
-import { socket } from '../connection/Socket.js';
+import { socket } from '../systems/connection/Socket';
 
 import { Page } from './Page.js';
 import { Group } from '../systems/Group';

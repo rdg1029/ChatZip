@@ -1,5 +1,3 @@
-import { socket } from '../connection/Socket.js';
-
 import {Page} from './Page.js';
 
 class Room extends Page {
