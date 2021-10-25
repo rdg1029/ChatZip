@@ -13,7 +13,7 @@ import { Menu } from './systems/Menu';
 import { World } from './systems/world/World';
 import { Controls } from './systems/Controls';
 
-import { UserModel } from './components/UserModel';
+import { UserModel } from './systems/world/components/UserModel';
 
 const compatibilityCheckResult = compatibilityCheck();
 if (compatibilityCheckResult == 'done') {

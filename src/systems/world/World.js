@@ -1,10 +1,10 @@
 import { createRenderer } from './Renderer';
 import { Loop } from './Loop';
 
-import { createScene } from '../../components/Scene';
-import { createCamera } from '../../components/Camera';
-import { createSkybox } from '../../components/Skybox';
-import { createPlane } from '../../components/Plane';
+import { createScene } from './components/Scene';
+import { createCamera } from './components/Camera';
+import { createSkybox } from './components/Skybox';
+import { createPlane } from './components/Plane';
 
 class World {
     constructor(canvas) {
