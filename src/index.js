@@ -10,7 +10,7 @@ import { Callee } from './systems/connection/Callee';
 
 import { Chat } from './systems/Chat';
 import { Menu } from './systems/Menu';
-import { World } from './systems/World';
+import { World } from './systems/world/World';
 import { Controls } from './systems/Controls';
 
 import { UserModel } from './components/UserModel';
