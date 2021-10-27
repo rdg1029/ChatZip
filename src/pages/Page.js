@@ -11,18 +11,6 @@ class Page {
     removePage() {
         document.getElementById(this.divID).remove();
     }
-    addElement(parentElemId, Elem) {
-        if(parentElemId === 'body') {
-            document.body.appendChild(Elem);
-        }
-        else {
-            const parentElem = document.getElementById(parentElemId);
-            parentElem.appendChild(Elem);
-        }
-    }
-    removeElement(id) {
-        document.getElementById(id).remove();
-    }
 }
 
 export {Page};
