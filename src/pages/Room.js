@@ -1,8 +1,10 @@
 import {Page} from './Page.js';
 
 class Room extends Page {
-    constructor(divID, css) {
+    constructor(divID, css, group, offers) {
         super(divID, css);
+        this.group = group;
+        this.offers = offers;
         this.html = `
             <div id="room">
                 <canvas id="c"></canvas>
