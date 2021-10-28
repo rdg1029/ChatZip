@@ -1,13 +1,11 @@
 import { socket } from '../systems/connection/Socket';
-
 import { Page } from './Page.js';
-import { Group } from '../systems/Group';
 
 class Main extends Page {
-    constructor(divID, css) {
+    constructor(divID, css, group, offers) {
         super(divID, css);
-        this.group = new Group();
-        this.offers = new Map();
+        this.group = group;
+        this.offers = offers;
         this.html = `
             <div id="main">
                 <h1>찻집</h1>
