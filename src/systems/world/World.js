@@ -5,6 +5,7 @@ import { createScene } from './components/Scene';
 import { createCamera } from './components/Camera';
 import { createSkybox } from './components/Skybox';
 import { createPlane } from './components/Plane';
+import { UserModel } from './components/UserModel';
 
 class World {
     constructor(canvas) {
@@ -28,6 +29,9 @@ class World {
         plane.rotation.x = Math.PI * -.5;
 
         this.scene.add(plane);
+    }
+    createUserModel() {
+        return new UserModel()
     }
     start() {
         this.loop.start();
