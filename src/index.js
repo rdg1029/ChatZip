@@ -5,16 +5,7 @@ import { Main } from './pages/Main';
 import { Room } from './pages/Room';
 
 import { socket } from './systems/connection/Socket';
-import { Caller } from './systems/connection/Caller';
-import { Callee } from './systems/connection/Callee';
-
-import { Chat } from './systems/Chat';
 import { Group } from './systems/Group';
-import { Menu } from './systems/Menu';
-import { World } from './systems/world/World';
-import { Controls } from './systems/Controls';
-
-import { UserModel } from './systems/world/components/UserModel';
 
 const group = new Group();
 const offers = new Map();
@@ -46,99 +37,9 @@ function main() {
     });
 }
 
-function room(group, offers) {
-    const roomPage = new Room('room', './css/room.css');
+function room() {
+    const roomPage = new Room('room', './css/room.css', group, offers);
     roomPage.setPage();
-
-    const peers = new Map();
-    const chat = new Chat(roomPage, peers);
-    const menu = new Menu(roomPage);
-    const world = new World(roomPage.canvas);
-    const controls = new Controls(world.camera, roomPage.canvas, peers, chat.input, menu);
-
-    offers.forEach((offer, id) => {
-        const userModel = new UserModel()
-        const peer = new Callee(id, chat, userModel);
-        peer.createAnswer(offer);
-        peers.set(id, peer);
-
-        world.loop.updateList.push(userModel);
-        world.scene.add(userModel.mesh);
-    });
-
-    menu.btnClose.onclick = () => {
-        menu.close();
-        controls.lock();
-    }
-    menu.btnExit.onclick = () => {
-        location.reload();
-    }
-
-    checkIsHost(group);
-    checkIsAlone(group);
-
-    world.loop.updateList.push(controls);
-    world.loop.tick.list.push(controls);
-    world.start();
-    controls.lock();
-    chat.showChat('joined ' + group.id);
-
-    /*Init socket listeners at room page*/
-    socket.on('req offer', targetId => {
-        console.log(targetId, 'requested offer');
-        const userModel = new UserModel();
-        const peer = new Caller(targetId, chat, userModel);
-        peer.createOffer();
-        peers.set(targetId, peer);
-    });
-    
-    socket.on('recv answer', (answer, targetId) => {
-        const peer = peers.get(targetId);
-        peer.receiveAnswer(answer);
-        world.loop.updateList.push(peer.userModel);
-        world.scene.add(peer.userModel.mesh);
-        // socket.emit('conn ready', targetId);
-    });
-
-    socket.on('user join', userId => {
-        group.addUser(userId);
-        chat.showChat(userId + " joined group");
-        checkIsAlone(group);
-        // addUserModel(world, userId, userModels);
-    });
-    
-    socket.on('user quit', userId => {
-        const peer = peers.get(userId);
-        peer.close();
-        world.scene.remove(peer.userModel.mesh);
-
-        peers.delete(userId);
-        group.removeUser(userId);
-        chat.showChat(userId + " quit");
-
-        checkIsHost(group);
-        checkIsAlone(group);
-    });
-}
-
-function checkIsHost(group) {
-    if (!group.isHost(socket.id)) return;
-    socket.on('req info', targetId => {
-        console.log(targetId + ' requested info');
-            socket.emit('group info', targetId, group.users);
-    });
-    console.log('You are host!');
-}
-
-function checkIsAlone(group) {
-    if(group.number == 1) {
-        socket.emit('is alone', true);
-        // console.log('user alone');
-    }
-    else {
-        socket.emit('is alone', false);
-        // console.log('user not alone');
-    }
 }
 
 function removeSocketListeners(...args) {
