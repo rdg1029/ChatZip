@@ -9,11 +9,15 @@ import { Caller } from './systems/connection/Caller';
 import { Callee } from './systems/connection/Callee';
 
 import { Chat } from './systems/Chat';
+import { Group } from './systems/Group';
 import { Menu } from './systems/Menu';
 import { World } from './systems/world/World';
 import { Controls } from './systems/Controls';
 
 import { UserModel } from './systems/world/components/UserModel';
+
+const group = new Group();
+const offers = new Map();
 
 const compatibilityCheckResult = compatibilityCheck();
 if (compatibilityCheckResult == 'done') {
