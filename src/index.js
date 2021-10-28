@@ -28,20 +28,21 @@ else {
 }
 
 function main() {
-    const mainPage = new Main('main', './css/main.css');
-    mainPage.setPage();
+    const main = new Main('main', './css/main.css', group, offers);
+    main.setPage();
     socket.on('join group', groupId => {
         removeSocketListeners(
             'open',
             'group found',
             'group not found',
             'group info',
-            'req answer'
+            'req answer',
+            'join group'
         );
-        mainPage.group.id = groupId;
-        mainPage.group.addUser(socket.id);
-        mainPage.removePage();
-        room(mainPage.group, mainPage.offers);
+        group.id = groupId;
+        group.addUser(socket.id);
+        main.removePage();
+        room();
     });
 }
 
