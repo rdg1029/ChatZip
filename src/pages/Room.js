@@ -1,6 +1,6 @@
 import {Page} from './Page.js';
 
-import { socket } from './systems/connection/Socket';
+import { socket } from '../systems/connection/Socket';
 import { Caller } from '../systems/connection/Caller';
 import { Callee } from '../systems/connection/Callee';
 
