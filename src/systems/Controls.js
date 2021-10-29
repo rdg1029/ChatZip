@@ -56,10 +56,17 @@ class Controls extends PointerLockControls {
             document.removeEventListener('keyup', _eventMoveKeyUp);
             if (!menu.isReady) return;
             menu.open();
-        })
+        });
         canvas.addEventListener('click', () => {
             this.lock();
-        })
+        });
+        menu.btnClose.onclick = () => {
+            menu.close();
+            this.lock();
+        }
+        menu.btnExit.onclick = () => {
+            location.reload();
+        }
     }
     update(delta) {
         const speed = (10 * delta).toFixed(3);
