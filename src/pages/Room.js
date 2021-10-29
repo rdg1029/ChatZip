@@ -43,10 +43,6 @@ class Room extends Page {
     setPage() {
         super.setPage(this.html);
         this.canvas = document.getElementById('c');
-        
-        this.chatMessages = document.getElementById('messages');
-        this.chatForm = document.getElementById('form');
-        this.chatInput = document.getElementById('input');
 
         this.menu = document.getElementById('menu');
         this.menuBtnClose = document.getElementById('btn-close');
