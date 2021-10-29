@@ -1,5 +1,5 @@
 class Menu {
-    constructor(room) {
+    constructor() {
         this.interface = document.getElementById('menu');
         this.btnClose = document.getElementById('btn-close');
         this.btnExit = document.getElementById('btn-exit');
