@@ -1,10 +1,10 @@
 import { socket } from "./connection/Socket";
 
 class Chat {
-    constructor(room, peers) {
-        this.messages = room.chatMessages;
-        this.form = room.chatForm;
-        this.input = room.chatInput;
+    constructor(peers) {
+        this.messages = document.getElementById('messages');
+        this.form = document.getElementById('form');
+        this.input = document.getElementById('input');
 
         this.form.addEventListener('submit', e => {
             const inputValue = this.input.value;
