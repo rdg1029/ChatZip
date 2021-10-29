@@ -44,13 +44,9 @@ class Room extends Page {
         super.setPage(this.html);
         this.canvas = document.getElementById('c');
 
-        this.menu = document.getElementById('menu');
-        this.menuBtnClose = document.getElementById('btn-close');
-        this.menuBtnExit = document.getElementById('btn-exit');
-
         const peers = new Map();
-        const chat = new Chat(this, peers);
-        const menu = new Menu(this);
+        const chat = new Chat(peers);
+        const menu = new Menu();
         const world = new World(this.canvas);
         const controls = new Controls(world.camera, this.canvas, peers, chat.input, menu);
 
@@ -63,14 +59,6 @@ class Room extends Page {
             world.loop.updateList.push(userModel);
             world.scene.add(userModel.mesh);
         });
-
-        menu.btnClose.onclick = () => {
-            menu.close();
-            controls.lock();
-        }
-        menu.btnExit.onclick = () => {
-            location.reload();
-        }
 
         checkIsHost(this.group);
         checkIsAlone(this.group);
