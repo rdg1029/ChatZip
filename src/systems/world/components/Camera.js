@@ -8,9 +8,11 @@ class Camera extends PerspectiveCamera {
     getPosition() {
         return this.position.toArray();
     }
+    /*
     getQuaternion() {
         return this.quaternion.toArray();
     }
+    */
 }
 
 function createCamera() {
