@@ -1,12 +1,12 @@
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
 
-const _prevMoveBuffer = new ArrayBuffer(28),
-    _currentMoveBuffer = new ArrayBuffer(28),
+const _prevMoveBuffer = new ArrayBuffer(12),
+    _currentMoveBuffer = new ArrayBuffer(12),
     _prevMoveArray = new Float32Array(_prevMoveBuffer),
     _currentMoveArray = new Float32Array(_currentMoveBuffer);
 
 function _isMove() {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 3; i++) {
         if (_prevMoveArray[i] !== _currentMoveArray[i]) {
             return true;
         }
@@ -85,11 +85,11 @@ class Controls extends PointerLockControls {
     }
     tick() {
         const pos = this.camera.getPosition();
-        const qt = this.camera.getQuaternion();
+        // const qt = this.camera.getQuaternion();
 
         _prevMoveArray.set(_currentMoveArray);
-        _currentMoveArray.set(pos, 0);
-        _currentMoveArray.set(qt, 3);
+        _currentMoveArray.set(pos);
+        // _currentMoveArray.set(qt, 3);
 
         if (!_isMove()) return;
         
