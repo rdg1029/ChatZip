@@ -57,7 +57,7 @@ class Room extends Page {
             peers.set(id, peer);
     
             world.loop.updateList.push(userModel);
-            world.scene.add(userModel.mesh);
+            world.scene.add(userModel);
         });
 
         checkIsHost(this.group);
@@ -82,7 +82,7 @@ class Room extends Page {
             const peer = peers.get(targetId);
             peer.receiveAnswer(answer);
             world.loop.updateList.push(peer.userModel);
-            world.scene.add(peer.userModel.mesh);
+            world.scene.add(peer.userModel);
         });
 
         socket.on('user join', userId => {
@@ -94,7 +94,7 @@ class Room extends Page {
         socket.on('user quit', userId => {
             const peer = peers.get(userId);
             peer.close();
-            world.scene.remove(peer.userModel.mesh);
+            world.scene.remove(peer.userModel);
 
             peers.delete(userId);
             this.group.removeUser(userId);
