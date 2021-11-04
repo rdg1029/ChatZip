@@ -2,7 +2,7 @@ import { Vector3, TextureLoader, SpriteMaterial, Sprite } from 'three';
 
 class UserModel extends Sprite {
     constructor() {
-        const map = new TextureLoader().load('../../../../dist/img/person.png');
+        const map = new TextureLoader().load('./img/person.png');
         const material = new SpriteMaterial({map: map});
         super(material);
         
