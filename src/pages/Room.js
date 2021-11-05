@@ -86,6 +86,15 @@ class Room extends Page {
         });
 
         socket.on('user join', userId => {
+            const peer = peers.get(userId);
+            const posBuffer = new ArrayBuffer(12);
+            const posArr = new Float32Array(posBuffer);
+
+            posArr.set(world.camera.getPosition());
+            peer.movement.onopen = () => {
+                peer.sendMovement(posBuffer);
+            }
+
             this.group.addUser(userId);
             chat.showChat(userId + " joined group");
             checkIsAlone(this.group);
