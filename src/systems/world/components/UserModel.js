@@ -1,4 +1,4 @@
-import { Vector3, TextureLoader, SpriteMaterial, Sprite } from 'three';
+import { Vector3, TextureLoader, SpriteMaterial, Sprite } from 'three/build/three.min';
 
 class UserModel extends Sprite {
     constructor() {
