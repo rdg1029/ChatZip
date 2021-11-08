@@ -5,7 +5,7 @@ import { createScene } from './components/Scene';
 import { createCamera } from './components/Camera';
 import { createSkybox } from './components/Skybox';
 import { createPlane } from './components/Plane';
-import { UserModel } from './components/UserModel';
+import { UserModel } from './components/user_model/UserModel';
 
 class World {
     constructor(canvas) {
