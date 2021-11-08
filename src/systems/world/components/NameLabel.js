@@ -52,3 +52,5 @@ class NameLabel extends Sprite {
         this.material.dispose();
     }
 }
+
+export {NameLabel};
