@@ -1,4 +1,4 @@
-import { CanvasTexture, SpriteMaterial, Sprite } from 'three/build/three.min';
+import { CanvasTexture, SpriteMaterial, Sprite, LinearFilter, ClampToEdgeWrapping } from 'three/build/three.min';
 
 function makeLabelCanvas(name) {
     const baseWidth = 150;
@@ -29,4 +29,22 @@ function makeLabelCanvas(name) {
     context.fillText(name, 0, 0);
 
     return context.canvas;
+}
+
+class NameLabel extends Sprite {
+    constructor(name) {
+        const canvas = makeLabelCanvas(name);
+        const map = new CanvasTexture(canvas);
+        map.minFilter = LinearFilter;
+        map.wrapS = ClampToEdgeWrapping;
+        map.wrapT = ClampToEdgeWrapping;
+        const material = new SpriteMaterial({
+            map: map,
+            transparent: true
+        });
+
+        super(material);
+        this.map = map;
+        this.material = material;
+    }
 }
