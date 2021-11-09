@@ -51,7 +51,7 @@ class Room extends Page {
         const controls = new Controls(world.camera, this.canvas, peers, chat.input, menu);
 
         this.offers.forEach((offer, id) => {
-            const userModel = world.createUserModel();
+            const userModel = world.createUserModel(id);
             const peer = new Callee(id, chat, userModel);
             peer.createAnswer(offer);
             peers.set(id, peer);
@@ -72,7 +72,7 @@ class Room extends Page {
         /*Init socket listeners at room page*/
         socket.on('req offer', targetId => {
             console.log(targetId, 'requested offer');
-            const userModel = world.createUserModel();
+            const userModel = world.createUserModel(targetId);
             const peer = new Caller(targetId, chat, userModel);
             peer.createOffer();
             peers.set(targetId, peer);
