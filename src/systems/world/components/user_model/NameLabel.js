@@ -46,6 +46,9 @@ class NameLabel extends Sprite {
         super(material);
         this.map = map;
         this.material = material;
+        this.scale.x = canvas.width * 0.01;
+        this.scale.y = canvas.height * 0.01;
+        this.position.y = 0.75;
     }
     dispose() {
         this.map.dispose();
