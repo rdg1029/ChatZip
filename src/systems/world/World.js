@@ -30,8 +30,8 @@ class World {
 
         this.scene.add(plane);
     }
-    createUserModel() {
-        return new UserModel()
+    createUserModel(name) {
+        return new UserModel(name);
     }
     start() {
         this.loop.start();
