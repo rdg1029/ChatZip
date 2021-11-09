@@ -3,13 +3,13 @@ import { NameLabel } from './NameLabel';
 import { UserAppearance } from './UserAppearance';
 
 class UserModel extends Group {
-    constructor() {
+    constructor(name) {
         super();
         this._prevPos = new Vector3();
         this._targetPos = new Vector3();
         this._alpha = 0;
 
-        this.nameLabel = new NameLabel('User');
+        this.nameLabel = new NameLabel(name);
         this.userAppearance = new UserAppearance();
         this.add(this.nameLabel);
         this.add(this.userAppearance);
