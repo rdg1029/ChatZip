@@ -1,16 +1,16 @@
 import { CanvasTexture, SpriteMaterial, Sprite, LinearFilter, ClampToEdgeWrapping } from 'three/build/three.min';
 
 function makeLabelCanvas(name) {
-    const baseWidth = 150;
-    const borderSize = 2;
-    const fontSize = 32;
+    const baseWidth = 75;
+    const borderSize = 1;
+    const fontSize = 16;
     const font = `${fontSize}px bold sans-serif`;
     const context = document.createElement('canvas').getContext('2d');
     context.font = font;
     const nameWidth = context.measureText(name).width;
 
     const doubleBorderSize = borderSize * 2;
-    const width = baseWidth + doubleBorderSize;
+    const width = nameWidth + doubleBorderSize;
     const height = fontSize + doubleBorderSize;
 
     context.canvas.width = width;
@@ -19,14 +19,14 @@ function makeLabelCanvas(name) {
     context.font = font;
     context.textBaseLine = 'middle';
     context.textAlign = 'center';
-    context.fillStyle = 'black';
+    context.fillStyle = '#00000060';
     context.fillRect(0, 0, width, height);
 
     const scaleFactor = Math.min(1, baseWidth / nameWidth);
     context.translate(width / 2, height / 2);
     context.scale(scaleFactor, 1);
     context.fillStyle = 'white';
-    context.fillText(name, 0, 0);
+    context.fillText(name, 0, fontSize / 4);
 
     return context.canvas;
 }
