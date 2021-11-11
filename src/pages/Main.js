@@ -17,7 +17,11 @@ class Main extends Page {
                         <button class="btn" id="enter-group">방 입장</button>
                     </div>
                     <div class="contents" id="contents-enter">
-                        <input id="type-group-id" type="text" />
+                        <div id="type-info">
+                            <input id="type-group-id" type="text" placeholder="방 ID 입력"/>
+                            <br>
+                            <input id="type-name" type="text" placeholder="이름 입력"/>
+                        </div>
                         <br>
                         <button class="btn" id="enter">입장</button>
                         <br>
@@ -37,6 +41,7 @@ class Main extends Page {
 
         const enterSignage = document.getElementById('contents-enter');
         const typeGroupId = document.getElementById('type-group-id');
+        const typeName = document.getElementById('type-name');
         const enterButton = document.getElementById('enter');
         const backButton = document.getElementById('back');
 
@@ -44,20 +49,32 @@ class Main extends Page {
         enterGroupButton.disabled = true;
         enterSignage.style.display = 'none';
 
-        createGroupButton.onclick = () => {
-            this.group.createNewId();
-            socket.emit('create group', this.group.id);
-        };
-        enterGroupButton.onclick = () => {
-            mainSignage.style.display = 'none';
-            enterSignage.style.display = 'block';
-        };
-        enterButton.onclick = () => {
+        const scope = this;
+        function createGroup() {
+            scope.group.createNewId();
+            socket.emit('create group', scope.group.id);
+        }
+        function enterGroup() {
             if (typeGroupId.value == '') {
                 window.alert("방 아이디를 입력해주세요");
                 return;
             }
             socket.emit('find group', typeGroupId.value);
+        }
+
+        createGroupButton.onclick = () => {
+            mainSignage.style.display = 'none';
+            enterSignage.style.display = 'block';
+            typeGroupId.style.display = 'none';
+
+            enterButton.onclick = createGroup;
+        };
+        enterGroupButton.onclick = () => {
+            mainSignage.style.display = 'none';
+            enterSignage.style.display = 'block';
+            typeGroupId.style.display = 'block';
+
+            enterButton.onclick = enterGroup;
         };
         backButton.onclick = () => {
             enterSignage.style.display = 'none';
@@ -85,6 +102,7 @@ class Main extends Page {
             this.group.number = users.length;
 
             typeGroupId.remove();
+            typeName.remove();
             enterButton.remove();
             backButton.remove();
 

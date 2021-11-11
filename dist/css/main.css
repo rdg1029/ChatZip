@@ -70,7 +70,11 @@ p {
     cursor: unset;
 }
 
-#type-group-id {
+#type-info {
+    margin-top: 1em;
+}
+
+input {
     text-align: center;
     font-size: large;
     width: 100%;
@@ -78,7 +82,7 @@ p {
     border-radius: 5px;
     border: none;
     background-color: #f0ebe4;
-    margin-top: 60%;
+    margin-top: 16px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1), 0 3px 10px 0 rgba(0,0,0,0.09);
 }
 
