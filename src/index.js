@@ -38,8 +38,8 @@ function main() {
 }
 
 function room() {
-    const roomPage = new Room('room', './css/room.css', group, offers);
-    roomPage.setPage();
+    const room = new Room('room', './css/room.css', group, offers);
+    room.setPage();
 }
 
 function removeSocketListeners(...args) {
