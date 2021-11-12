@@ -48,8 +48,10 @@ class Main extends Page {
         createGroupButton.disabled = true;
         enterGroupButton.disabled = true;
         enterSignage.style.display = 'none';
+        enterButton.disabled = true;
 
         const scope = this;
+        let isEnterGroup = false;
         function createGroup() {
             scope.group.createNewId();
             socket.emit('create group', scope.group.id);
@@ -61,8 +63,28 @@ class Main extends Page {
             }
             socket.emit('find group', typeGroupId.value);
         }
-
+        function onChangeInputValue() {
+            if (isEnterGroup) {
+                if (typeGroupId.value === '' || typeName.value === '') {
+                    enterButton.disabled = true;
+                }
+                else {
+                    enterButton.disabled = false;
+                }
+            }
+            else {
+                if (typeName.value === '') {
+                    enterButton.disabled = true;
+                }
+                else {
+                    enterButton.disabled = false;
+                }
+            }
+        }
+        typeGroupId.onchange = onChangeInputValue;
+        typeName.onchange = onChangeInputValue;
         createGroupButton.onclick = () => {
+            isEnterGroup = false;
             mainSignage.style.display = 'none';
             enterSignage.style.display = 'block';
             typeGroupId.style.display = 'none';
@@ -70,6 +92,7 @@ class Main extends Page {
             enterButton.onclick = createGroup;
         };
         enterGroupButton.onclick = () => {
+            isEnterGroup = true;
             mainSignage.style.display = 'none';
             enterSignage.style.display = 'block';
             typeGroupId.style.display = 'block';
