@@ -70,12 +70,12 @@ class Room extends Page {
         chat.showChat('joined ' + this.group.id);
 
         /*Init socket listeners at room page*/
-        socket.on('req offer', targetId => {
+        socket.on('req offer', userData => {
             console.log(targetId, 'requested offer');
-            const userModel = world.createUserModel(targetId);
-            const peer = new Caller(targetId, chat, userModel);
+            const userModel = world.createUserModel(userData.id);
+            const peer = new Caller(userData, chat, userModel);
             peer.createOffer();
-            peers.set(targetId, peer);
+            peers.set(userData.id, peer);
         });
     
         socket.on('recv answer', (answer, targetId) => {
