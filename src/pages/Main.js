@@ -77,10 +77,7 @@ class Main extends Page {
             socket.emit('create group', scope.group.id);
         }
         function enterGroup() {
-            if (typeGroupId.value == '') {
-                window.alert("방 아이디를 입력해주세요");
-                return;
-            }
+            userData.name = typeName.value;
             socket.emit('find group', typeGroupId.value);
         }
 
