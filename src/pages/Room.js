@@ -96,7 +96,7 @@ class Room extends Page {
             }
 
             this.group.addUser(userId);
-            chat.showChat(userId + " joined group");
+            chat.showChat(peer.data.name + " joined group");
             checkIsAlone(this.group);
         });
     
