@@ -2,14 +2,14 @@ import { socket } from './Socket';
 import { Peer } from './Peer';
 
 class Callee extends Peer {
-    constructor(targetId, chatComponent, userModel) {
-        super(targetId, chatComponent, userModel);
+    constructor(userData, chatComponent, userModel) {
+        super(userData, chatComponent, userModel);
 
         this.conn.onicegatheringstatechange = e => {
             console.log('ice gathering...');
             if (e.target.iceGatheringState !== 'complete') return;
             console.log('ice gathering complete!');
-            socket.emit('recv answer', this.conn.localDescription, socket.id, targetId);
+            socket.emit('recv answer', this.conn.localDescription, socket.id, userData);
         }
     }
     createAnswer(offer) {
