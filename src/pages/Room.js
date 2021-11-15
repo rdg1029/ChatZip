@@ -107,7 +107,7 @@ class Room extends Page {
 
             peers.delete(userId);
             this.group.removeUser(userId);
-            chat.showChat(userId + " quit");
+            chat.showChat(peer.data.name + " quit");
 
             checkIsHost(this.group);
             checkIsAlone(this.group);
