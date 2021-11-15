@@ -71,7 +71,7 @@ class Room extends Page {
 
         /*Init socket listeners at room page*/
         socket.on('req offer', userData => {
-            console.log(targetId, 'requested offer');
+            console.log(userData.id, 'requested offer');
             const userModel = world.createUserModel(userData.name);
             const peer = new Caller(userData, chat, userModel);
             peer.createOffer();
