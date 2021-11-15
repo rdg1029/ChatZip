@@ -106,6 +106,7 @@ class Main extends Page {
 
         /*Init socket listeners at main page*/
         socket.on('open', () => {
+            userData.id = socket.id;
             openStatus.innerHTML = "OPEN<br>(준비중)";
             createGroupButton.disabled = false;
             enterGroupButton.disabled = false;
