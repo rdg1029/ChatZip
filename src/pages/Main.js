@@ -133,7 +133,7 @@ class Main extends Page {
             connMsg.innerHTML = '연결 중...';
             enterSignage.appendChild(connMsg);
 
-            socket.emit('req offer', this.group.id, socket.id);
+            socket.emit('req offer', this.group.id, userData);
         });
 
         socket.on('req answer', (offer, targetId) => {
