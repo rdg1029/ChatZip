@@ -78,8 +78,8 @@ class Room extends Page {
             peers.set(userData.id, peer);
         });
     
-        socket.on('recv answer', (answer, targetId) => {
-            const peer = peers.get(targetId);
+        socket.on('recv answer', (answer, userData) => {
+            const peer = peers.get(userData.id);
             peer.receiveAnswer(answer);
             world.loop.updateList.push(peer.userModel);
             world.scene.add(peer.userModel);
