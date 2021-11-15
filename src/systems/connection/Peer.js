@@ -1,5 +1,5 @@
 class Peer {
-    constructor(userData, chatComponent, userModel) {
+    constructor(targetUserData, chatComponent, userModel) {
         const iceConfig = {
             iceServers : [
                 {
@@ -7,7 +7,7 @@ class Peer {
                 }
             ]
         };
-        this.data = userData;
+        this.data = targetUserData;
         this.userModel = userModel;
         this.conn = new RTCPeerConnection(iceConfig);
 
