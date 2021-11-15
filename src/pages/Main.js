@@ -136,9 +136,9 @@ class Main extends Page {
             socket.emit('req offer', this.group.id, userData);
         });
 
-        socket.on('req answer', (offer, targetId) => {
-            console.log(targetId, 'requested answer');
-            this.offers.set(targetId, offer);
+        socket.on('req answer', (offer, targetUserData) => {
+            console.log(targetUserData.id, 'requested answer');
+            this.offers.set(targetUserData, offer);
             if (this.group.number !== this.offers.size) return;
             socket.emit('req join', this.group.id);
         });
