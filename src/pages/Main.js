@@ -1,5 +1,6 @@
 import { socket } from '../systems/connection/Socket';
-import { Page } from './Page.js';
+import { userData } from '../systems/connection/UserData';
+import { Page } from './Page';
 
 class Main extends Page {
     constructor(divID, css, group, offers) {
@@ -71,6 +72,7 @@ class Main extends Page {
             }
         }
         function createGroup() {
+            userData.name = typeName.value;
             scope.group.createNewId();
             socket.emit('create group', scope.group.id);
         }
