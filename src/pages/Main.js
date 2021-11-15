@@ -52,17 +52,6 @@ class Main extends Page {
 
         const scope = this;
         let isEnterGroup = false;
-        function createGroup() {
-            scope.group.createNewId();
-            socket.emit('create group', scope.group.id);
-        }
-        function enterGroup() {
-            if (typeGroupId.value == '') {
-                window.alert("방 아이디를 입력해주세요");
-                return;
-            }
-            socket.emit('find group', typeGroupId.value);
-        }
         function onChangeInputValue() {
             if (isEnterGroup) {
                 if (typeGroupId.value === '' || typeName.value === '') {
@@ -81,6 +70,18 @@ class Main extends Page {
                 }
             }
         }
+        function createGroup() {
+            scope.group.createNewId();
+            socket.emit('create group', scope.group.id);
+        }
+        function enterGroup() {
+            if (typeGroupId.value == '') {
+                window.alert("방 아이디를 입력해주세요");
+                return;
+            }
+            socket.emit('find group', typeGroupId.value);
+        }
+
         typeGroupId.onchange = onChangeInputValue;
         typeName.onchange = onChangeInputValue;
         createGroupButton.onclick = () => {
