@@ -1,9 +1,10 @@
 import { socket } from './Socket';
+import { userData } from './UserData';
 import { Peer } from './Peer';
 
 class Caller extends Peer {
-    constructor(userData, chatComponent, userModel) {
-        super(userData, chatComponent, userModel);
+    constructor(targetUserData, chatComponent, userModel) {
+        super(targetUserData, chatComponent, userModel);
 
         this.conn.onicegatheringstatechange = e => {
             console.log('ice gathering...');
