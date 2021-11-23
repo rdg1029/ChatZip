@@ -20,29 +20,31 @@ class Controls extends PointerLockControls {
         this.camera = camera;
         this.peers = peers;
         this.key = new Map([
-            ['w', false],
-            ['a', false],
-            ['s', false],
-            ['d', false]
+            ['KeyW', false],
+            ['KeyA', false],
+            ['KeyS', false],
+            ['KeyD', false]
         ]);
 
         const scope = this;
         function _eventMoveKeyDown(e) {
-            if (e.key === 'Enter') {
+            if (e.code === 'Enter') {
                 menu.isReady = false;
                 scope.unlock();
                 chatInput.focus();
                 return;
             }
-            if (!scope.key.has(e.key)) return;
-            if (scope.key.get(e.key)) return;
-            scope.key.set(e.key, true);
+            if (!scope.key.has(e.code)) return;
+            if (scope.key.get(e.code)) return;
+            console.log(`${e.code} (down)`);
+            scope.key.set(e.code, true);
         }
 
         function _eventMoveKeyUp(e) {
-            if (!scope.key.has(e.key)) return;
-            if (!scope.key.get(e.key)) return;
-            scope.key.set(e.key, false);
+            if (!scope.key.has(e.code)) return;
+            if (!scope.key.get(e.code)) return;
+            console.log(`${e.code} (up)`);
+            scope.key.set(e.code, false);
         }
 
         this.addEventListener('lock', e => {
@@ -70,16 +72,16 @@ class Controls extends PointerLockControls {
     }
     update(delta) {
         const speed = (10 * delta).toFixed(3);
-        if (this.key.get('w')) {
+        if (this.key.get('KeyW')) {
             this.moveForward(speed);
         }
-        if (this.key.get('a')) {
+        if (this.key.get('KeyA')) {
             this.moveRight(-speed);
         }
-        if (this.key.get('s')) {
+        if (this.key.get('KeyS')) {
             this.moveForward(-speed);
         }
-        if (this.key.get('d')) {
+        if (this.key.get('KeyD')) {
             this.moveRight(speed);
         }
     }
