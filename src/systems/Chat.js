@@ -2,6 +2,7 @@ import { userData } from './connection/UserData';
 
 class Chat {
     constructor(peers) {
+        this.component = document.getElementById('chat');
         this.messages = document.getElementById('messages');
         this.form = document.getElementById('form');
         this.input = document.getElementById('input');
