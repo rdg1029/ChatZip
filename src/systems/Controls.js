@@ -15,7 +15,7 @@ function _isMove() {
 }
 
 class Controls extends PointerLockControls {
-    constructor(camera, canvas, peers, chatInput, menu) {
+    constructor(camera, canvas, peers, chat, menu) {
         super(camera, canvas);
         this.camera = camera;
         this.peers = peers;
@@ -35,7 +35,7 @@ class Controls extends PointerLockControls {
             if (e.code === 'Enter') {
                 menu.isReady = false;
                 scope.unlock();
-                chatInput.focus();
+                chat.input.focus();
                 return;
             }
             if (!scope.key.has(e.code)) return;

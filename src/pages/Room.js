@@ -48,7 +48,7 @@ class Room extends Page {
         const chat = new Chat(peers);
         const menu = new Menu();
         const world = new World(this.canvas);
-        const controls = new Controls(world.camera, this.canvas, peers, chat.input, menu);
+        const controls = new Controls(world.camera, this.canvas, peers, chat, menu);
 
         this.offers.forEach((offer, userData) => {
             const userModel = world.createUserModel(userData.name);
