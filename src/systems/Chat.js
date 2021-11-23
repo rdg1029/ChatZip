@@ -19,7 +19,9 @@ class Chat {
             this.input.value = "";
         });
     }
-
+    showComponent() {
+        this.component.style.display = 'unset';
+    }
     showChat(msg) {
         const message = document.createElement('li');
         message.innerHTML = msg;
