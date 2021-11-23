@@ -21,9 +21,13 @@ class Controls extends PointerLockControls {
         this.peers = peers;
         this.key = new Map([
             ['KeyW', false],
+            ['ArrowUp', false],
             ['KeyA', false],
+            ['ArrowLeft', false],
             ['KeyS', false],
-            ['KeyD', false]
+            ['ArrowDown', false],
+            ['KeyD', false],
+            ['ArrowRight', false]
         ]);
 
         const scope = this;
@@ -36,14 +40,12 @@ class Controls extends PointerLockControls {
             }
             if (!scope.key.has(e.code)) return;
             if (scope.key.get(e.code)) return;
-            console.log(`${e.code} (down)`);
             scope.key.set(e.code, true);
         }
 
         function _eventMoveKeyUp(e) {
             if (!scope.key.has(e.code)) return;
             if (!scope.key.get(e.code)) return;
-            console.log(`${e.code} (up)`);
             scope.key.set(e.code, false);
         }
 
@@ -72,16 +74,16 @@ class Controls extends PointerLockControls {
     }
     update(delta) {
         const speed = (10 * delta).toFixed(3);
-        if (this.key.get('KeyW')) {
+        if (this.key.get('KeyW') || this.key.get('ArrowUp')) {
             this.moveForward(speed);
         }
-        if (this.key.get('KeyA')) {
+        if (this.key.get('KeyA') || this.key.get('ArrowLeft')) {
             this.moveRight(-speed);
         }
-        if (this.key.get('KeyS')) {
+        if (this.key.get('KeyS') || this.key.get('ArrowDown')) {
             this.moveForward(-speed);
         }
-        if (this.key.get('KeyD')) {
+        if (this.key.get('KeyD') || this.key.get('ArrowRight')) {
             this.moveRight(speed);
         }
     }
