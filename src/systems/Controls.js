@@ -32,15 +32,28 @@ class Controls extends PointerLockControls {
 
         const scope = this;
         function _eventMoveKeyDown(e) {
-            if (e.code === 'Enter') {
-                menu.isReady = false;
-                scope.unlock();
-                chat.input.focus();
-                return;
+            switch(e.code) {
+                case 'Enter':
+                    menu.isReady = false;
+                    scope.unlock();
+                    chat.showComponent();
+                    chat.input.focus();                    
+                    break;
+                case 'KeyC':
+                    chat.isVisible = !chat.isVisible;
+                    if (chat.isVisible) {
+                        chat.showComponent();
+                    }
+                    else {
+                        chat.hideComponent()
+                    }
+                    break;
+                default:
+                    if (!scope.key.has(e.code)) return;
+                    if (scope.key.get(e.code)) return;
+                    scope.key.set(e.code, true);
+
             }
-            if (!scope.key.has(e.code)) return;
-            if (scope.key.get(e.code)) return;
-            scope.key.set(e.code, true);
         }
 
         function _eventMoveKeyUp(e) {
@@ -52,8 +65,12 @@ class Controls extends PointerLockControls {
         this.addEventListener('lock', e => {
             document.addEventListener('keydown', _eventMoveKeyDown);
             document.addEventListener('keyup', _eventMoveKeyUp);
-            if (menu.isReady) return;
-            menu.isReady = true;
+            if (!menu.isReady) {
+                menu.isReady = true;
+            }
+            if (!chat.isVisible) {
+                chat.hideComponent();
+            }
         });
         this.addEventListener('unlock', e => {
             document.removeEventListener('keydown', _eventMoveKeyDown);
