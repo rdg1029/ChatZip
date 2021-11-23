@@ -22,6 +22,9 @@ class Chat {
     showComponent() {
         this.component.style.display = 'unset';
     }
+    hideComponent() {
+        this.component.style.display = 'none';
+    }
     showChat(msg) {
         const message = document.createElement('li');
         message.innerHTML = msg;
