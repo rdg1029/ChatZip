@@ -53,7 +53,10 @@ class Room extends Page {
                 </div>
             </div>
         `;
-        window.addEventListener('beforeunload', onBeforeUnload);
+        window.addEventListener('beforeunload', e => {
+            e.preventDefault();
+            e.returnValue = '';
+        });
     }
     setPage() {
         super.setPage(this.html);
@@ -146,11 +149,6 @@ function checkIsAlone(group) {
     else {
         socket.emit('is alone', false);
     }
-}
-
-function onBeforeUnload(e) {
-    e.preventDefault();
-    window.removeEventListener('beforeunload', onBeforeUnload);
 }
 
 export {Room};
