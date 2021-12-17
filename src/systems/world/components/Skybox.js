@@ -3,12 +3,12 @@ import { CubeTextureLoader } from "three/build/three.min";
 function createSkybox() {
     const textureLoader = new CubeTextureLoader();
     const texture = textureLoader.load([
-        './img/skybox/px.bmp',
-        './img/skybox/nx.bmp',
-        './img/skybox/py.bmp',
-        './img/skybox/ny.bmp',
-        './img/skybox/pz.bmp',
-        './img/skybox/nz.bmp'
+        './img/skybox/px.png',
+        './img/skybox/nx.png',
+        './img/skybox/py.png',
+        './img/skybox/ny.png',
+        './img/skybox/pz.png',
+        './img/skybox/nz.png'
     ]);
 
     return texture;
