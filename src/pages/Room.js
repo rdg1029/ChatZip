@@ -4,10 +4,11 @@ import { socket } from '../systems/connection/Socket';
 import { Caller } from '../systems/connection/Caller';
 import { Callee } from '../systems/connection/Callee';
 
+import { user } from '../systems/User';
 import { Chat } from '../systems/Chat';
 import { Menu } from '../systems/Menu';
 import { World } from '../systems/world/World';
-import { Controls } from '../systems/Controls';
+import { Controls } from '../systems/controls/Controls';
 
 class Room extends Page {
     constructor(divID, css, group, offers) {
@@ -67,6 +68,9 @@ class Room extends Page {
         const menu = new Menu();
         const world = new World(this.canvas);
         const controls = new Controls(world.camera, this.canvas, peers, chat, menu);
+        
+        world.loop.updateList.push(controls, user);
+        world.loop.tick.list.push(controls);
 
         this.offers.forEach((offer, userData) => {
             const userModel = world.createUserModel(userData.name);
@@ -81,8 +85,6 @@ class Room extends Page {
         checkIsHost(this.group);
         checkIsAlone(this.group);
 
-        world.loop.updateList.push(controls);
-        world.loop.tick.list.push(controls);
         world.start();
         controls.lock();
         chat.showChat('joined ' + this.group.id);
