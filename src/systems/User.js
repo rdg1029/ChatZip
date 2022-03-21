@@ -6,9 +6,9 @@ const user = {
     state: {
         pos: [0, 0, 0],
         onGround: false,
-        gravity: 1,
+        gravity: 2,
         gravAccel: 0,
-        jumpHeight: 1,
+        jumpHeight: 0.5,
     },
     colllision: {
         width: 4,
@@ -17,6 +17,7 @@ const user = {
     },
     update: function(delta) {
         this.state.gravAccel -= this.state.gravity * delta;
+        this.state.pos[1] += this.state.gravAccel;
         if (this.state.pos[1] > 0) return;
         this.state.pos[1] = 0;
         this.state.onGround = true;
