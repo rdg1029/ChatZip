@@ -1,4 +1,4 @@
-import { userData } from './connection/UserData';
+import { user } from './User';
 
 class Chat {
     constructor(peers) {
@@ -12,7 +12,7 @@ class Chat {
             const inputValue = this.input.value;
             e.preventDefault();
             if(inputValue === "") return;
-            const msg = `${userData.name} : ${inputValue}`;
+            const msg = `${user.info.name} : ${inputValue}`;
             peers.forEach(peer => {
                 peer.sendChat(msg);
             })

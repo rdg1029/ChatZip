@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from "three/build/three.min";
+import { PerspectiveCamera } from "three";
 
 class Camera extends PerspectiveCamera {
     constructor(fov, aspect, near, far) {

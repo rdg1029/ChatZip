@@ -1,4 +1,4 @@
-import { Clock } from 'three/build/three.min';
+import { Clock } from 'three';
 import { Tick } from './Tick';
 
 class Loop {

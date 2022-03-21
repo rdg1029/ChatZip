@@ -1,5 +1,5 @@
 import { socket } from './Socket';
-import { userData } from './UserData';
+import { user } from '../User';
 import { Peer } from './Peer';
 
 class Callee extends Peer {
@@ -10,7 +10,7 @@ class Callee extends Peer {
             console.log('ice gathering...');
             if (e.target.iceGatheringState !== 'complete') return;
             console.log('ice gathering complete!');
-            socket.emit('recv answer', this.conn.localDescription, userData, targetUserData.id);
+            socket.emit('recv answer', this.conn.localDescription, user.info, targetUserData.id);
         }
     }
     createAnswer(offer) {

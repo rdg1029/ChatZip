@@ -1,5 +1,5 @@
 import { socket } from './Socket';
-import { userData } from './UserData';
+import { user } from '../User';
 import { Peer } from './Peer';
 
 class Caller extends Peer {
@@ -10,8 +10,8 @@ class Caller extends Peer {
             console.log('ice gathering...');
             if (e.target.iceGatheringState !== 'complete') return;
             console.log('ice gathering complete!');
-            console.log(userData);
-            socket.emit('req answer', this.conn.localDescription, userData, targetUserData.id);
+            console.log(user.info);
+            socket.emit('req answer', this.conn.localDescription, user.info, targetUserData.id);
         }
     }
     createOffer() {

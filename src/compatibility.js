@@ -1,4 +1,4 @@
-import {WEBGL} from 'three/examples/jsm/WebGL'
+import WEBGL from 'three/examples/jsm/capabilities/WebGL'
 
 function compatibilityCheck() {
     let result = '';

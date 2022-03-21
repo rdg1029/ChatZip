@@ -1,5 +1,5 @@
 import { socket } from '../systems/connection/Socket';
-import { userData } from '../systems/connection/UserData';
+import { user } from '../systems/User';
 import { Page } from './Page';
 
 class Main extends Page {
@@ -72,12 +72,12 @@ class Main extends Page {
             }
         }
         function createGroup() {
-            userData.name = typeName.value;
+            user.info.name = typeName.value;
             scope.group.createNewId();
             socket.emit('create group', scope.group.id);
         }
         function enterGroup() {
-            userData.name = typeName.value;
+            user.info.name = typeName.value;
             socket.emit('find group', typeGroupId.value);
         }
 
@@ -106,7 +106,7 @@ class Main extends Page {
 
         /*Init socket listeners at main page*/
         socket.on('open', () => {
-            userData.id = socket.id;
+            user.info.id = socket.id;
             openStatus.innerHTML = "OPEN<br>(준비중)";
             createGroupButton.disabled = false;
             enterGroupButton.disabled = false;
@@ -134,7 +134,7 @@ class Main extends Page {
             connMsg.innerHTML = '연결 중...';
             enterSignage.appendChild(connMsg);
 
-            socket.emit('req offer', this.group.id, userData);
+            socket.emit('req offer', this.group.id, user.info);
         });
 
         socket.on('req answer', (offer, targetUserData) => {

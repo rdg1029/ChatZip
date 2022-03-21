@@ -1,4 +1,4 @@
-import { CubeTextureLoader } from "three/build/three.min";
+import { CubeTextureLoader } from "three";
 
 function createSkybox() {
     const textureLoader = new CubeTextureLoader();

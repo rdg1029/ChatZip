@@ -1,4 +1,4 @@
-import { Vector3, Group } from 'three/build/three.min';
+import { Vector3, Group } from 'three';
 import { NameLabel } from './NameLabel';
 import { UserAppearance } from './UserAppearance';
 

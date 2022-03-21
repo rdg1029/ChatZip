@@ -1,4 +1,4 @@
-import { Scene } from "three/build/three.min";
+import { Scene } from "three";
 
 function createScene() {
     return new Scene();

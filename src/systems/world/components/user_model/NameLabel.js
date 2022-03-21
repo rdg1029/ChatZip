@@ -1,4 +1,4 @@
-import { CanvasTexture, SpriteMaterial, Sprite, LinearFilter, ClampToEdgeWrapping } from 'three/build/three.min';
+import { CanvasTexture, SpriteMaterial, Sprite, LinearFilter, ClampToEdgeWrapping } from 'three';
 
 function makeLabelCanvas(name) {
     const borderSize = 1;

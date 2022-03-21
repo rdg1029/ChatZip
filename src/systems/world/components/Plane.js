@@ -1,4 +1,4 @@
-import { PlaneGeometry, MeshBasicMaterial, Mesh } from "three/build/three.min";
+import { PlaneGeometry, MeshBasicMaterial, Mesh } from "three";
 
 function createPlane() {
     const planeGeometry = new PlaneGeometry(10, 10);

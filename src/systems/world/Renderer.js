@@ -1,4 +1,4 @@
-import { WebGLRenderer } from "three/build/three.min";
+import { WebGLRenderer } from "three";
 
 function createRenderer(canvas) {
     const renderer = new WebGLRenderer({canvas});

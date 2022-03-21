@@ -1,4 +1,4 @@
-import { TextureLoader, SpriteMaterial, Sprite } from 'three/build/three.min';
+import { TextureLoader, SpriteMaterial, Sprite } from 'three';
 
 class UserAppearance extends Sprite {
     constructor() {
