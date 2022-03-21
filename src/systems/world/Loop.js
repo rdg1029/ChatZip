@@ -17,6 +17,7 @@ class Loop {
         this.renderer.setAnimationLoop(() => {
             const delta = clock.getDelta();
             this.update(delta);
+            this.camera.updatePosition();
             this.renderer.render(this.scene, this.camera);
             duration += delta;
             if (duration < tickTime) return;
