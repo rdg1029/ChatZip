@@ -10,6 +10,7 @@ const user = {
     width: 4,
     height: 14,
     depth: 4,
+    jumpHeight: 0.2,
 };
 
 export {user};
