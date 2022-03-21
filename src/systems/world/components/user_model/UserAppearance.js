@@ -5,6 +5,8 @@ class UserAppearance extends Sprite {
         const map = new TextureLoader().load('./img/person.png');
         const material = new SpriteMaterial({map: map});
         super(material);
+        this.position.y = 6;
+        this.scale.set(18, 18, 18);
         this.map = map;
         this.material = material;
     }
