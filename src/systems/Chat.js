@@ -12,7 +12,7 @@ class Chat {
             const inputValue = this.input.value;
             e.preventDefault();
             if(inputValue === "") return;
-            const msg = `${user.info.name} : ${inputValue}`;
+            const msg = `${user.data.name} : ${inputValue}`;
             peers.forEach(peer => {
                 peer.sendChat(msg);
             })

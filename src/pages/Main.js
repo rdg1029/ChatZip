@@ -72,12 +72,12 @@ class Main extends Page {
             }
         }
         function createGroup() {
-            user.info.name = typeName.value;
+            user.data.name = typeName.value;
             scope.group.createNewId();
             socket.emit('create group', scope.group.id);
         }
         function enterGroup() {
-            user.info.name = typeName.value;
+            user.data.name = typeName.value;
             socket.emit('find group', typeGroupId.value);
         }
 
@@ -106,7 +106,7 @@ class Main extends Page {
 
         /*Init socket listeners at main page*/
         socket.on('open', () => {
-            user.info.id = socket.id;
+            user.data.id = socket.id;
             openStatus.innerHTML = "OPEN<br>(준비중)";
             createGroupButton.disabled = false;
             enterGroupButton.disabled = false;
@@ -134,7 +134,7 @@ class Main extends Page {
             connMsg.innerHTML = '연결 중...';
             enterSignage.appendChild(connMsg);
 
-            socket.emit('req offer', this.group.id, user.info);
+            socket.emit('req offer', this.group.id, user.data);
         });
 
         socket.on('req answer', (offer, targetUserData) => {

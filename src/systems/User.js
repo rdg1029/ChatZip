@@ -1,5 +1,5 @@
 const user = {
-    info: {
+    data: {
         id: "",
         name: "",
     },

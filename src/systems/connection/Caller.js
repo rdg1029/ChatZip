@@ -10,8 +10,8 @@ class Caller extends Peer {
             console.log('ice gathering...');
             if (e.target.iceGatheringState !== 'complete') return;
             console.log('ice gathering complete!');
-            console.log(user.info);
-            socket.emit('req answer', this.conn.localDescription, user.info, targetUserData.id);
+            console.log(user.data);
+            socket.emit('req answer', this.conn.localDescription, user.data, targetUserData.id);
         }
     }
     createOffer() {

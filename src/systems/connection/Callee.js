@@ -10,7 +10,7 @@ class Callee extends Peer {
             console.log('ice gathering...');
             if (e.target.iceGatheringState !== 'complete') return;
             console.log('ice gathering complete!');
-            socket.emit('recv answer', this.conn.localDescription, user.info, targetUserData.id);
+            socket.emit('recv answer', this.conn.localDescription, user.data, targetUserData.id);
         }
     }
     createAnswer(offer) {
