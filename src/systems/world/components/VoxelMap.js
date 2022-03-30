@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import { voxelData, getRGB } from './VoxelData';
+import { user } from '../../User';
+
+const JSZip = require('jszip');
 
 const neighborOffsets = [
     [0, 0, 0], // self
@@ -12,12 +15,32 @@ const neighborOffsets = [
 ];
 const meshOfChunks = new Map();
 
+let worldData = {};
+function setWorldData(uInt8Arr) {
+    const CONVERSION = 128;
+    let data = "";
+    for (let i = 0, j = uInt8Arr.length; i < j; i++) {
+        data += String.fromCharCode(uInt8Arr[i] - CONVERSION);
+    }
+    worldData = JSON.parse(data);
+}
+function getTestFile() {
+    let buffer;
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.responseType = 'arraybuffer'
+    xhr.onload = () => {
+        buffer = xhr.response;
+    }
+    return buffer;
+}
+
 class VoxelMap {
-    constructor(scene, chunkSize) {
+    constructor(scene) {
         this.scene = scene;
-        this.chunkSize = chunkSize;
-        this.chunkSizeBit = Math.log2(chunkSize);
-        this.chunkSliceSize = chunkSize << this.chunkSizeBit;
+        this.chunkSize = 32;
+        this.chunkSizeBit = Math.log2(this.chunkSize);
+        this.chunkSliceSize = this.chunkSize << this.chunkSizeBit;
         this.chunkSliceSizeBit = Math.log2(this.chunkSliceSize);
         this.chunks = new Map();
         this.faces = [
@@ -194,6 +217,44 @@ class VoxelMap {
             this.scene.add(mesh);
             mesh.position.set(chunkX << CHUNK_SIZE_BIT, chunkY << CHUNK_SIZE_BIT, chunkZ << CHUNK_SIZE_BIT);
         }
+    }
+    clearAllChunks() {
+        this.chunks.forEach((_, id) => {
+            const chunk = meshOfChunks.get(id);
+            chunk.geometry.dispose();
+            this.scene.remove(chunk);
+            meshOfChunks.delete(id);
+            this.chunks.delete(id);
+        });
+    }
+    load() {
+        const zip = new JSZip();
+        const testFile = getTestFile();
+        console.log(testFile);
+        zip.loadAsync(testFile).then(() => {
+            this.clearAllChunks();
+            const dataFile = zip.file('data');
+            if (dataFile) {
+                dataFile.async('uint8array').then(data => {
+                    setWorldData(data);
+                    const spawnPoint = worldData.spawnPoint;
+                    const userPos = user.state.pos;
+                    userPos[0] = spawnPoint[0];
+                    userPos[1] = spawnPoint[1];
+                    userPos[2] = spawnPoint[2];
+                });
+            }
+            zip.folder('chunks').forEach((chunk, file) => {
+                file.async('uint8array').then(data => {
+                    world.chunks.set(chunk, data);
+                    const pos = chunk.split(',');
+                    const x = Number(pos[0]) << CHUNK_SIZE_BIT;
+                    const y = Number(pos[1]) << CHUNK_SIZE_BIT;
+                    const z = Number(pos[2]) << CHUNK_SIZE_BIT;
+                    updateChunkGeometry(x, y, z);
+                });
+            });
+        });
     }
 }
 
