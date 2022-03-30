@@ -7,7 +7,7 @@ class Camera extends PerspectiveCamera {
         this.updatePosition();
     }
     updatePosition() {
-        this.position.set(user.state.pos[0], user.state.pos[1] + 12, user.state.pos[2])
+        this.position.set(user.state.pos[0], user.state.pos[1] + 13, user.state.pos[2])
     }
     getPosition() {
         return this.position.toArray();
@@ -20,7 +20,7 @@ class Camera extends PerspectiveCamera {
 }
 
 function createCamera() {
-    return new Camera(60, window.innerWidth/window.innerHeight, 0.1, 100);
+    return new Camera(60, window.innerWidth/window.innerHeight, 0.1, 256);
 }
 
 export {createCamera};
