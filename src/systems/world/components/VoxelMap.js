@@ -185,15 +185,6 @@ class VoxelMap {
             this.chunks.delete(chunkId);
             meshOfChunks.delete(chunkId);
             geometry.dispose();
-            // If chunk not exist
-            if (meshOfChunks.size === 0) {
-                this.scene.add(gridHelper);
-            }
-            else {
-                gridHelper.geometry.dispose();
-                gridHelper.material.dispose();
-                this.scene.remove(gridHelper);
-            }
             return;
         }
         if (!mesh) {
