@@ -9,6 +9,7 @@ import { Chat } from '../systems/Chat';
 import { Menu } from '../systems/Menu';
 import { World } from '../systems/world/World';
 import { Controls } from '../systems/controls/Controls';
+import { Collider } from '../systems/world/Collider';
 
 class Room extends Page {
     constructor(divID, css, group, offers) {
@@ -67,9 +68,12 @@ class Room extends Page {
         const chat = new Chat(peers);
         const menu = new Menu();
         const world = new World(this.canvas);
+        const worldUpdates = world.loop.updateList;
+
         const controls = new Controls(world.camera, this.canvas, peers, chat, menu);
+        const collider = new Collider(world.map);
         
-        world.loop.updateList.push(controls, user);
+        worldUpdates.push(controls, user);
         world.loop.tick.list.push(controls);
 
         this.offers.forEach((offer, userData) => {
@@ -78,7 +82,7 @@ class Room extends Page {
             peer.createAnswer(offer);
             peers.set(userData.id, peer);
     
-            world.loop.updateList.push(userModel);
+            worldUpdates.push(userModel);
             world.scene.add(userModel);
         });
 
@@ -101,7 +105,7 @@ class Room extends Page {
         socket.on('recv answer', (answer, userData) => {
             const peer = peers.get(userData.id);
             peer.receiveAnswer(answer);
-            world.loop.updateList.push(peer.userModel);
+            worldUpdates.push(peer.userModel);
             world.scene.add(peer.userModel);
         });
 
