@@ -17,10 +17,10 @@ const user = {
         depth: 4,
     },
     update: function(delta) {
-        let {pos, onGround, gravity, gravAccel} = this.state;
+        let {dir, onGround, gravity, gravAccel} = this.state;
         if (onGround) return;
         gravAccel -= gravity * delta;
-        pos[1] += gravAccel;
+        dir[1] += gravAccel;
     },
 };
 
