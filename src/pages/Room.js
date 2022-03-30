@@ -73,7 +73,7 @@ class Room extends Page {
         const controls = new Controls(world.camera, this.canvas, peers, chat, menu);
         const collider = new Collider(world.map);
         
-        worldUpdates.push(controls, user);
+        worldUpdates.push(controls, user, collider);
         world.loop.tick.list.push(controls);
 
         this.offers.forEach((offer, userData) => {
