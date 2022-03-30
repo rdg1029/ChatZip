@@ -4,6 +4,9 @@ import { user } from '../../User';
 
 const JSZip = require('jszip');
 
+// Voxel material
+const material = new THREE.MeshLambertMaterial({vertexColors: THREE.VertexColors});
+
 const neighborOffsets = [
     [0, 0, 0], // self
     [-1, 0, 0], // left
@@ -24,23 +27,16 @@ function setWorldData(uInt8Arr) {
     }
     worldData = JSON.parse(data);
 }
-function getTestFile() {
-    let buffer;
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'arraybuffer'
-    xhr.onload = () => {
-        buffer = xhr.response;
-    }
-    return buffer;
-}
+
+const CHUNK_SIZE = 32;
+const CHUNK_SIZE_BIT = Math.log2(CHUNK_SIZE);
 
 class VoxelMap {
     constructor(scene) {
         this.scene = scene;
-        this.chunkSize = 32;
-        this.chunkSizeBit = Math.log2(this.chunkSize);
-        this.chunkSliceSize = this.chunkSize << this.chunkSizeBit;
+        this.chunkSize = CHUNK_SIZE;
+        this.chunkSizeBit = CHUNK_SIZE_BIT;
+        this.chunkSliceSize = CHUNK_SIZE << this.chunkSizeBit;
         this.chunkSliceSizeBit = Math.log2(this.chunkSliceSize);
         this.chunks = new Map();
         this.faces = [
@@ -228,33 +224,42 @@ class VoxelMap {
         });
     }
     load() {
-        const zip = new JSZip();
-        const testFile = getTestFile();
-        console.log(testFile);
-        zip.loadAsync(testFile).then(() => {
-            this.clearAllChunks();
-            const dataFile = zip.file('data');
-            if (dataFile) {
-                dataFile.async('uint8array').then(data => {
-                    setWorldData(data);
-                    const spawnPoint = worldData.spawnPoint;
-                    const userPos = user.state.pos;
-                    userPos[0] = spawnPoint[0];
-                    userPos[1] = spawnPoint[1];
-                    userPos[2] = spawnPoint[2];
-                });
+        // Test file
+        const file = new XMLHttpRequest();
+        file.open('GET', './assets/TEST.zip', true);
+        file.onreadystatechange = () => {
+            if (file.readyState === 4) {
+                if (file.status === 200 || file.status === 0) {
+                    const zip = new JSZip();
+                    zip.loadAsync(file.response).then(() => {
+                        this.clearAllChunks();
+                        const dataFile = zip.file('data');
+                        if (dataFile) {
+                            dataFile.async('uint8array').then(data => {
+                                setWorldData(data);
+                                const spawnPoint = worldData.spawnPoint;
+                                const userPos = user.state.pos;
+                                userPos[0] = spawnPoint[0];
+                                userPos[1] = spawnPoint[1] + 1;
+                                userPos[2] = spawnPoint[2];
+                            });
+                        }
+                        zip.folder('chunks').forEach((chunk, file) => {
+                            file.async('uint8array').then(data => {
+                                this.chunks.set(chunk, data);
+                                const pos = chunk.split(',');
+                                const x = Number(pos[0]) << CHUNK_SIZE_BIT;
+                                const y = Number(pos[1]) << CHUNK_SIZE_BIT;
+                                const z = Number(pos[2]) << CHUNK_SIZE_BIT;
+                                this.updateChunkGeometry(x, y, z);
+                            });
+                        });
+                    });
+                }
             }
-            zip.folder('chunks').forEach((chunk, file) => {
-                file.async('uint8array').then(data => {
-                    world.chunks.set(chunk, data);
-                    const pos = chunk.split(',');
-                    const x = Number(pos[0]) << CHUNK_SIZE_BIT;
-                    const y = Number(pos[1]) << CHUNK_SIZE_BIT;
-                    const z = Number(pos[2]) << CHUNK_SIZE_BIT;
-                    updateChunkGeometry(x, y, z);
-                });
-            });
-        });
+        }
+        file.responseType = 'arraybuffer';
+        file.send(null);
     }
 }
 
