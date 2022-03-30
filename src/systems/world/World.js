@@ -4,6 +4,7 @@ import { Loop } from './Loop';
 import { createScene } from './components/Scene';
 import { createCamera } from './components/Camera';
 import { createSkybox } from './components/Skybox';
+import { createLight } from './components/Light';
 // import { createPlane } from './components/Plane';
 import { UserModel } from './components/user_model/UserModel';
 import { VoxelMap } from './components/VoxelMap';
@@ -26,12 +27,9 @@ class World {
 
         const skybox = createSkybox();
         this.scene.background = skybox;
-/*
-        const plane = createPlane();
-        plane.rotation.x = Math.PI * -.5;
 
-        this.scene.add(plane);
-*/
+        const light = createLight();
+        this.scene.add(light);
     }
     createUserModel(name) {
         return new UserModel(name);
