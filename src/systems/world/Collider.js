@@ -50,11 +50,11 @@ class Collider {
         }
     }
     update() {
-        const { voxelMap, box, updateBox } = this;
+        const { voxelMap, box } = this;
         const velocity = [userDir[0] - userPos[0], userDir[1] - userPos[1], userDir[2] - userPos[2]];
         const displacement = [...velocity];
         let collisionTime = 1;
-        updateBox();
+        this.updateBox();
 
         for (let i = 0; i < 3; i++) {
             collisionTime = 1;
@@ -101,7 +101,7 @@ class Collider {
         userPos[0] += displacement[0];
         userPos[1] += displacement[1];
         userPos[2] += displacement[2];
-        updateBox();
+        this.updateBox();
     }
 }
 
