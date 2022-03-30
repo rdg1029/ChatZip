@@ -5,6 +5,7 @@ const user = {
     },
     state: {
         pos: [0, 0, 0],
+        dir: [0, 0, 0],
         onGround: false,
         gravity: 2,
         gravAccel: 0,
