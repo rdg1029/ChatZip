@@ -223,43 +223,32 @@ class VoxelMap {
             this.chunks.delete(id);
         });
     }
-    load() {
-        // Test file
-        const file = new XMLHttpRequest();
-        file.open('GET', './assets/TEST.zip', true);
-        file.onreadystatechange = () => {
-            if (file.readyState === 4) {
-                if (file.status === 200 || file.status === 0) {
-                    const zip = new JSZip();
-                    zip.loadAsync(file.response).then(() => {
-                        this.clearAllChunks();
-                        const dataFile = zip.file('data');
-                        if (dataFile) {
-                            dataFile.async('uint8array').then(data => {
-                                setWorldData(data);
-                                const spawnPoint = worldData.spawnPoint;
-                                const userPos = user.state.pos;
-                                userPos[0] = spawnPoint[0];
-                                userPos[1] = spawnPoint[1] + 1;
-                                userPos[2] = spawnPoint[2];
-                            });
-                        }
-                        zip.folder('chunks').forEach((chunk, file) => {
-                            file.async('uint8array').then(data => {
-                                this.chunks.set(chunk, data);
-                                const pos = chunk.split(',');
-                                const x = Number(pos[0]) << CHUNK_SIZE_BIT;
-                                const y = Number(pos[1]) << CHUNK_SIZE_BIT;
-                                const z = Number(pos[2]) << CHUNK_SIZE_BIT;
-                                this.updateChunkGeometry(x, y, z);
-                            });
-                        });
-                    });
-                }
+    load(file) {
+        const zip = new JSZip();
+        zip.loadAsync(file).then(() => {
+            this.clearAllChunks();
+            const dataFile = zip.file('data');
+            if (dataFile) {
+                dataFile.async('uint8array').then(data => {
+                    setWorldData(data);
+                    const spawnPoint = worldData.spawnPoint;
+                    const userPos = user.state.pos;
+                    userPos[0] = spawnPoint[0];
+                    userPos[1] = spawnPoint[1] + 1;
+                    userPos[2] = spawnPoint[2];
+                });
             }
-        }
-        file.responseType = 'arraybuffer';
-        file.send(null);
+            zip.folder('chunks').forEach((chunk, file) => {
+                file.async('uint8array').then(data => {
+                    this.chunks.set(chunk, data);
+                    const pos = chunk.split(',');
+                    const x = Number(pos[0]) << CHUNK_SIZE_BIT;
+                    const y = Number(pos[1]) << CHUNK_SIZE_BIT;
+                    const z = Number(pos[2]) << CHUNK_SIZE_BIT;
+                    this.updateChunkGeometry(x, y, z);
+                });
+            });
+        });
     }
 }
 
