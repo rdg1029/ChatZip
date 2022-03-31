@@ -76,6 +76,19 @@ class Room extends Page {
         worldUpdates.push(controls, user, collider);
         world.loop.tick.list.push(controls);
 
+        // Test file
+        const file = new XMLHttpRequest();
+        file.open('GET', './assets/TEST.zip', true);
+        file.onreadystatechange = () => {
+            if (file.readyState === 4) {
+                if (file.status === 200 || file.status === 0) {
+                    world.map.load(file.response);
+                }
+            }
+        }
+        file.responseType = 'arraybuffer';
+        file.send(null);
+
         this.offers.forEach((offer, userData) => {
             const userModel = world.createUserModel(userData.name);
             const peer = new Callee(userData, chat, userModel);
