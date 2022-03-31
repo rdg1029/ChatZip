@@ -64,3 +64,9 @@ body {
 #input:focus {
     outline: #ffffff;
 }
+
+#state {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

@@ -12,6 +12,7 @@ class Collider {
     constructor(voxelMap) {
         this.voxelMap = voxelMap;
         this.box = new THREE.Box3();
+        this.helper = new THREE.Box3Helper(this.box);
         this.size = new THREE.Vector3(userSize.width, userSize.height, userSize.depth);
     }
     updateBox() {

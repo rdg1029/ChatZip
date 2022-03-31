@@ -37,7 +37,8 @@ class PointerLockControls extends EventDispatcher {
 
 		this.pointerSpeed = 1.0;
 
-        this.displacement = new Vector3().fromArray(user.state.pos);
+		const userState = user.state;
+        this.displacement = new Vector3().fromArray(userState.pos);
 
 		const scope = this;
 
@@ -136,9 +137,9 @@ class PointerLockControls extends EventDispatcher {
 
             // this.direction = camera.position.clone();
             this.displacement.addScaledVector( _vector, distance );
-			user.state.dir[0] = this.displacement.x;
-			user.state.dir[1] = this.displacement.y;
-			user.state.dir[2] = this.displacement.z;
+			userState.dir[0] = this.displacement.x;
+			userState.dir[1] = this.displacement.y;
+			userState.dir[2] = this.displacement.z;
 		};
 
 		this.moveRight = function ( distance ) {
@@ -147,9 +148,9 @@ class PointerLockControls extends EventDispatcher {
 
             // this.direction = camera.position.clone();
             this.displacement.addScaledVector( _vector, distance );
-			user.state.dir[0] = this.displacement.x;
-			user.state.dir[1] = this.displacement.y;
-			user.state.dir[2] = this.displacement.z;
+			userState.dir[0] = this.displacement.x;
+			userState.dir[1] = this.displacement.y;
+			userState.dir[2] = this.displacement.z;
 		};
 
 		this.lock = function () {

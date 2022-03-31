@@ -6,10 +6,10 @@ const user = {
     state: {
         pos: [0, 0, 0],
         dir: [0, 0, 0],
-        onGround: false,
-        gravity: 2,
+        onGround: true,
+        gravity: 3.2,
         gravAccel: 0,
-        jumpHeight: 0.5,
+        jumpHeight: 1,
     },
     colllision: {
         width: 4,
@@ -17,10 +17,12 @@ const user = {
         depth: 4,
     },
     update: function(delta) {
-        let {dir, onGround, gravity, gravAccel} = this.state;
-        if (onGround) return;
-        gravAccel -= gravity * delta;
-        dir[1] += gravAccel;
+        if (this.state.onGround) {
+            this.state.gravAccel = 0;
+            return;
+        }
+        this.state.gravAccel -= this.state.gravity * delta;
+        this.state.dir[1] += this.state.gravAccel;
     },
 };
 

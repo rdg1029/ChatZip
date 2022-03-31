@@ -25,6 +25,7 @@ class Room extends Page {
                         <input id="input" />
                     </form>
                 </div>
+                <div id="state"></div>
                 <div id="menu">
                     <h1>메뉴</h1>
                     <p><h3>&lt조작법&gt</h3></p>
@@ -63,6 +64,16 @@ class Room extends Page {
     setPage() {
         super.setPage(this.html);
         this.canvas = document.getElementById('c');
+        this.state = document.getElementById('state');
+        this.state.update = () => {
+            const userState = user.state;
+            this.state.innerText = `
+            pos:${userState.pos}
+            dir:${userState.dir}
+            onGround:${userState.onGround}
+            gravAccel:${userState.gravAccel}
+            `;
+        }
 
         const peers = new Map();
         const chat = new Chat(peers);
@@ -72,8 +83,9 @@ class Room extends Page {
 
         const controls = new Controls(world.camera, this.canvas, peers, chat, menu);
         const collider = new Collider(world.map);
+        world.scene.add(collider.helper);
         
-        worldUpdates.push(controls, user, collider);
+        worldUpdates.push(controls, user, collider, this.state);
         world.loop.tick.list.push(controls);
 
         // Test file
