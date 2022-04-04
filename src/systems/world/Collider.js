@@ -2,15 +2,14 @@ import * as THREE from 'three';
 import { user } from '../User';
 
 const NO_COLLISION = 1;
-const EPSILON = 0.001;
 
 const userSize = user.colllision;
 const userPos = user.state.pos;
-const userDir = user.state.dir;
 
 class Collider {
-    constructor(voxelMap) {
+    constructor(voxelMap, controls) {
         this.voxelMap = voxelMap;
+        this.controls = controls;
         this.box = new THREE.Box3();
         this.helper = new THREE.Box3Helper(this.box);
         this.size = new THREE.Vector3(userSize.width, userSize.height, userSize.depth);
@@ -50,10 +49,11 @@ class Collider {
             return {entryTime, normal};
         }
     }
-    update() {
-        const { voxelMap, box } = this;
-        const velocity = [userDir[0] - userPos[0], userDir[1] - userPos[1], userDir[2] - userPos[2]];
+    update(delta) {
+        const { voxelMap, controls, box } = this;
+        const velocity = controls.update(delta);
         const displacement = [...velocity];
+        user.state.velocity = velocity;
         let collisionTime = 1;
         this.updateBox();
 
@@ -80,7 +80,7 @@ class Collider {
                 }
             }
             if (collisionTime === 1) break;
-            collisionTime -= EPSILON;
+            // collisionTime -= EPSILON;
             if (collNormal[0] !== 0) {
                 velocity[0] = 0;
                 displacement[0] *= collisionTime;
