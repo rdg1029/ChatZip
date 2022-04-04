@@ -1,6 +1,7 @@
 import { PointerLockControls } from "./PointerLockControls";
 import { user } from "../User";
 
+const userState = user.state;
 const _prevMoveBuffer = new ArrayBuffer(12),
     _currentMoveBuffer = new ArrayBuffer(12),
     _prevMoveArray = new Float32Array(_prevMoveBuffer),
@@ -94,7 +95,7 @@ class Controls extends PointerLockControls {
     update(delta) {
         const speed = (10 * delta).toFixed(3);
         const {displacement, key} = this;
-        displacement.fromArray(user.state.pos);
+        displacement.fromArray(userState.pos);
         if (key.get('KeyW') || key.get('ArrowUp')) {
             this.moveForward(speed);
         }
@@ -108,10 +109,27 @@ class Controls extends PointerLockControls {
             this.moveRight(speed);
         }
         if (key.get('Space')) {
-            if (!user.state.onGround) return;
-            user.state.onGround = false;
-            user.state.gravAccel = user.state.jumpHeight;
+            if (userState.onGround) {
+                userState.onGround = false;
+                userState.gravAccel = userState.jumpHeight;
+            }
         }
+
+        // Apply gravity
+        if (userState.onGround) {
+            userState.gravAccel = 0;
+        }
+        else {
+            userState.gravAccel -= userState.gravity * delta;
+            displacement.y += userState.gravAccel;
+        }
+
+        // Return velocity
+        return [
+            displacement.x - userState.pos[0],
+            displacement.y - userState.pos[1],
+            displacement.z - userState.pos[2],
+        ]
     }
     tick() {
         // const qt = this.camera.getQuaternion();
