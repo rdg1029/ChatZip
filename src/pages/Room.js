@@ -69,7 +69,7 @@ class Room extends Page {
             const userState = user.state;
             this.state.innerText = `
             pos:${userState.pos}
-            dir:${userState.dir}
+            velocity:${userState.velocity}
             onGround:${userState.onGround}
             gravAccel:${userState.gravAccel}
             `;
@@ -82,10 +82,10 @@ class Room extends Page {
         const worldUpdates = world.loop.updateList;
 
         const controls = new Controls(world.camera, this.canvas, peers, chat, menu);
-        const collider = new Collider(world.map);
+        const collider = new Collider(world.map, controls);
         world.scene.add(collider.helper);
         
-        worldUpdates.push(controls, user, collider, this.state);
+        worldUpdates.push(collider, this.state);
         world.loop.tick.list.push(controls);
 
         // Test file
