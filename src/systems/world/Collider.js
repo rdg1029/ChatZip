@@ -2,9 +2,11 @@ import * as THREE from 'three';
 import { user } from '../User';
 
 const NO_COLLISION = 1;
+const EPSILON = 0.001;
 
 const userSize = user.colllision;
-const userPos = user.state.pos;
+const userState = user.state;
+const userPos = userState.pos;
 
 class Collider {
     constructor(voxelMap, controls) {
@@ -52,9 +54,14 @@ class Collider {
     update(delta) {
         const { voxelMap, controls, box } = this;
         const velocity = controls.update(delta);
+        // Apply gravity
+        userState.gravAccel -= userState.gravity * delta;
+        velocity[1] += userState.gravAccel;
+
         const displacement = [...velocity];
-        user.state.velocity = velocity;
         let collisionTime = 1;
+
+        userState.velocity = velocity;
         this.updateBox();
 
         for (let i = 0; i < 3; i++) {
@@ -80,7 +87,7 @@ class Collider {
                 }
             }
             if (collisionTime === 1) break;
-            // collisionTime -= EPSILON;
+            collisionTime -= EPSILON;
             if (collNormal[0] !== 0) {
                 velocity[0] = 0;
                 displacement[0] *= collisionTime;
@@ -88,7 +95,8 @@ class Collider {
             }
             if (collNormal[1] !== 0) {
                 if (collNormal[1] === 1) {
-                    user.state.onGround = true;
+                    userState.onGround = true;
+                    userState.gravAccel = 0;
                 }
                 velocity[1] = 0;
                 displacement[1] *= collisionTime;
@@ -99,6 +107,7 @@ class Collider {
                 displacement[2] *= collisionTime;
             }
         }
+        if (userState.gravAccel !== 0) userState.onGround = false;
         userPos[0] += displacement[0];
         userPos[1] += displacement[1];
         userPos[2] += displacement[2];

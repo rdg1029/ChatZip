@@ -6,7 +6,7 @@ const user = {
     state: {
         pos: [0, 0, 0],
         velocity: [0, 0, 0],
-        onGround: true,
+        onGround: false,
         gravity: 3.2,
         gravAccel: 0,
         jumpHeight: 1,

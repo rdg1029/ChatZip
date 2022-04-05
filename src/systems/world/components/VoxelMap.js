@@ -234,7 +234,7 @@ class VoxelMap {
                     const spawnPoint = worldData.spawnPoint;
                     const userPos = user.state.pos;
                     userPos[0] = spawnPoint[0];
-                    userPos[1] = spawnPoint[1] + 1;
+                    userPos[1] = spawnPoint[1] + 6;
                     userPos[2] = spawnPoint[2];
                 });
             }

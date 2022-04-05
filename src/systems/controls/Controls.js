@@ -110,20 +110,9 @@ class Controls extends PointerLockControls {
         }
         if (key.get('Space')) {
             if (userState.onGround) {
-                userState.onGround = false;
                 userState.gravAccel = userState.jumpHeight;
             }
         }
-
-        // Apply gravity
-        if (userState.onGround) {
-            userState.gravAccel = 0;
-        }
-        else {
-            userState.gravAccel -= userState.gravity * delta;
-            displacement.y += userState.gravAccel;
-        }
-
         // Return velocity
         return [
             displacement.x - userState.pos[0],
