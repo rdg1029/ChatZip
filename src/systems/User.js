@@ -7,9 +7,10 @@ const user = {
         pos: [0, 0, 0],
         velocity: [0, 0, 0],
         onGround: false,
+        speed: 25,
+        jumpHeight: 1,
         gravity: 3.2,
         gravAccel: 0,
-        jumpHeight: 1,
     },
     colllision: {
         width: 4,

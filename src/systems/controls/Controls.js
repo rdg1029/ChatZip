@@ -93,7 +93,7 @@ class Controls extends PointerLockControls {
         }
     }
     update(delta) {
-        const speed = (10 * delta).toFixed(3);
+        const speed = (userState.speed * delta).toFixed(3);
         const {displacement, key} = this;
         displacement.fromArray(userState.pos);
         if (key.get('KeyW') || key.get('ArrowUp')) {
