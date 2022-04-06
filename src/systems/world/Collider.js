@@ -96,8 +96,8 @@ class Collider {
             if (collNormal[1] !== 0) {
                 if (collNormal[1] === 1) {
                     userState.onGround = true;
-                    userState.gravAccel = 0;
                 }
+                userState.gravAccel = 0;
                 velocity[1] = 0;
                 displacement[1] *= collisionTime;
                 continue;
