@@ -65,6 +65,7 @@ class Room extends Page {
         super.setPage(this.html);
         this.canvas = document.getElementById('c');
         this.state = document.getElementById('state');
+        /*
         this.state.update = () => {
             const userState = user.state;
             this.state.innerText = `
@@ -74,7 +75,7 @@ class Room extends Page {
             gravAccel:${userState.gravAccel}
             `;
         }
-
+        */
         const peers = new Map();
         const chat = new Chat(peers);
         const menu = new Menu();
@@ -83,9 +84,9 @@ class Room extends Page {
 
         const controls = new Controls(world.camera, this.canvas, peers, chat, menu);
         const collider = new Collider(world.map, controls);
-        world.scene.add(collider.helper);
+        // world.scene.add(collider.helper);
         
-        worldUpdates.push(collider, this.state);
+        worldUpdates.push(collider);
         world.loop.tick.list.push(controls);
 
         // Test file
