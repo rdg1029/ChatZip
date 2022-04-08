@@ -1,9 +1,20 @@
 import { socket } from '../systems/connection/Socket';
+import { Group } from '../systems/Group';
 import { user } from '../systems/User';
 import { Page } from './Page';
 
+interface UserData {
+    id: string;
+    name: string;
+}
+type Offers = Map<UserData, object>;
+
 class Main extends Page {
-    constructor(divID, css, group, offers) {
+    private group: Group;
+    private offers: Offers;
+    public html: string;
+
+    constructor(divID: string, css: string, group: Group, offers: Offers) {
         super(divID, css);
         this.group = group;
         this.offers = offers;
@@ -35,16 +46,16 @@ class Main extends Page {
     setPage() {
         super.setPage(this.html);
 
-        const mainSignage = document.getElementById('contents-main');
-        const openStatus = document.getElementById('open-status');
-        const createGroupButton = document.getElementById('create-group');
-        const enterGroupButton = document.getElementById('enter-group');
+        const mainSignage = document.getElementById('contents-main') as HTMLDivElement;
+        const openStatus = document.getElementById('open-status') as HTMLParagraphElement;
+        const createGroupButton = document.getElementById('create-group') as HTMLButtonElement;
+        const enterGroupButton = document.getElementById('enter-group') as HTMLButtonElement;
 
-        const enterSignage = document.getElementById('contents-enter');
-        const typeGroupId = document.getElementById('type-group-id');
-        const typeName = document.getElementById('type-name');
-        const enterButton = document.getElementById('enter');
-        const backButton = document.getElementById('back');
+        const enterSignage = document.getElementById('contents-enter') as HTMLDivElement;
+        const typeGroupId = document.getElementById('type-group-id') as HTMLInputElement;
+        const typeName = document.getElementById('type-name') as HTMLInputElement;
+        const enterButton = document.getElementById('enter') as HTMLButtonElement;
+        const backButton = document.getElementById('back')as HTMLButtonElement;
 
         createGroupButton.disabled = true;
         enterGroupButton.disabled = true;
@@ -112,7 +123,7 @@ class Main extends Page {
             enterGroupButton.disabled = false;
         });
 
-        socket.on('group found', groupId => {
+        socket.on('group found', (groupId: string) => {
             this.group.id = groupId;
             socket.emit('req info', groupId, socket.id);
         });
@@ -121,7 +132,7 @@ class Main extends Page {
             window.alert('방을 찾을 수 없습니다');
         });
 
-        socket.on('group info', users => {
+        socket.on('group info', (users: string[]) => {
             this.group.users = users;
             this.group.number = users.length;
 
@@ -137,7 +148,7 @@ class Main extends Page {
             socket.emit('req offer', this.group.id, user.data);
         });
 
-        socket.on('req answer', (offer, targetUserData) => {
+        socket.on('req answer', (offer: object, targetUserData: UserData) => {
             console.log(targetUserData.id, 'requested answer');
             this.offers.set(targetUserData, offer);
             if (this.group.number !== this.offers.size) return;
