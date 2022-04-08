@@ -21,7 +21,7 @@ else {
 function main() {
     const main = new Main('main', './css/main.css', group, offers);
     main.setPage();
-    socket.on('join group', groupId => {
+    socket.on('join group', (groupId: string) => {
         removeSocketListeners(
             'open',
             'group found',
@@ -42,7 +42,7 @@ function room() {
     room.setPage();
 }
 
-function removeSocketListeners(...args) {
+function removeSocketListeners(...args: string[]) {
     for (let i = 0, j = args.length; i < j; i++) {
         socket.removeAllListeners(args[i]);
     }
