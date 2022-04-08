@@ -10,11 +10,8 @@ import { World } from '../systems/world/World';
 import { Controls } from '../systems/controls/Controls';
 import { Collider } from '../systems/world/Collider';
 import { Group } from '../systems/Group';
+import { UserData } from '../systems/User'
 
-interface UserData {
-    id: string;
-    name: string;
-}
 type Offers = Map<UserData, object>;
 
 class Room extends Page {

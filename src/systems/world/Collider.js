@@ -4,7 +4,7 @@ import { user } from '../User';
 const NO_COLLISION = 1;
 const EPSILON = 0.001;
 
-const userSize = user.colllision;
+const userSize = user.collision;
 const userState = user.state;
 const userPos = userState.pos;
 

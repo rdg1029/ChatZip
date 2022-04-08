@@ -1,12 +1,8 @@
 import { socket } from '../systems/connection/Socket';
 import { Group } from '../systems/Group';
-import { user } from '../systems/User';
+import { user, UserData } from '../systems/User';
 import { Page } from './Page';
 
-interface UserData {
-    id: string;
-    name: string;
-}
 type Offers = Map<UserData, object>;
 
 class Main extends Page {
