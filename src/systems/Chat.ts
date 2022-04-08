@@ -1,12 +1,19 @@
 import { user } from './User';
+import { Peer } from './connection/Peer';
 
 class Chat {
-    constructor(peers) {
+    public isVisible: boolean;
+    public component: HTMLDivElement;
+    public messages: HTMLUListElement;
+    public form: HTMLFormElement;
+    public input: HTMLInputElement;
+
+    constructor(peers: Map<string, Peer>) {
         this.isVisible = true;
-        this.component = document.getElementById('chat');
-        this.messages = document.getElementById('messages');
-        this.form = document.getElementById('form');
-        this.input = document.getElementById('input');
+        this.component = document.getElementById('chat') as HTMLDivElement;
+        this.messages = document.getElementById('messages') as HTMLUListElement;
+        this.form = document.getElementById('form') as HTMLFormElement;
+        this.input = document.getElementById('input') as HTMLInputElement;
 
         this.form.addEventListener('submit', e => {
             const inputValue = this.input.value;
@@ -26,7 +33,7 @@ class Chat {
     hideComponent() {
         this.component.style.display = 'none';
     }
-    showChat(msg) {
+    showChat(msg: string) {
         const message = document.createElement('li');
         message.innerHTML = msg;
         this.messages.appendChild(message);
