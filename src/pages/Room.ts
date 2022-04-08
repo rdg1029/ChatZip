@@ -1,18 +1,30 @@
-import {Page} from './Page.js';
+import {Page} from './Page';
 
 import { socket } from '../systems/connection/Socket';
 import { Caller } from '../systems/connection/Caller';
 import { Callee } from '../systems/connection/Callee';
 
-import { user } from '../systems/User';
 import { Chat } from '../systems/Chat';
 import { Menu } from '../systems/Menu';
 import { World } from '../systems/world/World';
 import { Controls } from '../systems/controls/Controls';
 import { Collider } from '../systems/world/Collider';
+import { Group } from '../systems/Group';
+
+interface UserData {
+    id: string;
+    name: string;
+}
+type Offers = Map<UserData, object>;
 
 class Room extends Page {
-    constructor(divID, css, group, offers) {
+    private group: Group;
+    private offers : Offers;
+    public html: string;
+    public canvas: HTMLCanvasElement;
+    public state: HTMLDivElement;
+
+    constructor(divID: string, css: string, group: Group, offers: Offers) {
         super(divID, css);
         this.group = group;
         this.offers = offers;
@@ -63,8 +75,8 @@ class Room extends Page {
     }
     setPage() {
         super.setPage(this.html);
-        this.canvas = document.getElementById('c');
-        this.state = document.getElementById('state');
+        this.canvas = document.getElementById('c') as HTMLCanvasElement;
+        this.state = document.getElementById('state') as HTMLDivElement;
         /*
         this.state.update = () => {
             const userState = user.state;
@@ -120,7 +132,7 @@ class Room extends Page {
         chat.showChat('joined ' + this.group.id);
 
         /*Init socket listeners at room page*/
-        socket.on('req offer', userData => {
+        socket.on('req offer', (userData: UserData) => {
             console.log(userData.id, 'requested offer');
             const userModel = world.createUserModel(userData.name);
             const peer = new Caller(userData, chat, userModel);
@@ -128,14 +140,14 @@ class Room extends Page {
             peers.set(userData.id, peer);
         });
     
-        socket.on('recv answer', (answer, userData) => {
+        socket.on('recv answer', (answer: object, userData: UserData) => {
             const peer = peers.get(userData.id);
             peer.receiveAnswer(answer);
             worldUpdates.push(peer.userModel);
             world.scene.add(peer.userModel);
         });
 
-        socket.on('user join', userId => {
+        socket.on('user join', (userId: string) => {
             const peer = peers.get(userId);
             const posBuffer = new ArrayBuffer(12);
             const posArr = new Float32Array(posBuffer);
@@ -150,7 +162,7 @@ class Room extends Page {
             checkIsAlone(this.group);
         });
     
-        socket.on('user quit', userId => {
+        socket.on('user quit', (userId: string) => {
             const peer = peers.get(userId);
             peer.close();
             world.scene.remove(peer.userModel);
@@ -165,16 +177,16 @@ class Room extends Page {
     }
 }
 
-function checkIsHost(group) {
+function checkIsHost(group: Group) {
     if (!group.isHost(socket.id)) return;
-    socket.on('req info', targetId => {
+    socket.on('req info', (targetId: string) => {
         console.log(targetId + ' requested info');
         socket.emit('group info', targetId, group.users);
     });
     console.log('You are host!');
 }
 
-function checkIsAlone(group) {
+function checkIsAlone(group: Group) {
     if(group.number == 1) {
         socket.emit('is alone', true);
     }
