@@ -1,5 +1,15 @@
+import { UserData } from '../User';
+import { Chat } from '../Chat';
+import { UserModel } from '../world/components/user_model/UserModel';
+
 class Peer {
-    constructor(targetUserData, chatComponent, userModel) {
+    data: UserData;
+    userModel: UserModel;
+    conn: RTCPeerConnection;
+    chat: RTCDataChannel;
+    movement: RTCDataChannel;
+
+    constructor(targetUserData: UserData, chatComponent: Chat, userModel: UserModel) {
         const iceConfig = {
             iceServers : [
                 {
@@ -18,11 +28,11 @@ class Peer {
         this.chat.onmessage = e => chatComponent.showChat(e.data);
         this.movement.onmessage = e => userModel.updateMovement(e.data);
     }
-    sendChat(data) {
+    sendChat(data: string) {
         if (this.chat.readyState !== 'open') return;
         this.chat.send(data);
     }
-    sendMovement(data) {
+    sendMovement(data: Float32Array) {
         if (this.movement.readyState !== 'open') return;
         this.movement.send(data);
     }
