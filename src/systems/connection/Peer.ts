@@ -32,7 +32,7 @@ class Peer {
         if (this.chat.readyState !== 'open') return;
         this.chat.send(data);
     }
-    sendMovement(data: Float32Array) {
+    sendMovement(data: ArrayBuffer) {
         if (this.movement.readyState !== 'open') return;
         this.movement.send(data);
     }
