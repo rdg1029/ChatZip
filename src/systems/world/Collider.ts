@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { user } from '../User';
+import { VoxelMap } from './components/VoxelMap';
+import { Controls } from '../controls/Controls';
 
 const NO_COLLISION = 1;
 const EPSILON = 0.001;
@@ -9,7 +11,15 @@ const userState = user.state;
 const userPos = userState.pos;
 
 class Collider {
-    constructor(voxelMap, controls) {
+    private voxelMap: VoxelMap;
+    private controls: Controls;
+    private size: THREE.Vector3;
+
+    public box : THREE.Box3;
+    public helper: THREE.Box3Helper;
+    
+
+    constructor(voxelMap: VoxelMap, controls: Controls) {
         this.voxelMap = voxelMap;
         this.controls = controls;
         this.box = new THREE.Box3();
@@ -21,7 +31,7 @@ class Collider {
         const boxCenter = new THREE.Vector3().set(userPos[0], userPos[1] + 7, userPos[2]);
         box.setFromCenterAndSize(boxCenter, size);
     }
-    sweptAABB(voxelX, voxelY, voxelZ, velocity) {
+    sweptAABB(voxelX: number, voxelY: number, voxelZ: number, velocity: Array<number>) {
         const {box} = this;
         const normal = new Int8Array(3);
         const xInvEntry = velocity[0] > 0 ? voxelX - box.max.x : (voxelX + 1) - box.min.x;
@@ -51,7 +61,7 @@ class Collider {
             return {entryTime, normal};
         }
     }
-    update(delta) {
+    update(delta: number) {
         const { voxelMap, controls, box } = this;
         const velocity = controls.update(delta);
         // Apply gravity
