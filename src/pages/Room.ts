@@ -12,7 +12,7 @@ import { Collider } from '../systems/world/Collider';
 import { Group } from '../systems/Group';
 import { UserData } from '../systems/User'
 
-type Offers = Map<UserData, object>;
+type Offers = Map<UserData, RTCSessionDescriptionInit>;
 
 class Room extends Page {
     private group: Group;
