@@ -66,7 +66,7 @@ const voxelData = [
     "#423934"
 ]
 
-function getRGB(hex) {
+function getRGB(hex: string) {
     return [
         parseInt(hex.charAt(1) + hex.charAt(2), 16) / 255,
         parseInt(hex.charAt(3) + hex.charAt(4), 16) / 255,
