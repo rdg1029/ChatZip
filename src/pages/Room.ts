@@ -111,7 +111,7 @@ class Room extends Page {
         file.responseType = 'arraybuffer';
         file.send(null);
 
-        this.offers.forEach((offer, userData) => {
+        this.offers.forEach((offer: RTCSessionDescriptionInit, userData: UserData) => {
             const userModel = world.createUserModel(userData.name);
             const peer = new Callee(userData, chat, userModel);
             peer.createAnswer(offer);
