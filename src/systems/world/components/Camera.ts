@@ -23,4 +23,4 @@ function createCamera() {
     return new Camera(60, window.innerWidth/window.innerHeight, 0.1, 256);
 }
 
-export {createCamera};
+export {createCamera, Camera};

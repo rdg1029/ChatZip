@@ -1,8 +1,15 @@
-import { Clock } from 'three';
+import { Clock, WebGLRenderer, Scene } from 'three';
+import { Camera } from './components/Camera';
 import { Tick } from './Tick';
 
 class Loop {
-    constructor(renderer, scene, camera) {
+    renderer: WebGLRenderer;
+    scene: Scene;
+    camera: Camera;
+    tick: Tick;
+    updateList: Array<any>;
+
+    constructor(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
@@ -28,7 +35,7 @@ class Loop {
     stop() {
         this.renderer.setAnimationLoop(null);
     }
-    update(delta) {
+    update(delta: number) {
         for (let i = 0, j = this.updateList.length; i < j; i++) {
             this.updateList[i].update(delta);
         }
