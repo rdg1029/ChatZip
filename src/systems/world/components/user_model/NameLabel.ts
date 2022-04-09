@@ -1,6 +1,6 @@
 import { CanvasTexture, SpriteMaterial, Sprite, LinearFilter, ClampToEdgeWrapping } from 'three';
 
-function makeLabelCanvas(name) {
+function makeLabelCanvas(name: string) {
     const borderSize = 1;
     const fontSize = 16;
     const font = `${fontSize}px bold sans-serif`;
@@ -16,7 +16,6 @@ function makeLabelCanvas(name) {
     context.canvas.height= height;
 
     context.font = font;
-    context.textBaseLine = 'middle';
     context.textAlign = 'center';
     context.fillStyle = '#00000060';
     context.fillRect(0, 0, width, height);
@@ -28,7 +27,9 @@ function makeLabelCanvas(name) {
 }
 
 class NameLabel extends Sprite {
-    constructor(name) {
+    map: CanvasTexture;
+
+    constructor(name: string) {
         const canvas = makeLabelCanvas(name);
         const map = new CanvasTexture(canvas);
         map.minFilter = LinearFilter;
