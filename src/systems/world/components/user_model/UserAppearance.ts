@@ -1,6 +1,8 @@
-import { TextureLoader, SpriteMaterial, Sprite } from 'three';
+import { Texture, TextureLoader, SpriteMaterial, Sprite } from 'three';
 
 class UserAppearance extends Sprite {
+    map: Texture;
+
     constructor() {
         const map = new TextureLoader().load('./img/person.png');
         const material = new SpriteMaterial({map: map});
