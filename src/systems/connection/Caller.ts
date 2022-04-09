@@ -1,14 +1,17 @@
+import { UserData } from '../User';
+import { Chat } from '../Chat';
+import { UserModel } from '../world/components/user_model/UserModel';
 import { socket } from './Socket';
 import { user } from '../User';
 import { Peer } from './Peer';
 
 class Caller extends Peer {
-    constructor(targetUserData, chatComponent, userModel) {
+    constructor(targetUserData: UserData, chatComponent: Chat, userModel: UserModel) {
         super(targetUserData, chatComponent, userModel);
 
         this.conn.onicegatheringstatechange = e => {
             console.log('ice gathering...');
-            if (e.target.iceGatheringState !== 'complete') return;
+            if (this.conn.iceGatheringState !== 'complete') return;
             console.log('ice gathering complete!');
             console.log(user.data);
             socket.emit('req answer', this.conn.localDescription, user.data, targetUserData.id);
@@ -18,7 +21,7 @@ class Caller extends Peer {
         this.conn.createOffer()
             .then(offer => this.conn.setLocalDescription(offer));
     }
-    receiveAnswer(answer) {
+    receiveAnswer(answer: RTCSessionDescriptionInit) {
         this.conn.setRemoteDescription(answer);
     }
     close() {
