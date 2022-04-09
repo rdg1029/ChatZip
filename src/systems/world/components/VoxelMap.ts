@@ -5,7 +5,7 @@ import { user } from '../../User';
 const JSZip = require('jszip');
 
 // Voxel material
-const material = new THREE.MeshLambertMaterial({vertexColors: THREE.VertexColors});
+const material = new THREE.MeshLambertMaterial({vertexColors: true});
 
 const neighborOffsets = [
     [0, 0, 0], // self
@@ -16,10 +16,13 @@ const neighborOffsets = [
     [0, 0, -1], // back
     [0, 0, 1], // forward
 ];
-const meshOfChunks = new Map();
+const meshOfChunks = new Map<string, THREE.Mesh>();
 
-let worldData = {};
-function setWorldData(uInt8Arr) {
+interface WorldData {
+    spawnPoint: Array<number>;
+}
+let worldData: WorldData = {spawnPoint:[0, 0, 0]};
+function setWorldData(uInt8Arr: Uint8Array) {
     const CONVERSION = 128;
     let data = "";
     for (let i = 0, j = uInt8Arr.length; i < j; i++) {
@@ -31,8 +34,21 @@ function setWorldData(uInt8Arr) {
 const CHUNK_SIZE = 32;
 const CHUNK_SIZE_BIT = Math.log2(CHUNK_SIZE);
 
+interface Face {
+    dir: Array<number>;
+    corners: Array<Array<number>>;
+}
+
 class VoxelMap {
-    constructor(scene) {
+    scene: THREE.Scene;
+    chunkSize: number;
+    chunkSizeBit: number;
+    chunkSliceSize: number;
+    chunkSliceSizeBit: number;
+    chunks: Map<string, Uint8Array>;
+    faces: Array<Face>;
+
+    constructor(scene: THREE.Scene) {
         this.scene = scene;
         this.chunkSize = CHUNK_SIZE;
         this.chunkSizeBit = CHUNK_SIZE_BIT;
@@ -96,30 +112,30 @@ class VoxelMap {
             },
         ]
     }
-    computeChunkId(x, y, z) {
+    computeChunkId(x: number, y: number, z: number) {
         const { chunkSizeBit } = this;
         const chunkX = x >> chunkSizeBit;
         const chunkY = y >> chunkSizeBit;
         const chunkZ = z >> chunkSizeBit;
         return `${chunkX},${chunkY},${chunkZ}`;
     }
-    getChunkForVoxel(x, y, z) {
+    getChunkForVoxel(x: number, y: number, z: number) {
         return this.chunks.get(this.computeChunkId(x, y, z));
     }
-    computeVoxelOffset(x, y, z) {
+    computeVoxelOffset(x: number, y: number, z: number) {
         const { chunkSize, chunkSizeBit, chunkSliceSizeBit } = this;
         const voxelX = THREE.MathUtils.euclideanModulo(x, chunkSize) | 0;
         const voxelY = THREE.MathUtils.euclideanModulo(y, chunkSize) | 0;
         const voxelZ = THREE.MathUtils.euclideanModulo(z, chunkSize) | 0;
         return (voxelY << chunkSliceSizeBit) + (voxelZ << chunkSizeBit) + voxelX;
     }
-    getVoxel(x, y, z) {
+    getVoxel(x: number, y: number, z: number) {
         const chunk = this.getChunkForVoxel(x, y, z);
         if (!chunk) return 0;
         const voxelOffset = this.computeVoxelOffset(x, y, z);
         return chunk[voxelOffset];
     }
-    generateGeometryData(chunkX, chunkY, chunkZ) {
+    generateGeometryData(chunkX: number, chunkY: number, chunkZ: number) {
         const { chunkSize, chunkSizeBit } = this;
 
         //BufferAttribute for BufferGeometry
@@ -160,7 +176,7 @@ class VoxelMap {
         }
         return {positions, normals, colors, index};
     }
-    updateVoxelGeometry(x, y, z) {
+    updateVoxelGeometry(x: number, y: number, z: number) {
         const updatedChunkIds = new Map();
         neighborOffsets.forEach(offset => {
             const offsetX = x + offset[0];
@@ -173,7 +189,7 @@ class VoxelMap {
             }
         });
     }
-    updateChunkGeometry(x, y, z) {
+    updateChunkGeometry(x: number, y: number, z: number) {
         const chunkX = x >> CHUNK_SIZE_BIT;
         const chunkY = y >> CHUNK_SIZE_BIT;
         const chunkZ = z >> CHUNK_SIZE_BIT;
@@ -223,13 +239,13 @@ class VoxelMap {
             this.chunks.delete(id);
         });
     }
-    load(file) {
+    load(file: any) {
         const zip = new JSZip();
         zip.loadAsync(file).then(() => {
             this.clearAllChunks();
             const dataFile = zip.file('data');
             if (dataFile) {
-                dataFile.async('uint8array').then(data => {
+                dataFile.async('uint8array').then((data: Uint8Array) => {
                     setWorldData(data);
                     const spawnPoint = worldData.spawnPoint;
                     const userPos = user.state.pos;
@@ -238,8 +254,8 @@ class VoxelMap {
                     userPos[2] = spawnPoint[2];
                 });
             }
-            zip.folder('chunks').forEach((chunk, file) => {
-                file.async('uint8array').then(data => {
+            zip.folder('chunks').forEach((chunk: string, file: any) => {
+                file.async('uint8array').then((data: Uint8Array) => {
                     this.chunks.set(chunk, data);
                     const pos = chunk.split(',');
                     const x = Number(pos[0]) << CHUNK_SIZE_BIT;
