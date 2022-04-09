@@ -1,4 +1,6 @@
 class Tick {
+    list: Array<any>;
+
     constructor() {
         this.list = [];
     }
