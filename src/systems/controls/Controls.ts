@@ -1,5 +1,11 @@
+import { Camera } from "three";
+import { Peer } from "../connection/Peer";
+import { Chat } from '../Chat';
+import { Menu } from "../Menu";
 import { PointerLockControls } from "./PointerLockControls";
 import { user } from "../User";
+
+type Peers = Map<string, Peer>;
 
 const userState = user.state;
 const _prevMoveBuffer = new ArrayBuffer(12),
@@ -17,7 +23,11 @@ function _isMove() {
 }
 
 class Controls extends PointerLockControls {
-    constructor(camera, canvas, peers, chat, menu) {
+    camera: Camera;
+    private peers: Peers;
+    private key: Map<string, boolean>;
+
+    constructor(camera: Camera, canvas: HTMLCanvasElement, peers: Peers, chat: Chat, menu: Menu) {
         super(camera, canvas);
         this.camera = camera;
         this.peers = peers;
@@ -34,7 +44,7 @@ class Controls extends PointerLockControls {
         ]);
 
         const scope = this;
-        function _eventMoveKeyDown(e) {
+        function _eventMoveKeyDown(e: KeyboardEvent) {
             switch(e.code) {
                 case 'Enter':
                     menu.isReady = false;
@@ -59,7 +69,7 @@ class Controls extends PointerLockControls {
             }
         }
 
-        function _eventMoveKeyUp(e) {
+        function _eventMoveKeyUp(e: KeyboardEvent) {
             if (!scope.key.has(e.code)) return;
             if (!scope.key.get(e.code)) return;
             scope.key.set(e.code, false);
@@ -92,7 +102,7 @@ class Controls extends PointerLockControls {
             location.reload();
         }
     }
-    update(delta) {
+    update(delta: number) {
         const speed = (userState.speed * delta).toFixed(3);
         const {displacement, key} = this;
         displacement.fromArray(userState.pos);
