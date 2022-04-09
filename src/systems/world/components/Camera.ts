@@ -2,7 +2,7 @@ import { PerspectiveCamera } from "three";
 import { user } from "../../User";
 
 class Camera extends PerspectiveCamera {
-    constructor(fov, aspect, near, far) {
+    constructor(fov: number, aspect: number, near: number, far: number) {
         super(fov, aspect, near, far);
         this.updatePosition();
     }
