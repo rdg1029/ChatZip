@@ -101,12 +101,12 @@ class Room extends Page {
         // Test file
         const file = new XMLHttpRequest();
         file.open('GET', './assets/TEST.zip', true);
-        file.onreadystatechange = () => {
-            if (file.readyState === 4) {
-                if (file.status === 200 || file.status === 0) {
-                    world.map.load(file.response);
-                }
-            }
+        file.onloadend = () => {
+            world.map.load(file.response).then(() => {
+                world.start();
+                controls.lock();
+                chat.showChat('joined ' + this.group.id);
+            });
         }
         file.responseType = 'arraybuffer';
         file.send(null);
@@ -123,10 +123,6 @@ class Room extends Page {
 
         checkIsHost(this.group);
         checkIsAlone(this.group);
-
-        world.start();
-        controls.lock();
-        chat.showChat('joined ' + this.group.id);
 
         /*Init socket listeners at room page*/
         socket.on('req offer', (userData: UserData) => {
