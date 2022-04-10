@@ -239,30 +239,34 @@ class VoxelMap {
             this.chunks.delete(id);
         });
     }
-    load(file: any) {
-        const zip = new JSZip();
-        zip.loadAsync(file).then(() => {
-            this.clearAllChunks();
-            const dataFile = zip.file('data');
-            if (dataFile) {
-                dataFile.async('uint8array').then((data: Uint8Array) => {
-                    setWorldData(data);
-                    const spawnPoint = worldData.spawnPoint;
-                    const userPos = user.state.pos;
-                    userPos[0] = spawnPoint[0];
-                    userPos[1] = spawnPoint[1] + 6;
-                    userPos[2] = spawnPoint[2];
+    load(file: ArrayBuffer|Blob|File) {
+        return new Promise((resolve) => {
+            const zip = new JSZip();
+            zip.loadAsync(file).then(() => {
+                this.clearAllChunks();
+                zip.folder('chunks').forEach((chunk: string, file: any) => {
+                    file.async('uint8array').then((data: Uint8Array) => {
+                        this.chunks.set(chunk, data);
+                        const pos = chunk.split(',');
+                        const x = Number(pos[0]) << CHUNK_SIZE_BIT;
+                        const y = Number(pos[1]) << CHUNK_SIZE_BIT;
+                        const z = Number(pos[2]) << CHUNK_SIZE_BIT;
+                        this.updateChunkGeometry(x, y, z);
+                    }).then(() => {
+                        const dataFile = zip.file('data');
+                        if (dataFile) {
+                            dataFile.async('uint8array').then((data: Uint8Array) => {
+                                setWorldData(data);
+                                const spawnPoint = worldData.spawnPoint;
+                                const userPos = user.state.pos;
+                                userPos[0] = spawnPoint[0];
+                                userPos[1] = spawnPoint[1];
+                                userPos[2] = spawnPoint[2];
+                            });
+                        }
+                    });
                 });
-            }
-            zip.folder('chunks').forEach((chunk: string, file: any) => {
-                file.async('uint8array').then((data: Uint8Array) => {
-                    this.chunks.set(chunk, data);
-                    const pos = chunk.split(',');
-                    const x = Number(pos[0]) << CHUNK_SIZE_BIT;
-                    const y = Number(pos[1]) << CHUNK_SIZE_BIT;
-                    const z = Number(pos[2]) << CHUNK_SIZE_BIT;
-                    this.updateChunkGeometry(x, y, z);
-                });
+                resolve(0);
             });
         });
     }
