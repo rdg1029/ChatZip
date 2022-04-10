@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { voxelData, getRGB } from './VoxelData';
-import { user } from '../../User';
+import { voxelData, getRGB } from './VoxelData'
+import { user } from '../../../User';
 
 const JSZip = require('jszip');
 
