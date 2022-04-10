@@ -9,7 +9,7 @@ import { createSkybox } from './components/Skybox';
 import { createLight } from './components/Light';
 // import { createPlane } from './components/Plane';
 import { UserModel } from './components/user_model/UserModel';
-import { VoxelMap } from './components/VoxelMap';
+import { VoxelMap } from './components/map/VoxelMap';
 
 class World {
     public renderer: WebGLRenderer;

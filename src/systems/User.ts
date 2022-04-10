@@ -43,4 +43,12 @@ const user: User = {
     },
 };
 
-export {user, User, UserData, UserState, UserCollision};
+function goToSpawn(spawnPoint: number[]) {
+    user.state.gravAccel = 0;
+    const userPos = user.state.pos;
+    userPos[0] = spawnPoint[0];
+    userPos[1] = spawnPoint[1];
+    userPos[2] = spawnPoint[2];
+}
+
+export {user, goToSpawn, User, UserData, UserState, UserCollision};

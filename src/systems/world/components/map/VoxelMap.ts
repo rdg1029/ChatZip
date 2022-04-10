@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { voxelData, getRGB } from './VoxelData'
-import { user } from '../../../User';
+import { setMapData, MapData } from './MapData';
+import { user, goToSpawn } from '../../../User';
 
 const JSZip = require('jszip');
 
@@ -17,19 +18,6 @@ const neighborOffsets = [
     [0, 0, 1], // forward
 ];
 const meshOfChunks = new Map<string, THREE.Mesh>();
-
-interface WorldData {
-    spawnPoint: Array<number>;
-}
-let worldData: WorldData = {spawnPoint:[0, 0, 0]};
-function setWorldData(uInt8Arr: Uint8Array) {
-    const CONVERSION = 128;
-    let data = "";
-    for (let i = 0, j = uInt8Arr.length; i < j; i++) {
-        data += String.fromCharCode(uInt8Arr[i] - CONVERSION);
-    }
-    worldData = JSON.parse(data);
-}
 
 const CHUNK_SIZE = 32;
 const CHUNK_SIZE_BIT = Math.log2(CHUNK_SIZE);
@@ -256,17 +244,14 @@ class VoxelMap {
                         const dataFile = zip.file('data');
                         if (dataFile) {
                             dataFile.async('uint8array').then((data: Uint8Array) => {
-                                setWorldData(data);
-                                const spawnPoint = worldData.spawnPoint;
-                                const userPos = user.state.pos;
-                                userPos[0] = spawnPoint[0];
-                                userPos[1] = spawnPoint[1];
-                                userPos[2] = spawnPoint[2];
+                                setMapData(data).then((data: MapData) => {
+                                    goToSpawn(data.spawnPoint);
+                                    resolve(data);
+                                });
                             });
                         }
                     });
                 });
-                resolve(0);
             });
         });
     }

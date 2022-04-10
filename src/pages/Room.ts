@@ -6,11 +6,14 @@ import { Callee } from '../systems/connection/Callee';
 
 import { Chat } from '../systems/Chat';
 import { Menu } from '../systems/Menu';
-import { World } from '../systems/world/World';
-import { Controls } from '../systems/controls/Controls';
-import { Collider } from '../systems/world/Collider';
 import { Group } from '../systems/Group';
-import { UserData } from '../systems/User'
+import { goToSpawn, UserData } from '../systems/User';
+
+import { World } from '../systems/world/World';
+import { Collider } from '../systems/world/Collider';
+import { MapData } from '../systems/world/components/map/MapData';
+
+import { Controls } from '../systems/controls/Controls';
 
 type Offers = Map<UserData, RTCSessionDescriptionInit>;
 
@@ -58,6 +61,9 @@ class Room extends Page {
                         --- 메뉴 ---<br>
                         ESC
                     </p>
+                    <p>
+                        <button id="btn-spawn">스폰 위치로 돌아가기</button>
+                    </p>
                     <span>
                         <button id="btn-close">메뉴 닫기</button>
                         <button id="btn-exit">방 나가기</button>
@@ -102,7 +108,10 @@ class Room extends Page {
         const file = new XMLHttpRequest();
         file.open('GET', './assets/TEST.zip', true);
         file.onloadend = () => {
-            world.map.load(file.response).then(() => {
+            world.map.load(file.response).then((data: MapData) => {
+                menu.btnSpawn.onclick = () => {
+                    goToSpawn(data.spawnPoint);
+                };
                 world.start();
                 controls.lock();
                 chat.showChat('joined ' + this.group.id);
