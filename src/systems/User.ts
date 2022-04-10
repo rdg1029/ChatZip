@@ -32,8 +32,8 @@ const user: User = {
         velocity: [0, 0, 0],
         onGround: false,
         speed: 25,
-        jumpHeight: 1,
-        gravity: 3.2,
+        jumpHeight: 60,
+        gravity: 200,
         gravAccel: 0,
     },
     collision: {

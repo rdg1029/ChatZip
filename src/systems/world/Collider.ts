@@ -66,7 +66,7 @@ class Collider {
         const velocity = controls.update(delta);
         // Apply gravity
         userState.gravAccel -= userState.gravity * delta;
-        velocity[1] += userState.gravAccel;
+        velocity[1] += userState.gravAccel * delta;
 
         const displacement = [...velocity];
         let collisionTime = 1;
