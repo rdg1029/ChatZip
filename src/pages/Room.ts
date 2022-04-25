@@ -79,18 +79,7 @@ class Room extends Page {
     setPage() {
         super.setPage(this.html);
         this.canvas = document.getElementById('c') as HTMLCanvasElement;
-        this.state = document.getElementById('state') as HTMLDivElement;
-        /*
-        this.state.update = () => {
-            const userState = user.state;
-            this.state.innerText = `
-            pos:${userState.pos}
-            velocity:${userState.velocity}
-            onGround:${userState.onGround}
-            gravAccel:${userState.gravAccel}
-            `;
-        }
-        */
+        // this.state = document.getElementById('state') as HTMLDivElement;
         const peers = new Map();
         const chat = new Chat(peers);
         const menu = new Menu();
