@@ -1,4 +1,4 @@
-import { CanvasTexture, SpriteMaterial, Sprite, LinearFilter, ClampToEdgeWrapping } from 'three';
+import { CanvasTexture, SpriteMaterial, Sprite, NearestFilter } from 'three';
 
 function makeLabelCanvas(name: string) {
     const borderSize = 1;
@@ -32,9 +32,7 @@ class NameLabel extends Sprite {
     constructor(name: string) {
         const canvas = makeLabelCanvas(name);
         const map = new CanvasTexture(canvas);
-        map.minFilter = LinearFilter;
-        map.wrapS = ClampToEdgeWrapping;
-        map.wrapT = ClampToEdgeWrapping;
+        map.magFilter = NearestFilter;
         const material = new SpriteMaterial({
             map: map,
             transparent: true
