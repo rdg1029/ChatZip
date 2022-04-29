@@ -1,10 +1,11 @@
-import { Texture, TextureLoader, SpriteMaterial, Sprite } from 'three';
+import { Texture, TextureLoader, SpriteMaterial, Sprite, NearestFilter } from 'three';
 
 class UserAppearance extends Sprite {
     map: Texture;
 
     constructor() {
         const map = new TextureLoader().load('./img/person.png');
+        map.magFilter = NearestFilter;
         const material = new SpriteMaterial({map: map});
         super(material);
         this.position.y = 6;
