@@ -4,12 +4,12 @@ class UserAppearance extends Sprite {
     map: Texture;
 
     constructor() {
-        const map = new TextureLoader().load('./img/person.png');
+        const map = new TextureLoader().load('./img/mario.png');
         map.magFilter = NearestFilter;
         const material = new SpriteMaterial({map: map});
         super(material);
-        this.position.y = 6;
-        this.scale.set(18, 18, 18);
+        this.position.y = 8;
+        this.scale.set(16, 16, 16);
         this.map = map;
         this.material = material;
     }
