@@ -202,7 +202,7 @@ class VoxelMap {
             new THREE.BufferAttribute(new Float32Array(colors), colorNumComponents)
         );
         geometry.setIndex(index);
-        geometry.computeBoundingSphere();
+        // geometry.computeBoundingSphere();
         // If chunk is empty
         if (index.length === 0) {
             this.chunks.delete(chunkId);
@@ -212,10 +212,12 @@ class VoxelMap {
         }
         if (!mesh) {
             mesh = new THREE.Mesh(geometry, material);
+            mesh.matrixAutoUpdate = false;
             mesh.name = chunkId;
             meshOfChunks.set(chunkId, mesh);
             this.scene.add(mesh);
             mesh.position.set(chunkX << CHUNK_SIZE_BIT, chunkY << CHUNK_SIZE_BIT, chunkZ << CHUNK_SIZE_BIT);
+            mesh.updateMatrix();
         }
     }
     clearAllChunks() {
