@@ -10,6 +10,7 @@ function createSkybox() {
         './img/skybox/pz.png',
         './img/skybox/nz.png'
     ]);
+    texture.matrixAutoUpdate = false;
 
     return texture;
 }

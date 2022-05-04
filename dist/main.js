@@ -258,7 +258,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createSkybox\": () => (/* binding */ createSkybox)\n/* harmony export */ });\n/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ \"./node_modules/three/build/three.module.js\");\n\n\nfunction createSkybox() {\n  var textureLoader = new three__WEBPACK_IMPORTED_MODULE_0__.CubeTextureLoader();\n  var texture = textureLoader.load(['./img/skybox/px.png', './img/skybox/nx.png', './img/skybox/py.png', './img/skybox/ny.png', './img/skybox/pz.png', './img/skybox/nz.png']);\n  return texture;\n}\n\n\n\n//# sourceURL=webpack://chatzip/./src/systems/world/components/Skybox.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createSkybox\": () => (/* binding */ createSkybox)\n/* harmony export */ });\n/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ \"./node_modules/three/build/three.module.js\");\n\n\nfunction createSkybox() {\n  var textureLoader = new three__WEBPACK_IMPORTED_MODULE_0__.CubeTextureLoader();\n  var texture = textureLoader.load(['./img/skybox/px.png', './img/skybox/nx.png', './img/skybox/py.png', './img/skybox/ny.png', './img/skybox/pz.png', './img/skybox/nz.png']);\n  texture.matrixAutoUpdate = false;\n  return texture;\n}\n\n\n\n//# sourceURL=webpack://chatzip/./src/systems/world/components/Skybox.ts?");
 
 /***/ }),
 
