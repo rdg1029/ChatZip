@@ -1,8 +1,9 @@
-import { Vector3, Group } from 'three';
+import { Vector3, Group, Camera } from 'three';
 import { NameLabel } from './NameLabel';
 import { UserAppearance } from './UserAppearance';
 
 class UserModel extends Group {
+    private camera: Camera
     private prevPos: Vector3;
     private targetPos: Vector3;
     private alpha: number;
@@ -10,8 +11,9 @@ class UserModel extends Group {
     public nameLabel: NameLabel;
     public userAppearance: UserAppearance;
 
-    constructor(name: string) {
+    constructor(name: string, camera: Camera) {
         super();
+        this.camera = camera;
         this.prevPos = new Vector3();
         this.targetPos = new Vector3();
         this.alpha = 0;
@@ -28,6 +30,16 @@ class UserModel extends Group {
         this.alpha = 0;
     }
     update(delta: number) {
+        const { camera, userAppearance } = this;
+        const geometry = userAppearance.geometry;
+        const center = new Vector3();
+
+        geometry.computeBoundingBox();
+        geometry.boundingBox.getCenter(center);
+        geometry.center();
+        userAppearance.position.copy(center);
+        userAppearance.lookAt(camera.position.x, 0, camera.position.z);
+
         if (this.alpha == 1) return;
         if (this.alpha > 1) {
             this.alpha = 1;
