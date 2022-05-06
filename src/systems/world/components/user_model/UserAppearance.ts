@@ -1,4 +1,4 @@
-import { Texture, TextureLoader, PlaneGeometry, MeshBasicMaterial, Mesh, NearestFilter } from 'three';
+import { Texture, TextureLoader, PlaneGeometry, MeshBasicMaterial, Mesh, NearestFilter, Vector3 } from 'three';
 
 class UserAppearance extends Mesh {
     private map: Texture;
@@ -9,8 +9,17 @@ class UserAppearance extends Mesh {
         const plane = new PlaneGeometry(16, 16);
         const material = new MeshBasicMaterial({map: map, alphaTest: 0.5});
         super(plane, material);
-        this.position.y = 8;
         this.map = map;
+    }
+    updateRotationPoint() {
+        const geometry = this.geometry;
+        const center = new Vector3();
+
+        geometry.computeBoundingBox();
+        geometry.boundingBox.getCenter(center);
+        geometry.center();
+        this.position.copy(center);
+        this.position.y += 8;
     }
     dispose() {
         this.map.dispose();
