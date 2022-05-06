@@ -31,14 +31,8 @@ class UserModel extends Group {
     }
     update(delta: number) {
         const { camera, userAppearance } = this;
-        const geometry = userAppearance.geometry;
-        const center = new Vector3();
-
-        geometry.computeBoundingBox();
-        geometry.boundingBox.getCenter(center);
-        geometry.center();
-        userAppearance.position.copy(center);
-        userAppearance.lookAt(camera.position.x, 0, camera.position.z);
+        userAppearance.updateRotationPoint();
+        userAppearance.lookAt(camera.position.x, userAppearance.position.y, camera.position.z);
 
         if (this.alpha == 1) return;
         if (this.alpha > 1) {
