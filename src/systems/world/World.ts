@@ -40,7 +40,7 @@ class World {
         this.scene.add(light);
     }
     createUserModel(name: string) {
-        return new UserModel(name);
+        return new UserModel(name, this.camera);
     }
     start() {
         this.loop.start();
