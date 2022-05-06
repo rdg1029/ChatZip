@@ -1,21 +1,20 @@
-import { Texture, TextureLoader, SpriteMaterial, Sprite, NearestFilter } from 'three';
+import { Texture, TextureLoader, PlaneGeometry, MeshBasicMaterial, Mesh, NearestFilter } from 'three';
 
-class UserAppearance extends Sprite {
-    map: Texture;
+class UserAppearance extends Mesh {
+    private map: Texture;
 
     constructor() {
         const map = new TextureLoader().load('./img/mario.png');
         map.magFilter = NearestFilter;
-        const material = new SpriteMaterial({map: map});
-        super(material);
+        const plane = new PlaneGeometry(16, 16);
+        const material = new MeshBasicMaterial({map: map, alphaTest: 0.5});
+        super(plane, material);
         this.position.y = 8;
-        this.scale.set(16, 16, 16);
         this.map = map;
-        this.material = material;
     }
     dispose() {
         this.map.dispose();
-        this.material.dispose();
+        this.geometry.dispose();
     }
 }
 
