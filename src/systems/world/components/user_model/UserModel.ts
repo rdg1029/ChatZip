@@ -31,8 +31,7 @@ class UserModel extends Group {
     }
     update(delta: number) {
         const { camera, userAppearance } = this;
-        userAppearance.updateRotationPoint();
-        userAppearance.lookAt(camera.position.x, userAppearance.position.y, camera.position.z);
+        userAppearance.lookAt(camera.position.x, this.position.y + 8, camera.position.z);
 
         if (this.alpha == 1) return;
         if (this.alpha > 1) {
