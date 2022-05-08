@@ -1,6 +1,5 @@
-import { Euler, Vector3 } from "three";
+import { Euler, Vector3, Camera } from "three";
 import { Peer } from "../connection/Peer";
-import { Camera } from "../world/components/Camera";
 import { user } from "../User";
 
 type Peers = Map<string, Peer>;
@@ -48,7 +47,7 @@ export default class Controls {
         this.screenSpeed = 1.0;
     }
 
-    public onScreenMove(movementX: number, movementY: number) {
+    public moveCamera(movementX: number, movementY: number) {
         const { camera, screenSpeed } = this;
         _euler.setFromQuaternion(camera.quaternion);
         _euler.x -= movementY * 0.002 * screenSpeed;
