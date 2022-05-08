@@ -13,7 +13,7 @@ import { World } from '../systems/world/World';
 import { Collider } from '../systems/world/Collider';
 import { MapData } from '../systems/world/components/map/MapData';
 
-import { Controls } from '../systems/controls/Controls';
+import { Controls } from '../systems/controls/PointerControls';
 
 type Offers = Map<UserData, RTCSessionDescriptionInit>;
 

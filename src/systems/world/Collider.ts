@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { user } from '../User';
 import { VoxelMap } from './components/map/VoxelMap';
-import { Controls } from '../controls/Controls';
+import { Controls } from '../controls/PointerControls';
 
 const NO_COLLISION = 1;
 const EPSILON = 0.001;
