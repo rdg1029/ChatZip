@@ -24,10 +24,10 @@ function _isMove() {
 }
 
 export default class Controls extends EventDispatcher {
-    private movements: Map<string, boolean>;
     private camera: Camera;
     private peers: Peers;
     private displacement: Vector3;
+    public movements: Map<string, boolean>;
     public domElement: HTMLCanvasElement;
     public screenSpeed: number;
 

@@ -13,7 +13,7 @@ import { World } from '../systems/world/World';
 import { Collider } from '../systems/world/Collider';
 import { MapData } from '../systems/world/components/map/MapData';
 
-import { Controls } from '../systems/controls/PointerControls';
+import { PointerControls } from '../systems/controls/PointerControls';
 
 type Offers = Map<UserData, RTCSessionDescriptionInit>;
 
@@ -86,7 +86,7 @@ class Room extends Page {
         const world = new World(this.canvas);
         const worldUpdates = world.loop.updateList;
 
-        const controls = new Controls(world.camera, this.canvas, peers, chat, menu);
+        const controls = new PointerControls(world.camera, this.canvas, peers, chat, menu);
         const collider = new Collider(world.map, controls);
         // world.scene.add(collider.helper);
         

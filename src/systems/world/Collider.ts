@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { user } from '../User';
 import { VoxelMap } from './components/map/VoxelMap';
-import { Controls } from '../controls/PointerControls';
+import { PointerControls } from '../controls/PointerControls';
 
 const NO_COLLISION = 1;
 const EPSILON = 0.001;
@@ -12,14 +12,14 @@ const userPos = userState.pos;
 
 class Collider {
     private voxelMap: VoxelMap;
-    private controls: Controls;
+    private controls: PointerControls;
     private size: THREE.Vector3;
 
     public box : THREE.Box3;
     public helper: THREE.Box3Helper;
     
 
-    constructor(voxelMap: VoxelMap, controls: Controls) {
+    constructor(voxelMap: VoxelMap, controls: PointerControls) {
         this.voxelMap = voxelMap;
         this.controls = controls;
         this.box = new THREE.Box3();
