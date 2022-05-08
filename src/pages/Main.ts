@@ -18,22 +18,26 @@ class Main extends Page {
             <div id="main">
                 <h1>찻집</h1>
                 <div id="signage">
-                    <img src="./img/signage.svg">
-                    <div class="contents" id="contents-main">
-                        <p id="open-status">준비 중</p>
-                        <button class="btn" id="create-group">방 생성</button>
-                        <button class="btn" id="enter-group">방 입장</button>
-                    </div>
-                    <div class="contents" id="contents-enter">
-                        <div id="type-info">
-                            <input id="type-group-id" type="text" placeholder="방 ID 입력"/>
-                            <br>
-                            <input id="type-name" type="text" placeholder="이름 입력"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" id="line" viewBox="0 5.5 16 3">
+                        <path fill-rule="evenodd" d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894l6-3z"/>
+                    </svg>
+                    <div id="contents">
+                        <div class="contents" id="contents-main">
+                            <p id="open-status">준비 중</p>
+                            <button class="btn" id="create-group">방 생성</button>
+                            <button class="btn" id="enter-group">방 입장</button>
                         </div>
-                        <br>
-                        <button class="btn" id="enter">입장</button>
-                        <br>
-                        <button class="btn" id="back">뒤로 가기</button>
+                        <div class="contents" id="contents-enter">
+                            <div id="type-info">
+                                <input id="type-group-id" type="text" placeholder="방 ID 입력"/>
+                                <br>
+                                <input id="type-name" type="text" placeholder="이름 입력"/>
+                            </div>
+                            <br>
+                            <button class="btn" id="enter">입장</button>
+                            <br>
+                            <button class="btn" id="back">뒤로 가기</button>
+                        </div>
                     </div>
                 </div>
             </div>
