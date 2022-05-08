@@ -1,20 +1,38 @@
 import { Euler, Vector3 } from "three";
+import { Peer } from "../connection/Peer";
 import { Camera } from "../world/components/Camera";
 import { user } from "../User";
+
+type Peers = Map<string, Peer>;
 
 const _euler = new Euler(0, 0, 0, "YXZ");
 const _vector = new Vector3();
 
 const _PI_2 = Math.PI / 2;
 
+const _prevMoveBuffer = new ArrayBuffer(12),
+    _currentMoveBuffer = new ArrayBuffer(12),
+    _prevMoveArray = new Float32Array(_prevMoveBuffer),
+    _currentMoveArray = new Float32Array(_currentMoveBuffer);
+
+function _isMove() {
+    for (let i = 0; i < 3; i++) {
+        if (_prevMoveArray[i] !== _currentMoveArray[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
 export default class Controls {
     private movements: Map<string, boolean>;
     private camera: Camera;
+    private peers: Peers;
     private displacement: Vector3;
     public domElement: HTMLCanvasElement;
     public screenSpeed: number;
 
-    constructor(camera: Camera ,domElement: HTMLCanvasElement) {
+    constructor(camera: Camera ,domElement: HTMLCanvasElement, peers: Peers) {
         this.movements = new Map([
             ['forward', false],
             ['back', false],
@@ -23,6 +41,7 @@ export default class Controls {
             ['jump', false],
         ]);
         this.camera = camera;
+        this.peers = peers;
         this.displacement = new Vector3().fromArray(user.state.pos);
 
         this.domElement = domElement;
@@ -79,5 +98,21 @@ export default class Controls {
             displacement.y - userState.pos[1],
             displacement.z - userState.pos[2],
         ]
+    }
+
+    public tick() {
+        // const qt = this.camera.getQuaternion();
+        _prevMoveArray.set(_currentMoveArray);
+        _currentMoveArray.set(user.state.pos);
+        // _currentMoveArray.set(qt, 3);
+
+        if (!_isMove()) return;
+        
+        // console.log(movementArray);
+
+        const peers = Array.from(this.peers.values());
+        for (let i = 0, j = peers.length; i < j; i++) {
+            peers[i].sendMovement(_currentMoveBuffer);
+        }
     }
 }
