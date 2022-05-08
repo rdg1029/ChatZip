@@ -1,4 +1,4 @@
-import { Euler, Vector3, Camera } from "three";
+import { Euler, Vector3, Camera, EventDispatcher } from "three";
 import { Peer } from "../connection/Peer";
 import { user } from "../User";
 
@@ -23,7 +23,7 @@ function _isMove() {
     return false;
 }
 
-export default class Controls {
+export default class Controls extends EventDispatcher {
     private movements: Map<string, boolean>;
     private camera: Camera;
     private peers: Peers;
@@ -32,6 +32,7 @@ export default class Controls {
     public screenSpeed: number;
 
     constructor(camera: Camera ,domElement: HTMLCanvasElement, peers: Peers) {
+        super();
         this.movements = new Map([
             ['forward', false],
             ['back', false],
