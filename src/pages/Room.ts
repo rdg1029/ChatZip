@@ -88,7 +88,9 @@ class Room extends Page {
         const worldUpdates = world.loop.updateList;
 
         //const controls = new PointerControls(world.camera, this.canvas, peers, chat, menu);
-        const controls = new TouchControls(world.camera, this.canvas, peers);
+        //const controls = new TouchControls(world.camera, this.canvas, peers);
+        const user = navigator.userAgent;
+        const controls = user.indexOf('iPhone') > -1 || user.indexOf('Android') > -1 || user.indexOf('iPad') > -1 || user.indexOf('iPod') > -1 ? new TouchControls(world.camera, this.canvas, peers) : new PointerControls(world.camera, this.canvas, peers, chat, menu);
         const collider = new Collider(world.map, controls);
         // world.scene.add(collider.helper);
         
