@@ -29,6 +29,7 @@ export default class Controls extends EventDispatcher {
     private displacement: Vector3;
     public movements: Map<string, boolean>;
     public domElement: HTMLCanvasElement;
+    public screenSpeed: number;
 
     constructor(camera: Camera ,domElement: HTMLCanvasElement, peers: Peers) {
         super();
@@ -44,13 +45,14 @@ export default class Controls extends EventDispatcher {
         this.displacement = new Vector3().fromArray(user.state.pos);
 
         this.domElement = domElement;
+        this.screenSpeed = 1.0;
     }
 
-    public moveCamera(movementX: number, movementY: number, speed: number) {
-        const { camera } = this;
+    public moveCamera(movementX: number, movementY: number) {
+        const { camera, screenSpeed } = this;
         _euler.setFromQuaternion(camera.quaternion);
-        _euler.x -= movementY * 0.002 * speed;
-        _euler.y -= movementX * 0.002 * speed;
+        _euler.x -= movementY * 0.002 * screenSpeed;
+        _euler.y -= movementX * 0.002 * screenSpeed;
         _euler.x = Math.max(-_PI_2, Math.min(_PI_2, _euler.x));
         camera.quaternion.setFromEuler(_euler);
     }

@@ -18,11 +18,13 @@ export default class TouchControls extends Controls {
             _prevPos[1] = touches.pageY;
         }
 
-        function onTouchMove(e: TouchEvent) {           
-            const touches = e.changedTouches[0];
-            const movementX = (_prevPos[0] - touches.pageX) || 0;
-            const movementY = (_prevPos[1] - touches.pageY) || 0;
-            scope.moveCamera(movementX, movementY, 0.1);
+        function onTouchMove(e: TouchEvent) {    
+            const touches = e.touches[0];
+            const movementX = _prevPos[0] - touches.pageX
+            const movementY = _prevPos[1] - touches.pageY 
+            scope.moveCamera(movementX, movementY);
+            _prevPos[0] = touches.pageX;
+            _prevPos[1] = touches.pageY;
         }
 
         const ownerDocument = this.domElement.ownerDocument;
