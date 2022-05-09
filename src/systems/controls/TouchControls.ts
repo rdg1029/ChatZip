@@ -20,9 +20,9 @@ export default class TouchControls extends Controls {
 
         function onTouchMove(e: TouchEvent) {           
             const touches = e.changedTouches[0];
-            const movementX = (touches.pageX - _prevPos[0]) || 0;
-            const movementY = (touches.pageY - _prevPos[1]) || 0;
-            scope.moveCamera(movementX, movementY);
+            const movementX = (_prevPos[0] - touches.pageX) || 0;
+            const movementY = (_prevPos[1] - touches.pageY) || 0;
+            scope.moveCamera(movementX, movementY, 0.1);
         }
 
         const ownerDocument = this.domElement.ownerDocument;

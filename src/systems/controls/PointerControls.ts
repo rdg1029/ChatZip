@@ -83,7 +83,7 @@ class PointerControls extends Controls {
             if (!scope.isLocked) return;
             const movementX = e.movementX || 0;
             const movementY = e.movementY || 0;
-            scope.moveCamera(movementX, movementY);
+            scope.moveCamera(movementX, movementY, 1);
             scope.dispatchEvent(_changeEvent);
         }
 
