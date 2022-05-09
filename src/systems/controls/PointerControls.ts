@@ -12,6 +12,8 @@ const _unlockEvent = { type: 'unlock' };
 
 class PointerControls extends Controls {
     private key: Array<string>;
+    private connect: Function;
+    private disconnect: Function;
     public isLocked: boolean;
 
     constructor(camera: Camera, canvas: HTMLCanvasElement, peers: Peers, chat: Chat, menu: Menu) {
@@ -77,6 +79,41 @@ class PointerControls extends Controls {
             _updateMovementFromKey(e.code, false);
         }
 
+        function onMouseMove(e: MouseEvent) {
+            if (!scope.isLocked) return;
+            const movementX = e.movementX || 0;
+            const movementY = e.movementY || 0;
+            scope.moveCamera(movementX, movementY);
+            scope.dispatchEvent(_changeEvent);
+        }
+
+        function onPointerLockChange() {
+            if (scope.domElement.ownerDocument.pointerLockElement === scope.domElement) {
+                scope.dispatchEvent(_lockEvent);
+                scope.isLocked = true;
+            } else {
+                scope.dispatchEvent(_unlockEvent);
+                scope.isLocked = false;
+            }
+        }
+        function onPointerLockError() {
+            console.error( 'Unable to use Pointer Lock API' );
+        }
+
+        this.connect = () => {
+            const ownerDocument = scope.domElement.ownerDocument;
+            ownerDocument.addEventListener('mousemove', onMouseMove);
+            ownerDocument.addEventListener('pointerlockchange', onPointerLockChange);
+            ownerDocument.addEventListener('pointerlockerror', onPointerLockError);
+        }
+
+        this.disconnect = () => {
+            const ownerDocument = scope.domElement.ownerDocument;
+            ownerDocument.addEventListener('mousemove', onMouseMove);
+            ownerDocument.addEventListener('pointerlockchange', onPointerLockChange);
+            ownerDocument.addEventListener('pointerlockerror', onPointerLockError);
+        }
+
         this.addEventListener('lock', e => {
             document.addEventListener('keydown', _eventMoveKeyDown);
             document.addEventListener('keyup', _eventMoveKeyUp);
@@ -106,49 +143,12 @@ class PointerControls extends Controls {
         this.connect();
     }
 
-    private onMouseMove(e: MouseEvent) {
-        if (!this.isLocked) return;
-        const movementX = e.movementX || 0;
-        const movementY = e.movementY || 0;
-        this.moveCamera(movementX, movementY);
-        this.dispatchEvent(_changeEvent);
-    }
-
-    private onPointerLockChange() {
-        const { domElement } = this;
-        if (domElement.ownerDocument.pointerLockElement === domElement) {
-            this.dispatchEvent(_lockEvent);
-            this.isLocked = true;
-        } else {
-            this.dispatchEvent(_unlockEvent);
-            this.isLocked = false;
-        }
-    }
-
-    private onPointerLockError() {
-        console.error( 'Unable to use Pointer Lock API' );
-    }
-
     public lock() {
         this.domElement.requestPointerLock();
     }
 
     public unlock() {
         this.domElement.ownerDocument.exitPointerLock();
-    }
-
-    public connect() {
-        const ownerDocument = this.domElement.ownerDocument;
-        ownerDocument.addEventListener('mousemove', this.onMouseMove);
-        ownerDocument.addEventListener('pointerlockchange', this.onPointerLockChange);
-        ownerDocument.addEventListener('pointerlockerror', this.onPointerLockError);
-    }
-
-    public disconnect() {
-        const ownerDocument = this.domElement.ownerDocument;
-        ownerDocument.addEventListener('mousemove', this.onMouseMove);
-        ownerDocument.addEventListener('pointerlockchange', this.onPointerLockChange);
-        ownerDocument.addEventListener('pointerlockerror', this.onPointerLockError);
     }
 }
 
