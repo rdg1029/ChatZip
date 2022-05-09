@@ -14,6 +14,7 @@ import { Collider } from '../systems/world/Collider';
 import { MapData } from '../systems/world/components/map/MapData';
 
 import { PointerControls } from '../systems/controls/PointerControls';
+import TouchControls from '../systems/controls/TouchControls';
 
 type Offers = Map<UserData, RTCSessionDescriptionInit>;
 
@@ -86,7 +87,8 @@ class Room extends Page {
         const world = new World(this.canvas);
         const worldUpdates = world.loop.updateList;
 
-        const controls = new PointerControls(world.camera, this.canvas, peers, chat, menu);
+        //const controls = new PointerControls(world.camera, this.canvas, peers, chat, menu);
+        const controls = new TouchControls(world.camera, this.canvas, peers);
         const collider = new Collider(world.map, controls);
         // world.scene.add(collider.helper);
         
@@ -102,7 +104,7 @@ class Room extends Page {
                     goToSpawn(data.spawnPoint);
                 };
                 world.start();
-                controls.lock();
+                //controls.lock();
                 chat.showChat('joined ' + this.group.id);
             });
         }
