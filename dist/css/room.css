@@ -63,7 +63,19 @@ body {
     outline: #ffffff;
 }
 
+#dir-buttons {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-bottom: 32px;
+    text-align: center;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
 #state {
+    display: none;
     position: absolute;
     top: 0;
     right: 0;
@@ -88,5 +100,9 @@ body {
         font-size: medium;
         scrollbar-width: none; /*for firefox*/
         overflow-y: scroll;
+    }
+
+    #state {
+        display: unset;
     }
 }

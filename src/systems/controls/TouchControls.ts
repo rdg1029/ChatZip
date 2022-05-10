@@ -30,5 +30,24 @@ export default class TouchControls extends Controls {
         const ownerDocument = this.domElement.ownerDocument;
         ownerDocument.addEventListener('touchstart', onTouchStart);
         ownerDocument.addEventListener('touchmove', onTouchMove);
+
+        const dirButtons = document.getElementById('dir-buttons');
+        const dirForward = document.getElementById('btn-dir-forward');
+        const dirLeft = document.getElementById('btn-dir-left');
+        const dirJump = document.getElementById('btn-dir-jump');
+        const dirRight = document.getElementById('btn-dir-right');
+        const dirBack = document.getElementById('btn-dir-back');
+
+        dirButtons.style.display = 'unset';
+        dirForward.addEventListener('touchstart', () => scope.movements.set('forward', true));
+        dirForward.addEventListener('touchend', () => scope.movements.set('forward', false));
+        dirLeft.addEventListener('touchstart', () => scope.movements.set('left', true));
+        dirLeft.addEventListener('touchend', () => scope.movements.set('left', false));
+        dirJump.addEventListener('touchstart', () => scope.movements.set('jump', true));
+        dirJump.addEventListener('touchend', () => scope.movements.set('jump', false));
+        dirRight.addEventListener('touchstart', () => scope.movements.set('right', true));
+        dirRight.addEventListener('touchend', () => scope.movements.set('right', false));
+        dirBack.addEventListener('touchstart', () => scope.movements.set('back', true));
+        dirBack.addEventListener('touchend', () => scope.movements.set('back', false));
     }
 }

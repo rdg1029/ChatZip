@@ -18,6 +18,11 @@ import TouchControls from '../systems/controls/TouchControls';
 
 type Offers = Map<UserData, RTCSessionDescriptionInit>;
 
+function isMobile() {
+    const user = navigator.userAgent;
+    return user.indexOf('iPhone') > -1 || user.indexOf('Android') > -1 || user.indexOf('iPad') > -1 || user.indexOf('iPod') > -1;
+}
+
 class Room extends Page {
     private group: Group;
     private offers : Offers;
@@ -37,6 +42,15 @@ class Room extends Page {
                     <form id="form">
                         <input id="input" />
                     </form>
+                </div>
+                <div id="dir-buttons">
+                    <button class="btn-dir" id="btn-dir-forward">▲</button>
+                    <br>
+                    <button class="btn-dir" id="btn-dir-left">◀︎</button>
+                    <button class="btn-dir" id="btn-dir-jump">◉</button>
+                    <button class="btn-dir" id="btn-dir-right">▶︎</button>
+                    <br>
+                    <button class="btn-dir" id="btn-dir-back">▼</button>
                 </div>
                 <div id="state"></div>
                 <div id="menu">
@@ -89,8 +103,7 @@ class Room extends Page {
 
         //const controls = new PointerControls(world.camera, this.canvas, peers, chat, menu);
         //const controls = new TouchControls(world.camera, this.canvas, peers);
-        const user = navigator.userAgent;
-        const controls = user.indexOf('iPhone') > -1 || user.indexOf('Android') > -1 || user.indexOf('iPad') > -1 || user.indexOf('iPod') > -1 ? new TouchControls(world.camera, this.canvas, peers) : new PointerControls(world.camera, this.canvas, peers, chat, menu);
+        const controls = isMobile() ? new TouchControls(world.camera, this.canvas, peers) : new PointerControls(world.camera, this.canvas, peers, chat, menu);
         const collider = new Collider(world.map, controls);
         // world.scene.add(collider.helper);
         
