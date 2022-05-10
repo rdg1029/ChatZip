@@ -28,17 +28,15 @@ body {
 }
 
 #chat {
-    width: 25%;
+    width: 320px;
+    height: 120px;
     position: absolute;
-    left: 10px;
-    top: 60%;
-    padding: 10px;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
 #messages {
-    height: 128px;
+    height: 48px;
     color: #ffffff;
     list-style: none;
     padding-left: 0px;
@@ -69,4 +67,26 @@ body {
     position: absolute;
     top: 0;
     right: 0;
+}
+@media (min-width: 768px) {
+}
+
+@media (min-width: 1024px) {
+    #chat {
+        height: 192px;
+        left: 10px;
+        top: 60%;
+        padding: 10px;
+    }
+
+    #messages {
+        height: 128px;
+        color: #ffffff;
+        list-style: none;
+        padding-left: 0px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: medium;
+        scrollbar-width: none; /*for firefox*/
+        overflow-y: scroll;
+    }
 }
