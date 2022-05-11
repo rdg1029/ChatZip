@@ -11,45 +11,31 @@ const _lockEvent = { type: 'lock' };
 const _unlockEvent = { type: 'unlock' };
 
 class PointerControls extends Controls {
-    private key: Array<string>;
+    private key: Map<string, Function>;
     private connect: Function;
     private disconnect: Function;
     public isLocked: boolean;
 
     constructor(camera: Camera, canvas: HTMLCanvasElement, peers: Peers, chat: Chat, menu: Menu) {
         super(camera, canvas, peers);
-        this.key = [
-            'KeyW', 
-            'ArrowUp', 
-            'KeyA', 
-            'ArrowLeft', 
-            'KeyS', 
-            'ArrowDown', 
-            'KeyD', 
-            'ArrowRight', 
-            'Space', 
-        ];
+        this.key = new Map([
+            ['KeyW', (isDown: boolean) => this.movements.set('forward', isDown)],
+            ['ArrowUp', (isDown: boolean) => this.movements.set('forward', isDown)],
+            ['KeyS', (isDown: boolean) => this.movements.set('back', isDown)],
+            ['ArrowDown', (isDown: boolean) => this.movements.set('back', isDown)],
+            ['KeyA', (isDown: boolean) => this.movements.set('left', isDown)],
+            ['ArrowLeft', (isDown: boolean) => this.movements.set('left', isDown)],
+            ['KeyD', (isDown: boolean) => this.movements.set('right', isDown)],
+            ['ArrowRight', (isDown: boolean) => this.movements.set('right', isDown)],
+            ['Space', (isDown: boolean) => this.movements.set('jump', isDown)],
+        ]);
         this.isLocked = false;
 
         const scope = this;
 
         function _updateMovementFromKey(keyCode: string, isDown: boolean) {
-            if (!scope.key.includes(keyCode)) return;
-            if (keyCode === 'KeyW' || keyCode === 'ArrowUp') {
-                scope.movements.set('forward', isDown);
-            }
-            if (keyCode === 'KeyS' || keyCode === 'ArrowDown') {
-                scope.movements.set('back', isDown);
-            }
-            if (keyCode === 'KeyA' || keyCode === 'ArrowLeft') {
-                scope.movements.set('left', isDown);
-            }
-            if (keyCode === 'KeyD' || keyCode === 'ArrowRight') {
-                scope.movements.set('right', isDown);
-            }
-            if (keyCode === 'Space') {
-                scope.movements.set('jump', isDown);
-            }
+            if (!scope.key.has(keyCode)) return;
+            scope.key.get(keyCode)(isDown);
         }
 
         function _eventMoveKeyDown(e: KeyboardEvent) {

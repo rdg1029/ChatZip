@@ -5,6 +5,7 @@
         "module": "CommonJS",
         "target": "ES5",
         "allowJs": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "Node",
+        "lib": ["es2015", "es2016", "dom", "dom.iterable"],
     }
 }
