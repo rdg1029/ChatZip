@@ -13,7 +13,7 @@ export default class TouchControls extends Controls {
         const scope = this;
 
         function onTouchStart(e: TouchEvent) {
-            const touches = e.changedTouches[0];
+            const touches = e.touches[0];
             _prevPos[0] = touches.pageX;
             _prevPos[1] = touches.pageY;
         }
